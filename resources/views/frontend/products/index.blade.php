@@ -1,18 +1,25 @@
 @extends('frontend.layouts.app')
 
+@php
+    $select2CssVersion = @filemtime(public_path('tourit/assets/vendor/select2/select2.min.css')) ?: time();
+    $select2JsVersion = @filemtime(public_path('tourit/assets/vendor/select2/select2.min.js')) ?: time();
+    $pageCssVersion = @filemtime(public_path('tourit/assets/css/product-category-page.css')) ?: time();
+    $pageJsVersion = @filemtime(public_path('tourit/assets/js/product-category-page.js')) ?: time();
+@endphp
+
 @section('title', $pageTitle ?? $category->name)
 @section('meta_description', $pageDescription ?? '')
 @section('meta_keywords', $pageKeywords ?? '')
 
 @push('styles')
-    <link rel="stylesheet" href="assets/css/product-category-page.css">
+    <link rel="stylesheet" href="assets/vendor/select2/select2.min.css?v={{ $select2CssVersion }}">
+    <link rel="stylesheet" href="assets/css/product-category-page.css?v={{ $pageCssVersion }}">
 @endpush
 
 @push('scripts')
-    <script src="assets/js/product-category-page.js"></script>
+    <script src="assets/vendor/select2/select2.min.js?v={{ $select2JsVersion }}"></script>
+    <script src="assets/js/product-category-page.js?v={{ $pageJsVersion }}"></script>
 @endpush
-
-
 
 @section('content')
     <main class="main product-category-page">
@@ -33,7 +40,7 @@
                         <aside class="sidebar-area">
                             <div class="widget product-filter-widget">
                                 <div class="product-filter-header">
-                                    <h4 class="widget-title">Tìm tuor nhanh</h4>
+                                    <h4 class="widget-title">Tìm tour nhanh</h4>
                                 </div>
 
                                 <form
@@ -43,12 +50,13 @@
                                     data-ajax-url="{{ $ajaxUrl }}"
                                 >
                                     <div class="product-filter-section">
-                                        <label class="product-filter-section-title" for="filter-category">Danh mục</label>
+                                        <label class="product-filter-section-title" for="filter-category">Khởi hành từ</label>
                                         <div class="product-filter-select-box">
-                                            <select id="filter-category" name="category_id" class="form-select">
-                                                @foreach ($filterCategoryOptions as $option)
-                                                    <option value="{{ $option['id'] }}" {{ (string) $selectedCategoryId === (string) $option['id'] ? 'selected' : '' }}>
-                                                        {{ str_repeat('-- ', $option['depth']) . $displayValue($option['name']) }}
+                                            <select id="filter-category" name="departure_location" class="form-select product-filter-category-select" data-filter-category-select>
+                                                <option value="">Tất cả</option>
+                                                @foreach ($departureLocationOptions as $option)
+                                                    <option value="{{ $option['name'] }}" {{ (string) $selectedDepartureLocation === (string) $option['name'] ? 'selected' : '' }}>
+                                                        {{ $displayValue($option['name']) }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -63,10 +71,29 @@
                                                     <input
                                                         type="checkbox"
                                                         name="destinations[]"
-                                                        value="{{ $destination }}"
-                                                        @checked(in_array($destination, $selectedDestinations ?? [], true))
+                                                        value="{{ $destination['name'] }}"
+                                                        @checked(in_array($destination['name'], $selectedDestinations ?? [], true))
                                                     >
-                                                    
+                                                    <span class="product-filter-option-label">{{ $displayValue($destination['label'] ?? $destination['name']) }}</span>
+                                                    <span class="product-filter-option-count">{{ $destination['count'] }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div class="product-filter-section">
+                                        <div class="product-filter-section-title">Phương tiện</div>
+                                        <div class="product-filter-option-box" data-transport-options>
+                                            @foreach ($transportOptions as $transport)
+                                                <label class="product-filter-option product-filter-option-checkbox">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="transports[]"
+                                                        value="{{ $transport['name'] }}"
+                                                        @checked(in_array($transport['name'], $selectedTransports ?? [], true))
+                                                    >
+                                                    <span class="product-filter-option-label">{{ $displayValue($transport['name']) }}</span>
+                                                    <span class="product-filter-option-count">{{ $transport['count'] }}</span>
                                                 </label>
                                             @endforeach
                                         </div>
@@ -84,11 +111,6 @@
                                             >
                                         </div>
                                     </div>
-
-                                    <!-- <div class="product-filter-actions">
-                                        <button type="submit" class="theme-btn">Tim kiem</button>
-                                        <button type="button" class="theme-btn theme-btn-outline" data-filter-reset>Lam moi</button>
-                                    </div> -->
                                 </form>
                             </div>
                         </aside>
@@ -102,11 +124,10 @@
                                 </div>
                                 <div>
                                     <div class="input-group" style="max-width: 320px;">
-                                        <input type="text" form="product-filter-form" name="keyword" class="form-control" placeholder="Tìm kiếm" value="{{ request('keyword') }}">
+                                        <input type="text" form="product-filter-form" name="keyword" class="form-control" placeholder="Tim kiem" value="{{ request('keyword') }}">
                                         <button type="submit" form="product-filter-form" class="theme-btn" style="padding: 0 20px;"><i class="far fa-search"></i></button>
                                     </div>
                                 </div>
-                                
                             </div>
 
                             <div class="product-results-body" data-product-results>

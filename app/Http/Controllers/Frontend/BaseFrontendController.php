@@ -178,6 +178,48 @@ abstract class BaseFrontendController extends Controller
         return $options->values();
     }
 
+    protected function flattenCategoryTreeWithCounts(Collection $categoryTree, string $countAttribute = 'posts_count', int $depth = 0): Collection
+    {
+        $options = collect();
+
+        foreach ($categoryTree as $category) {
+            $options->push([
+                'id' => $category->id,
+                'name' => $category->name,
+                'label' => str_repeat('-- ', $depth) . $category->name,
+                'depth' => $depth,
+                'count' => (int) ($category->{$countAttribute} ?? 0),
+            ]);
+
+            $options = $options->merge(
+                $this->flattenCategoryTreeWithCounts(
+                    $category->children_tree ?? collect(),
+                    $countAttribute,
+                    $depth + 1
+                )
+            );
+        }
+
+        return $options->values();
+    }
+
+    protected function resolveTopAncestorCategory(Collection $categories, Category $category): Category
+    {
+        $current = $category;
+
+        while ($current->parent_id) {
+            $parent = $categories->firstWhere('id', $current->parent_id);
+
+            if (! $parent) {
+                break;
+            }
+
+            $current = $parent;
+        }
+
+        return $current;
+    }
+
     protected function staticPageSeo(string $prefix, array $fallback = []): array
     {
         $seoConfig = SeoConfig::query()

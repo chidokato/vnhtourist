@@ -23,10 +23,12 @@ class PageController extends BaseFrontendController
         return view('frontend.products.index', $this->sharedViewData([
             'category' => $category,
             'products' => $payload['products'],
-            'filterCategoryOptions' => $payload['filterCategoryOptions'],
+            'departureLocationOptions' => $payload['departureLocationOptions'],
             'destinationOptions' => $payload['destinationOptions'],
-            'selectedCategoryId' => $payload['selectedCategoryId'],
+            'transportOptions' => $payload['transportOptions'],
+            'selectedDepartureLocation' => $payload['selectedDepartureLocation'],
             'selectedDestinations' => $payload['selectedDestinations'],
+            'selectedTransports' => $payload['selectedTransports'],
             'selectedDepartureDate' => $payload['selectedDepartureDate'],
             'ajaxUrl' => route('frontend.products.filter', $category->slug),
             'pageTitle' => $category->seo_title ?: $category->name,
@@ -50,8 +52,10 @@ class PageController extends BaseFrontendController
                 'currentCategoryName' => $category->name,
             ])->render(),
             'destinationOptions' => $payload['destinationOptions'],
-            'selectedCategoryId' => $payload['selectedCategoryId'],
+            'transportOptions' => $payload['transportOptions'],
+            'selectedDepartureLocation' => $payload['selectedDepartureLocation'],
             'selectedDestinations' => $payload['selectedDestinations'],
+            'selectedTransports' => $payload['selectedTransports'],
             'selectedDepartureDate' => $payload['selectedDepartureDate'],
             'total' => $payload['products']->total(),
         ]);
@@ -354,39 +358,88 @@ class PageController extends BaseFrontendController
             ->orderBy('name')
             ->get();
 
-        $selectedCategoryId = (int) $request->query('category_id', $category->id);
-
-        if (! $allCategories->contains('id', $selectedCategoryId)) {
-            $selectedCategoryId = $category->id;
-        }
-
+        $branchRootCategory = $this->resolveTopAncestorCategory($allCategories, $category);
+        $branchCategoryIds = $this->collectDescendantIds($allCategories, $branchRootCategory->id);
+        $currentCategoryIds = $this->collectDescendantIds($allCategories, $category->id);
+        $selectedDepartureLocation = trim((string) $request->query('departure_location', ''));
         $selectedDestinations = collect($request->query('destinations', []))
+            ->map(fn ($value) => trim((string) $value))
+            ->filter(fn ($value) => $value !== '')
+            ->unique()
+            ->values();
+        $selectedTransports = collect($request->query('transports', []))
             ->map(fn ($value) => trim((string) $value))
             ->filter(fn ($value) => $value !== '')
             ->unique()
             ->values();
         $selectedDepartureDate = trim((string) $request->query('departure_date', ''));
         $selectedKeyword = trim((string) $request->query('keyword', ''));
-        $selectedCategoryIds = $this->collectDescendantIds($allCategories, $selectedCategoryId);
 
-        $destinationOptions = Post::query()
+        $branchPosts = Post::query()
             ->where('type', Post::TYPE_PRODUCT)
             ->where('is_active', true)
-            ->whereIn('category_id', $selectedCategoryIds)
-            ->whereNotNull('destination')
-            ->where('destination', '!=', '')
-            ->orderBy('destination')
-            ->distinct()
-            ->pluck('destination')
+            ->whereIn('category_id', $branchCategoryIds)
+            ->get(['id', 'category_id']);
+
+        $departureLocationOptions = Post::query()
+            ->where('type', Post::TYPE_PRODUCT)
+            ->where('is_active', true)
+            ->whereIn('category_id', $currentCategoryIds)
+            ->whereNotNull('departure_location')
+            ->where('departure_location', '!=', '')
+            ->selectRaw('departure_location, COUNT(*) as total')
+            ->groupBy('departure_location')
+            ->orderBy('departure_location')
+            ->get()
+            ->map(fn ($item) => [
+                'name' => (string) $item->departure_location,
+                'count' => (int) $item->total,
+            ])
             ->values();
+
+        $destinationOptions = $this->flattenCategoryTreeWithCounts(
+            $this->attachPostCountsToCategoryTree(
+                $this->buildCategoryTree($allCategories, $branchRootCategory->id),
+                $branchPosts,
+                'products_count'
+            ),
+            'products_count'
+        )->filter(fn ($option) => $option['count'] > 0)
+            ->values();
+
+        $transportOptions = Post::query()
+            ->where('type', Post::TYPE_PRODUCT)
+            ->where('is_active', true)
+            ->whereIn('category_id', $currentCategoryIds)
+            ->whereNotNull('transport')
+            ->where('transport', '!=', '')
+            ->selectRaw('transport, COUNT(*) as total')
+            ->groupBy('transport')
+            ->orderBy('transport')
+            ->get()
+            ->map(fn ($item) => [
+                'name' => (string) $item->transport,
+                'count' => (int) $item->total,
+            ])
+            ->values();
+
+        $productScopeCategoryIds = $selectedDestinations->isNotEmpty()
+            ? $branchCategoryIds
+            : $currentCategoryIds;
 
         $products = Post::query()
             ->with('category')
             ->where('type', Post::TYPE_PRODUCT)
             ->where('is_active', true)
-            ->whereIn('category_id', $selectedCategoryIds)
+            ->whereIn('category_id', $productScopeCategoryIds)
+            ->when($selectedDepartureLocation !== '', function ($query) use ($selectedDepartureLocation) {
+                $query->where('departure_location', $selectedDepartureLocation);
+            })
             ->when($selectedDestinations->isNotEmpty(), function ($query) use ($selectedDestinations) {
                 $query->whereIn('destination', $selectedDestinations->all());
+            })
+            ->when($selectedTransports->isNotEmpty(), function ($query) use ($selectedTransports) {
+                $query->whereIn('transport', $selectedTransports->all());
             })
             ->when($selectedDepartureDate !== '', function ($query) use ($selectedDepartureDate) {
                 $query->whereDate('departure_date', $selectedDepartureDate);
@@ -398,18 +451,21 @@ class PageController extends BaseFrontendController
             ->orderByDesc('id')
             ->paginate(9)
             ->appends([
-                'category_id' => $selectedCategoryId,
+                'departure_location' => $selectedDepartureLocation,
                 'destinations' => $selectedDestinations->all(),
+                'transports' => $selectedTransports->all(),
                 'departure_date' => $selectedDepartureDate,
                 'keyword' => $selectedKeyword,
             ]);
 
         return [
             'products' => $products,
-            'filterCategoryOptions' => $this->buildAllCategoryOptions($allCategories),
+            'departureLocationOptions' => $departureLocationOptions,
             'destinationOptions' => $destinationOptions,
-            'selectedCategoryId' => $selectedCategoryId,
+            'transportOptions' => $transportOptions,
+            'selectedDepartureLocation' => $selectedDepartureLocation,
             'selectedDestinations' => $selectedDestinations->all(),
+            'selectedTransports' => $selectedTransports->all(),
             'selectedDepartureDate' => $selectedDepartureDate,
         ];
     }

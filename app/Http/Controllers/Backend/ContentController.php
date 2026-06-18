@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Ward;
 use App\Support\MediaManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -146,7 +147,6 @@ class ContentController extends Controller
                 TourOption::GROUP_TRANSPORT => old('transport'),
                 TourOption::GROUP_LOCATION => array_filter([
                     old('departure_location'),
-                    old('destination'),
                 ]),
             ]),
             'provinceOptions' => $this->provinceOptions(),
@@ -184,7 +184,6 @@ class ContentController extends Controller
                 TourOption::GROUP_TRANSPORT => old('transport', $post->transport),
                 TourOption::GROUP_LOCATION => array_filter([
                     old('departure_location', $post->departure_location),
-                    old('destination', $post->destination),
                 ]),
             ]),
             'provinceOptions' => $this->provinceOptions(),
@@ -389,6 +388,13 @@ class ContentController extends Controller
             $price = (float) $validated['price'] * $multiplier;
         }
 
+        $destination = null;
+
+        if ($type === Post::TYPE_PRODUCT) {
+            $destination = $this->destinationFromCategoryId($validated['category_id'] ?? null)
+                ?? ($post->destination ?? null);
+        }
+
         return [
             'type' => $type,
             'category_id' => $validated['category_id'] ?? null,
@@ -403,7 +409,7 @@ class ContentController extends Controller
             'address' => $type === Post::TYPE_PRODUCT ? ($validated['address'] ?? null) : null,
             'itinerary' => $type === Post::TYPE_PRODUCT ? ($validated['itinerary'] ?? null) : null,
             'departure_location' => $type === Post::TYPE_PRODUCT ? ($validated['departure_location'] ?? null) : null,
-            'destination' => $type === Post::TYPE_PRODUCT ? ($validated['destination'] ?? null) : null,
+            'destination' => $destination,
             'departure_date' => $type === Post::TYPE_PRODUCT ? ($validated['departure_date'] ?? null) : null,
             'attractions' => $type === Post::TYPE_PRODUCT ? ($validated['attractions'] ?? null) : null,
             'transport' => $type === Post::TYPE_PRODUCT ? ($validated['transport'] ?? null) : null,
@@ -441,12 +447,54 @@ class ContentController extends Controller
 
     protected function categoryOptions(string $type)
     {
-        return Category::query()
+        $categories = Category::query()
             ->where('type', $type)
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->orderBy('name')
-            ->pluck('name', 'id');
+            ->get();
+
+        return collect($this->flattenCategoryTree(
+            $this->buildCategoryTree($categories)
+        ));
+    }
+
+    protected function buildCategoryTree(Collection $categories, ?int $parentId = null): Collection
+    {
+        return $categories
+            ->where('parent_id', $parentId)
+            ->values()
+            ->map(function (Category $category) use ($categories) {
+                $category->children_tree = $this->buildCategoryTree($categories, $category->id);
+
+                return $category;
+            });
+    }
+
+    protected function flattenCategoryTree(Collection $categories, string $prefix = ''): array
+    {
+        $options = [];
+
+        foreach ($categories as $category) {
+            $options[$category->id] = $prefix . $category->name;
+
+            if ($category->children_tree->isNotEmpty()) {
+                $options += $this->flattenCategoryTree($category->children_tree, $prefix . '-- ');
+            }
+        }
+
+        return $options;
+    }
+
+    protected function destinationFromCategoryId(?int $categoryId): ?string
+    {
+        if (! $categoryId) {
+            return null;
+        }
+
+        return Category::query()
+            ->whereKey($categoryId)
+            ->value('name');
     }
 
     protected function provinceOptions()

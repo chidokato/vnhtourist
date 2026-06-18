@@ -43,6 +43,65 @@
         ->first(fn ($field) => $errors->has($field), 'content');
 @endphp
 
+@once
+    @prepend('styles')
+        <link href="{{ asset('tourit/assets/vendor/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+        <style>
+            .select2-container {
+                width: 100% !important;
+            }
+
+            .select2-container--default .select2-selection--single {
+                min-height: 38px;
+                border: 1px solid #ced4da;
+                border-radius: 0.375rem;
+                display: flex;
+                align-items: center;
+                padding: 0 0.75rem;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                color: #212529;
+                line-height: 1.5;
+                padding-left: 0;
+                padding-right: 1.5rem;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 100%;
+                right: 0.75rem;
+            }
+
+            .select2-container--default.select2-container--open .select2-selection--single,
+            .select2-container--default .select2-selection--single:focus {
+                border-color: #405189;
+                box-shadow: 0 0 0 0.15rem rgba(64, 81, 137, 0.15);
+            }
+
+            .select2-dropdown {
+                border: 1px solid #ced4da;
+                border-radius: 0.5rem;
+                overflow: hidden;
+            }
+
+            .select2-search--dropdown {
+                padding: 0.75rem;
+            }
+
+            .select2-container--default .select2-search--dropdown .select2-search__field {
+                border: 1px solid #ced4da;
+                border-radius: 0.375rem;
+                padding: 0.5rem 0.75rem;
+            }
+        </style>
+    @endprepend
+
+    @prepend('scripts')
+        <script src="{{ asset('tourit/assets/js/jquery-3.7.1.min.js') }}"></script>
+        <script src="{{ asset('tourit/assets/vendor/select2/select2.min.js') }}"></script>
+    @endprepend
+@endonce
+
 <div
     class="row backend-content-form"
     id="backend-content-form"
@@ -124,21 +183,6 @@
                                     @endforeach
                                 </select>
                                 @error('departure_location')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <div class="mb-3">
-                                <label for="destination" class="form-label">Diem den</label>
-                                <select id="destination" name="destination" class="form-select @error('destination') is-invalid @enderror">
-                                    <option value="">Chon diem den</option>
-                                    @foreach (($tourOptionGroups['location'] ?? []) as $value => $label)
-                                        <option value="{{ $value }}" {{ old('destination', $post->destination ?? '') === $value ? 'selected' : '' }}>{{ $label }}</option>
-                                    @endforeach
-                                </select>
-                                @error('destination')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -328,8 +372,13 @@
         <div class="card border">
             <div class="card-body">
                 <div class="mb-3">
-                    <label for="category_id" class="form-label">Category</label>
-                    <select id="category_id" name="category_id" class="form-select @error('category_id') is-invalid @enderror">
+                    <label for="category_id" class="form-label">Danh muc (diem den)</label>
+                    <select
+                        id="category_id"
+                        name="category_id"
+                        class="form-select js-admin-category-select @error('category_id') is-invalid @enderror"
+                        data-placeholder="Chon danh muc"
+                    >
                         <option value="">Khong chon</option>
                         @foreach ($categories as $id => $name)
                             <option value="{{ $id }}" {{ (string) old('category_id', $post->category_id ?? '') === (string) $id ? 'selected' : '' }}>{{ $name }}</option>

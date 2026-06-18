@@ -37,6 +37,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var galleryFiles = {};
     var gallerySelectedFiles = {};
 
+    if (window.jQuery && typeof window.jQuery.fn.select2 === 'function') {
+        window.jQuery('.js-admin-category-select').select2({
+            width: '100%',
+            placeholder: window.jQuery('.js-admin-category-select').data('placeholder') || 'Chon danh muc',
+            allowClear: true
+        });
+    }
+
     galleryTypeKeys.forEach(function (typeKey) {
         galleryInputs[typeKey] = document.getElementById(typeKey === 'gallery' ? 'gallery_files' : 'gallery_files_' + typeKey);
         galleryGrids[typeKey] = document.getElementById('gallery-preview-grid-' + typeKey);

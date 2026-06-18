@@ -442,7 +442,8 @@
 
 .product-show-page .itinerary-single-box--plain {
   position: relative;
-  padding-bottom: 42px;
+  padding-bottom: 20px;
+  padding-left: 85px;
 }
 
 .product-show-page .itinerary-single-box--plain::before {
@@ -524,6 +525,7 @@
   border: 1px solid rgba(20, 61, 143, 0.08);
   border-radius: 22px;
   background: #fff;
+  padding-left: 0px;
 }
 
 .product-show-page .product-detail-richtext,

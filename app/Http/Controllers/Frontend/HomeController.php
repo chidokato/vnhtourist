@@ -54,6 +54,19 @@ class HomeController extends BaseFrontendController
             ->filter()
             ->values();
 
+        $foreignCategory = \App\Models\Category::where('slug', 'tour-nuoc-ngoai')->first();
+        $foreignCategoryIds = $foreignCategory ? $foreignCategory->children()->pluck('id')->push($foreignCategory->id)->toArray() : [];
+
+        $foreignTours = Post::query()
+            ->with(['category', 'galleryImages'])
+            ->where('type', Post::TYPE_PRODUCT)
+            ->where('is_active', true)
+            ->whereIn('category_id', $foreignCategoryIds)
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
+            ->limit(8)
+            ->get();
+
         return view('frontend.home', $this->sharedViewData([
             'featuredProducts' => Post::query()
                 ->with(['category', 'galleryImages'])
@@ -81,6 +94,7 @@ class HomeController extends BaseFrontendController
                 ->limit(3)
                 ->get(),
             'locationProjects' => $locationProjects,
+            'foreignTours' => $foreignTours,
             'apartments' => \App\Models\Apartment::query()
                 ->with(['images', 'project'])
                 ->where('is_active', true)

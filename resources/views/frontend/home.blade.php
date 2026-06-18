@@ -1166,224 +1166,69 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> Chuyến bay</span>
-                            <h2 class="site-title">Những chuyến bay được quan tâm nhiều nhất</h2>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Tour nước ngoài</span>
+                            <h2 class="site-title">Tour du lịch nước ngoài</h2>
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-center">
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="flight-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                            <div class="flight-img">
-                                <img src="assets/img/flight/01.jpg" alt="">
-                            </div>
-                            <div class="flight-content">
-                                <div class="flight-title">
-                                    <div class="flight-title-info">
-                                        <img src="assets/img/flight/airline-1.png" alt="">
-                                        <h4><a href="#">New York <i class="far fa-exchange"></i> Los Angeles</a></h4>
-                                    </div>
-                                    <p class="flight-date"><i class="far fa-calendar-days"></i> 01 tháng 8, 2025 - 30 tháng 8,
-                                        2025</p>
+                <div class="row g-4">
+                    @forelse ($foreignTours ?? [] as $product)
+                        @php
+                            $resolveImage = function ($value) {
+                                return \App\Support\MediaManager::publicUrl($value);
+                            };
+                            $formatPrice = function ($product) {
+                                if (! filled($product->price)) return 'Liên hệ';
+                                return number_format((float) $product->price, 0, ',', '.') . ' đ';
+                            };
+                            $plainText = function ($value) {
+                                return trim(preg_replace('/\s+/u', ' ', strip_tags((string) $value)));
+                            };
+                            $durationText = $plainText($product->duration) ?: 'Đang cập nhật';
+                            $departureText = $plainText($product->departure_location) ?: ($plainText($product->address) ?: 'Đang cập nhật địa điểm');
+                            $transportText = $plainText($product->transport) ?: 'Liên hệ để biết thêm';
+                            $promoText = $plainText($product->promotion_content);
+                            $primaryTag = $product->category?->name ?? 'Tour';
+                            $secondaryTag = $promoText !== '' ? \Illuminate\Support\Str::limit($promoText, 28) : ($product->is_featured ? 'Tour nổi bật' : 'Mới cập nhật');
+                        @endphp
+                        <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
+                            <div class="flight-item">
+                                <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
+                                @if($product->is_featured)
+                                    <span class="badge" style="position: absolute; top: 15px; right: 15px; z-index: 1; background: var(--theme-color); color: #fff; padding: 5px 10px; border-radius: 5px;">Nổi bật</span>
+                                @endif
+                                <div class="flight-img">
+                                    @if ($resolveImage($product->image))
+                                        <img src="{{ $resolveImage($product->image) }}" alt="{{ $product->title }}" style="height: 250px; object-fit: cover;">
+                                    @else
+                                        <img src="assets/img/flight/01.jpg" alt="" style="height: 250px; object-fit: cover;">
+                                    @endif
                                 </div>
-                                <div class="flight-bottom">
-                                    <div class="flight-price">
-                                        Tu <span>$300</span>
+                                <div class="flight-content">
+                                    <div class="flight-title">
+                                        <h4 style="font-size: 18px; margin-bottom: 10px; min-height: 44px;"><a href="{{ $product->frontend_url }}">{{ \Illuminate\Support\Str::limit($product->title, 50) }}</a></h4>
+                                        <p class="flight-date" style="margin-bottom: 5px;"><i class="far fa-clock"></i> {{ $durationText }}</p>
+                                        <p class="flight-date"><i class="far fa-map-marker-alt"></i> Khởi hành: {{ $departureText }}</p>
                                     </div>
-                                    <div class="flight-text-btn">
-                                        <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="flight-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".50s">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                            <span class="badge">Nổi bật</span>
-                            <div class="flight-img">
-                                <img src="assets/img/flight/02.jpg" alt="">
-                            </div>
-                            <div class="flight-content">
-                                <div class="flight-title">
-                                    <div class="flight-title-info">
-                                        <img src="assets/img/flight/airline-2.png" alt="">
-                                        <h4><a href="#">New York <i class="far fa-exchange"></i> Los Angeles</a></h4>
-                                    </div>
-                                    <p class="flight-date"><i class="far fa-calendar-days"></i> 01 tháng 8, 2025 - 30 tháng 8,
-                                        2025</p>
-                                </div>
-                                <div class="flight-bottom">
-                                    <div class="flight-price">
-                                        Tu <span>$450</span>
-                                    </div>
-                                    <div class="flight-text-btn">
-                                        <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                                    <div class="flight-bottom">
+                                        <div class="flight-price">
+                                            Giá từ <span>{{ $formatPrice($product) }}</span>
+                                        </div>
+                                        <div class="flight-text-btn">
+                                            <a href="{{ $product->frontend_url }}">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="flight-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".75s">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                            <div class="flight-img">
-                                <img src="assets/img/flight/03.jpg" alt="">
-                            </div>
-                            <div class="flight-content">
-                                <div class="flight-title">
-                                    <div class="flight-title-info">
-                                        <img src="assets/img/flight/airline-3.png" alt="">
-                                        <h4><a href="#">New York <i class="far fa-exchange"></i> Los Angeles</a></h4>
-                                    </div>
-                                    <p class="flight-date"><i class="far fa-calendar-days"></i> 01 tháng 8, 2025 - 30 tháng 8,
-                                        2025</p>
-                                </div>
-                                <div class="flight-bottom">
-                                    <div class="flight-price">
-                                        Tu <span>$520</span>
-                                    </div>
-                                    <div class="flight-text-btn">
-                                        <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+                    @empty
+                        <div class="col-12 text-center">
+                            <p>Đang cập nhật tour nước ngoài...</p>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="flight-item wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                            <div class="flight-img">
-                                <img src="assets/img/flight/04.jpg" alt="">
-                            </div>
-                            <div class="flight-content">
-                                <div class="flight-title">
-                                    <div class="flight-title-info">
-                                        <img src="assets/img/flight/airline-4.png" alt="">
-                                        <h4><a href="#">New York <i class="far fa-exchange"></i> Los Angeles</a></h4>
-                                    </div>
-                                    <p class="flight-date"><i class="far fa-calendar-days"></i> 01 tháng 8, 2025 - 30 tháng 8,
-                                        2025</p>
-                                </div>
-                                <div class="flight-bottom">
-                                    <div class="flight-price">
-                                        Tu <span>$630</span>
-                                    </div>
-                                    <div class="flight-text-btn">
-                                        <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="flight-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                            <div class="flight-img">
-                                <img src="assets/img/flight/05.jpg" alt="">
-                            </div>
-                            <div class="flight-content">
-                                <div class="flight-title">
-                                    <div class="flight-title-info">
-                                        <img src="assets/img/flight/airline-5.png" alt="">
-                                        <h4><a href="#">New York <i class="far fa-exchange"></i> Los Angeles</a></h4>
-                                    </div>
-                                    <p class="flight-date"><i class="far fa-calendar-days"></i> 01 tháng 8, 2025 - 30 tháng 8,
-                                        2025</p>
-                                </div>
-                                <div class="flight-bottom">
-                                    <div class="flight-price">
-                                        Tu <span>$780</span>
-                                    </div>
-                                    <div class="flight-text-btn">
-                                        <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="flight-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".50s">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                            <span class="badge badge-discount">25% Save</span>
-                            <div class="flight-img">
-                                <img src="assets/img/flight/06.jpg" alt="">
-                            </div>
-                            <div class="flight-content">
-                                <div class="flight-title">
-                                    <div class="flight-title-info">
-                                        <img src="assets/img/flight/airline-6.png" alt="">
-                                        <h4><a href="#">New York <i class="far fa-exchange"></i> Los Angeles</a></h4>
-                                    </div>
-                                    <p class="flight-date"><i class="far fa-calendar-days"></i> 01 tháng 8, 2025 - 30 tháng 8,
-                                        2025</p>
-                                </div>
-                                <div class="flight-bottom">
-                                    <div class="flight-price">
-                                        Tu <span>$680</span>
-                                    </div>
-                                    <div class="flight-text-btn">
-                                        <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="flight-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".75s">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                            <div class="flight-img">
-                                <img src="assets/img/flight/07.jpg" alt="">
-                            </div>
-                            <div class="flight-content">
-                                <div class="flight-title">
-                                    <div class="flight-title-info">
-                                        <img src="assets/img/flight/airline-1.png" alt="">
-                                        <h4><a href="#">New York <i class="far fa-exchange"></i> Los Angeles</a></h4>
-                                    </div>
-                                    <p class="flight-date"><i class="far fa-calendar-days"></i> 01 tháng 8, 2025 - 30 tháng 8,
-                                        2025</p>
-                                </div>
-                                <div class="flight-bottom">
-                                    <div class="flight-price">
-                                        Tu <span>$580</span>
-                                    </div>
-                                    <div class="flight-text-btn">
-                                        <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="flight-item wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">
-                            <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                            <div class="flight-img">
-                                <img src="assets/img/flight/08.jpg" alt="">
-                            </div>
-                            <div class="flight-content">
-                                <div class="flight-title">
-                                    <div class="flight-title-info">
-                                        <img src="assets/img/flight/airline-2.png" alt="">
-                                        <h4><a href="#">New York <i class="far fa-exchange"></i> Los Angeles</a></h4>
-                                    </div>
-                                    <p class="flight-date"><i class="far fa-calendar-days"></i> 01 tháng 8, 2025 - 30 tháng 8,
-                                        2025</p>
-                                </div>
-                                <div class="flight-bottom">
-                                    <div class="flight-price">
-                                        Tu <span>$490</span>
-                                    </div>
-                                    <div class="flight-text-btn">
-                                        <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
+                    
                     <div class="text-center mt-3 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                        <a href="#" class="theme-btn">Khám phá thêm<i
+                        <a href="/tour-nuoc-ngoai" class="theme-btn">Khám phá thêm<i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>

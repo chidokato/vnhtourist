@@ -10,11 +10,108 @@
     }
 
     var destinationOptions = form.querySelector('[data-destination-options]');
+    var transportOptions = form.querySelector('[data-transport-options]');
     var resetButton = form.querySelector('[data-filter-reset]');
     var ajaxUrl = form.getAttribute('data-ajax-url');
+    var categorySelect = form.querySelector('[data-filter-category-select]');
+    var select2CssSources = [
+        'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css',
+        'https://unpkg.com/select2@4.1.0-rc.0/dist/css/select2.min.css'
+    ];
+    var select2JsSources = [
+        'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js',
+        'https://unpkg.com/select2@4.1.0-rc.0/dist/js/select2.min.js'
+    ];
 
     if (!ajaxUrl) {
         return;
+    }
+
+    function ensureSelect2Styles() {
+        var hasSelect2Styles = Array.prototype.some.call(document.querySelectorAll('link[rel="stylesheet"]'), function (link) {
+            var href = link.getAttribute('href') || '';
+            return href.indexOf('select2') !== -1;
+        });
+
+        if (hasSelect2Styles) {
+            return;
+        }
+
+        select2CssSources.forEach(function (href) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            document.head.appendChild(link);
+        });
+    }
+
+    function applyCategorySelect2() {
+        if (!categorySelect || typeof window.jQuery === 'undefined' || typeof window.jQuery.fn.select2 !== 'function') {
+            return false;
+        }
+
+        var $categorySelect = window.jQuery(categorySelect);
+
+        if ($categorySelect.hasClass('select2-hidden-accessible')) {
+            $categorySelect.select2('destroy');
+        }
+
+        $categorySelect.select2({
+            width: '100%',
+            minimumResultsForSearch: 0,
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'product-filter-select2-dropdown'
+        });
+
+        return true;
+    }
+
+    function loadScriptSequentially(sources, onComplete) {
+        var index = 0;
+
+        function tryNext() {
+            if (index >= sources.length) {
+                if (typeof onComplete === 'function') {
+                    onComplete(false);
+                }
+
+                return;
+            }
+
+            var script = document.createElement('script');
+            script.src = sources[index];
+            script.async = true;
+            script.onload = function () {
+                if (typeof onComplete === 'function') {
+                    onComplete(true);
+                }
+            };
+            script.onerror = function () {
+                index += 1;
+                tryNext();
+            };
+            document.body.appendChild(script);
+        }
+
+        tryNext();
+    }
+
+    function initCategorySelect() {
+        if (!categorySelect || typeof window.jQuery === 'undefined') {
+            return;
+        }
+
+        ensureSelect2Styles();
+
+        if (applyCategorySelect2()) {
+            return;
+        }
+
+        loadScriptSequentially(select2JsSources, function () {
+            applyCategorySelect2();
+        });
     }
 
     function buildQuery(page) {
@@ -52,8 +149,8 @@
         status.textContent = cards > 0 ? cards + ' tour hien thi' : 'Khong co tour phu hop';
     }
 
-    function replaceDestinationOptions(options, selectedValues) {
-        if (!destinationOptions) {
+    function replaceCheckboxOptions(container, inputName, options, selectedValues) {
+        if (!container) {
             return;
         }
 
@@ -61,20 +158,28 @@
         var selectedMap = new Set(Array.isArray(selectedValues) ? selectedValues : []);
 
         (options || []).forEach(function (option) {
+            var optionName = typeof option === 'string' ? option : option.name;
+            var optionLabel = typeof option === 'string' ? option : (option.label || option.name);
+            var optionCount = typeof option === 'string' ? null : option.count;
             var item = document.createElement('label');
             item.className = 'product-filter-option product-filter-option-checkbox';
             item.innerHTML = ''
-                + '<input type="checkbox" name="destinations[]">'
-                + '<span class="product-filter-option-label"></span>';
+                + '<input type="checkbox">'
+                + '<span class="product-filter-option-label"></span>'
+                + '<span class="product-filter-option-count"></span>';
 
-            item.querySelector('input').value = option;
-            item.querySelector('input').checked = selectedMap.has(option);
-            item.querySelector('span').textContent = option;
+            item.querySelector('input').name = inputName;
+            item.querySelector('input').value = optionName;
+            item.querySelector('input').checked = selectedMap.has(optionName);
+            item.querySelector('.product-filter-option-label').textContent = optionLabel;
+            item.querySelector('.product-filter-option-count').textContent = optionCount === null || typeof optionCount === 'undefined'
+                ? ''
+                : String(optionCount);
             fragment.appendChild(item);
         });
 
-        destinationOptions.innerHTML = '';
-        destinationOptions.appendChild(fragment);
+        container.innerHTML = '';
+        container.appendChild(fragment);
     }
 
     function syncUrl(params) {
@@ -108,7 +213,8 @@
             })
             .then(function (payload) {
                 results.innerHTML = payload.html || '';
-                replaceDestinationOptions(payload.destinationOptions || [], payload.selectedDestinations || []);
+                replaceCheckboxOptions(destinationOptions, 'destinations[]', payload.destinationOptions || [], payload.selectedDestinations || []);
+                replaceCheckboxOptions(transportOptions, 'transports[]', payload.transportOptions || [], payload.selectedTransports || []);
                 updateStatusFromResults(payload.total);
                 syncUrl(params);
             })
@@ -129,12 +235,6 @@
 
     form.addEventListener('change', function (event) {
         if (event.target.matches('select, input[type="checkbox"], input[type="date"]')) {
-            if (event.target.name === 'category_id' && destinationOptions) {
-                destinationOptions.querySelectorAll('input[name="destinations[]"]').forEach(function (input) {
-                    input.checked = false;
-                });
-            }
-
             fetchResults(1);
         }
     });
@@ -159,9 +259,15 @@
     if (resetButton) {
         resetButton.addEventListener('click', function () {
             form.reset();
+
+            if (categorySelect && typeof window.jQuery !== 'undefined' && typeof window.jQuery.fn.select2 === 'function') {
+                window.jQuery(categorySelect).trigger('change.select2');
+            }
+
             fetchResults(1);
         });
     }
 
+    initCategorySelect();
     updateStatusFromResults();
 })();
