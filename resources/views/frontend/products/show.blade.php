@@ -287,7 +287,6 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="listing-content">
-                                
 
                                 <div class="listing-header">
                                     <div class="listing-header-info">
@@ -309,19 +308,19 @@
                                                     <i class="far fa-clock"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>Duration</h6>
-                                                    <span>{{ $displayValue($durationText) }}</span>
+                                                    <h6>Thời gian</h6>
+                                                    <span title="{{ $displayValue($durationText) }}">{{ $displayValue($durationText) }}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-lg-3">
                                             <div class="listing-feature">
                                                 <div class="listing-feature-icon">
-                                                    <i class="far fa-calendar-days"></i>
+                                                    <i class="far fa-location-dot"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>Date</h6>
-                                                    <span>{{ $displayValue($departureDateText ?: $publishedText) }}</span>
+                                                    <h6>Khởi hành</h6>
+                                                    <span title="{{ $displayValue($departureText) }}">{{ $displayValue($departureText) }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -331,8 +330,8 @@
                                                     <i class="far fa-plane-departure"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>Departure</h6>
-                                                    <span>{{ $displayValue($departureText) }}</span>
+                                                    <h6>Phương tiện</h6>
+                                                    <span title="{{ $displayValue($transportText) }}">{{ $displayValue($transportText) }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -342,8 +341,8 @@
                                                     <i class="far fa-earth-americas"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>Destination</h6>
-                                                    <span>{{ $displayValue($destinationText) }}</span>
+                                                    <h6>Điểm đến</h6>
+                                                    <span title="{{ $displayValue($destinationText) }}">{{ $displayValue($destinationText) }}</span>
                                                 </div>
                                             </div>
                                         </div>

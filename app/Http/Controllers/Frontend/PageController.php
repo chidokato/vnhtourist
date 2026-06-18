@@ -395,6 +395,7 @@ class PageController extends BaseFrontendController
                 'name' => (string) $item->departure_location,
                 'count' => (int) $item->total,
             ])
+            ->values()
             ->values();
 
         $destinationOptions = $this->flattenCategoryTreeWithCounts(

@@ -5,6 +5,7 @@
   --tour-detail-border: rgba(20, 61, 143, 0.1);
   --tour-detail-shadow: 0 24px 60px rgba(15, 42, 94, 0.12);
   --tour-gallery-radius: 26px;
+  --tour-gallery-height: clamp(320px, 42vw, 590px);
 }
 
 .product-show-page .site-breadcrumb {
@@ -181,6 +182,7 @@
   display: grid;
   grid-template-columns: minmax(0, 2.15fr) minmax(280px, 1fr);
   gap: 4px;
+  align-items: stretch;
   overflow: hidden;
   margin-bottom: 34px;
   border-radius: var(--tour-gallery-radius);
@@ -194,7 +196,8 @@
 }
 
 .product-show-page .tour-gallery-mosaic-main {
-  min-height: 445px;
+  height: var(--tour-gallery-height);
+  max-height: var(--tour-gallery-height);
 }
 
 .product-show-page .tour-gallery-mosaic-side {
@@ -202,10 +205,14 @@
   display: grid;
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 4px;
+  height: var(--tour-gallery-height);
+  max-height: var(--tour-gallery-height);
 }
 
 .product-show-page .tour-gallery-mosaic-thumb {
-  min-height: 220px;
+  min-height: 0;
+  height: calc((var(--tour-gallery-height) - 4px) / 2);
+  max-height: calc((var(--tour-gallery-height) - 4px) / 2);
 }
 
 .product-show-page .tour-gallery-mosaic img {
@@ -525,7 +532,6 @@
   border: 1px solid rgba(20, 61, 143, 0.08);
   border-radius: 22px;
   background: #fff;
-  padding-left: 0px;
 }
 
 .product-show-page .product-detail-richtext,
@@ -546,6 +552,92 @@
 
 .product-show-page .product-detail-richtext > *:last-child {
   margin-bottom: 0;
+}
+
+.product-show-page .product-detail-richtext table {
+  width: 100%;
+  max-width: 100%;
+  margin: 1.25rem 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  border: 1px solid rgba(20, 61, 143, 0.12);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 14px 36px rgba(20, 61, 143, 0.06);
+  table-layout: fixed;
+}
+
+.product-show-page .product-detail-richtext table tbody,
+.product-show-page .product-detail-richtext table thead,
+.product-show-page .product-detail-richtext table tfoot {
+  width: 100%;
+}
+
+.product-show-page .product-detail-richtext table tr {
+  border-bottom: 1px solid rgba(20, 61, 143, 0.08);
+}
+
+.product-show-page .product-detail-richtext table tr:last-child {
+  border-bottom: 0;
+}
+
+.product-show-page .product-detail-richtext table th,
+.product-show-page .product-detail-richtext table td {
+  padding: 14px 16px;
+  border: 0;
+  text-align: left;
+  vertical-align: top;
+  color: #43597c;
+  line-height: 1.7;
+  background: transparent;
+  word-break: break-word;
+}
+
+.product-show-page .product-detail-richtext table th {
+  color: var(--tour-detail-primary);
+  font-weight: 700;
+  background: linear-gradient(180deg, #f5f9ff, #eef5ff);
+  white-space: nowrap;
+}
+
+.product-show-page .product-detail-richtext table tbody tr:nth-child(even) td {
+  background: rgba(20, 61, 143, 0.025);
+}
+
+.product-show-page .product-detail-richtext table p:last-child,
+.product-show-page .product-detail-richtext table ul:last-child,
+.product-show-page .product-detail-richtext table ol:last-child {
+  margin-bottom: 0;
+}
+
+.product-show-page .listing-feature {
+  min-width: 0;
+}
+
+.product-show-page .listing-feature-content {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.product-show-page .listing-feature-content span {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 767.98px) {
+  .product-show-page .product-detail-richtext table {
+    display: block;
+    overflow-x: auto;
+    table-layout: auto;
+  }
+
+  .product-show-page .product-detail-richtext table th,
+  .product-show-page .product-detail-richtext table td {
+    min-width: 160px;
+  }
 }
 
 .product-show-page .tour-booking-sticky {
@@ -860,6 +952,10 @@
 .product-detail-richtext h3{ font-size:1.1rem; font-weight:400; margin-bottom:.8rem }
 
 @media (max-width: 1199.98px) {
+  .product-show-page {
+    --tour-gallery-height: clamp(300px, 44vw, 500px);
+  }
+
   .product-show-page .tour-single-hero,
   .product-show-page .tour-section-card,
   .product-show-page .tour-sidebar-card {
@@ -872,21 +968,29 @@
 }
 
 @media (max-width: 991.98px) {
+  .product-show-page {
+    --tour-gallery-height: 340px;
+  }
+
   .product-show-page .tour-gallery-mosaic {
     grid-template-columns: 1fr;
   }
 
   .product-show-page .tour-gallery-mosaic-main {
-    min-height: 340px;
+    height: var(--tour-gallery-height);
+    max-height: var(--tour-gallery-height);
   }
 
   .product-show-page .tour-gallery-mosaic-side {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: none;
+    height: 180px;
+    max-height: 180px;
   }
 
   .product-show-page .tour-gallery-mosaic-thumb {
-    min-height: 180px;
+    height: 180px;
+    max-height: 180px;
   }
 
   .product-show-page .tour-media-grid,
@@ -921,22 +1025,30 @@
 }
 
 @media (max-width: 767.98px) {
+  .product-show-page {
+    --tour-gallery-height: 250px;
+  }
+
   .product-show-page .tour-gallery-mosaic {
     gap: 3px;
     border-radius: 20px;
   }
 
   .product-show-page .tour-gallery-mosaic-main {
-    min-height: 250px;
+    height: var(--tour-gallery-height);
+    max-height: var(--tour-gallery-height);
   }
 
   .product-show-page .tour-gallery-mosaic-side {
     grid-template-columns: 1fr 1fr;
     gap: 3px;
+    height: 120px;
+    max-height: 120px;
   }
 
   .product-show-page .tour-gallery-mosaic-thumb {
-    min-height: 120px;
+    height: 120px;
+    max-height: 120px;
   }
 
   .product-show-page .tour-gallery-view-all {
