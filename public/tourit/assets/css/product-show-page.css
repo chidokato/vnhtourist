@@ -1,0 +1,1013 @@
+.product-show-page {
+  --tour-detail-primary: #143d8f;
+  --tour-detail-accent: #14b6cb;
+  --tour-detail-soft: #f4f8ff;
+  --tour-detail-border: rgba(20, 61, 143, 0.1);
+  --tour-detail-shadow: 0 24px 60px rgba(15, 42, 94, 0.12);
+  --tour-gallery-radius: 26px;
+}
+
+.product-show-page .site-breadcrumb {
+  position: relative;
+  isolation: isolate;
+}
+
+.product-show-page .site-breadcrumb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(8, 28, 67, 0.84), rgba(20, 182, 203, 0.45));
+  z-index: -1;
+}
+
+.product-show-page .tour-single-hero,
+.product-show-page .tour-section-card,
+.product-show-page .tour-sidebar-card {
+  background: #fff;
+  border: 1px solid var(--tour-detail-border);
+  border-radius: 28px;
+  box-shadow: var(--tour-detail-shadow);
+}
+
+.product-show-page .tour-single-hero,
+.product-show-page .tour-section-card {
+  padding: 34px;
+}
+
+.product-show-page .tour-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.product-show-page .tour-sidebar-card {
+  padding: 28px;
+}
+
+.product-show-page .tour-single-copy h1,
+.product-show-page .tour-section-head h3,
+.product-show-page .tour-sidebar-card h3,
+.product-show-page .tour-sidebar-card h4 {
+  color: var(--tour-detail-primary);
+}
+
+.product-show-page .tour-single-copy p,
+.product-show-page .tour-section-head p,
+.product-show-page .tour-price-card-note,
+.product-show-page .tour-sidebar-card p {
+  color: #607392;
+  line-height: 1.8;
+}
+
+.product-show-page .tour-single-tags,
+.product-show-page .tour-single-hero-meta,
+.product-show-page .tour-attraction-list,
+.product-show-page .tour-detail-tabs {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-show-page .tour-single-tags {
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.product-show-page .tour-single-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px 4px;
+  border-radius: 999px;
+  background: var(--tour-detail-soft);
+  color: var(--tour-detail-primary);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.product-show-page .tour-single-tag--accent {
+  background: linear-gradient(135deg, #1fd2df, #0fa6c6);
+  color: #fff;
+}
+
+.product-show-page .tour-single-copy h1 {
+  margin-bottom: 18px;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.12;
+}
+
+.product-show-page .tour-single-hero-meta {
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.product-show-page .tour-single-hero-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #f8fbff;
+  color: #274270;
+  font-weight: 600;
+}
+
+.product-show-page .tour-price-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #f8fcff, #edf7ff);
+  border: 1px solid rgba(20, 61, 143, 0.08);
+}
+
+.product-show-page .tour-price-card-label {
+  color: #5f7798;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-show-page .tour-price-card-value {
+  color: var(--tour-detail-primary);
+  font-size: clamp(34px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.product-show-page .tour-media-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.product-show-page .tour-media-grid-main,
+.product-show-page .tour-media-grid-thumb {
+  overflow: hidden;
+  border-radius: 28px;
+  background: #dcecff;
+  box-shadow: var(--tour-detail-shadow);
+}
+
+.product-show-page .tour-media-grid-main {
+  min-height: 480px;
+}
+
+.product-show-page .tour-media-grid-side {
+  display: grid;
+  gap: 18px;
+}
+
+.product-show-page .tour-media-grid-thumb {
+  min-height: 108px;
+}
+
+.product-show-page .tour-media-grid-main img,
+.product-show-page .tour-media-grid-thumb img,
+.product-show-page .tour-related-card-image img,
+.product-show-page .tour-organizer-avatar img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.product-show-page .tour-gallery-mosaic {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 2.15fr) minmax(280px, 1fr);
+  gap: 4px;
+  overflow: hidden;
+  margin-bottom: 34px;
+  border-radius: var(--tour-gallery-radius);
+  background: #d7e6fb;
+}
+
+.product-show-page .tour-gallery-mosaic a {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.product-show-page .tour-gallery-mosaic-main {
+  min-height: 445px;
+}
+
+.product-show-page .tour-gallery-mosaic-side {
+  position: relative;
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.product-show-page .tour-gallery-mosaic-thumb {
+  min-height: 220px;
+}
+
+.product-show-page .tour-gallery-mosaic img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.45s ease, filter 0.3s ease;
+}
+
+.product-show-page .tour-gallery-mosaic a:hover img {
+  transform: scale(1.04);
+}
+
+.product-show-page .tour-gallery-badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 7px 16px 4px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff6d52, #ff3d54);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 14px 32px rgba(255, 81, 84, 0.28);
+}
+
+.product-show-page .tour-gallery-view-all {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--tour-detail-primary);
+  font-weight: 700;
+  box-shadow: 0 16px 34px rgba(11, 29, 62, 0.16);
+}
+
+.product-show-page .tour-gallery-view-all span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-show-page .tour-gallery-view-all:hover {
+  color: var(--tour-detail-primary);
+  background: #fff;
+}
+
+.product-show-page .tour-gallery-hidden {
+  display: none !important;
+}
+
+.product-show-page .tour-fact-grid,
+.product-show-page .tour-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.product-show-page .tour-fact-item,
+.product-show-page .tour-highlight-item {
+  padding: 22px;
+  border-radius: 22px;
+  background: #f8fbff;
+  border: 1px solid rgba(20, 61, 143, 0.07);
+}
+
+.product-show-page .tour-fact-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #6e81a0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-show-page .tour-fact-item strong {
+  color: var(--tour-detail-primary);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.product-show-page .tour-section-card + .tour-section-card {
+  margin-top: 24px;
+}
+
+.product-show-page .tour-section-head {
+  margin-bottom: 22px;
+}
+
+.product-show-page .tour-detail-tabs {
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.product-show-page .tour-detail-tabs .nav-link {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #eef5ff;
+  color: var(--tour-detail-primary);
+  font-weight: 700;
+}
+
+.product-show-page .tour-detail-tabs .nav-link.active {
+  background: linear-gradient(135deg, #1fcfe0, #12a7c7);
+  color: #fff;
+}
+
+.product-show-page .tour-detail-tab-content {
+  padding: 28px;
+  border-radius: 24px;
+  background: #fbfdff;
+  border: 1px solid rgba(20, 61, 143, 0.08);
+}
+
+.product-show-page .product-detail-tabs-section {
+  padding-top: 10px;
+}
+
+.product-show-page .tour-info-boxes {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.product-show-page .tour-info-box {
+  padding: 26px 28px;
+  border-radius: 24px;
+  border: 1px solid rgba(20, 61, 143, 0.12);
+  background: linear-gradient(180deg, #f9fcff, #f4f9ff);
+}
+
+.product-show-page .tour-info-box--primary {
+  border-color: rgba(75, 143, 255, 0.28);
+  background: linear-gradient(180deg, #f8fbff, #f2f7ff);
+}
+
+.product-show-page .tour-info-box--accent {
+  border-color: rgba(255, 170, 76, 0.34);
+  background: linear-gradient(180deg, #fffaf2, #fff6e9);
+}
+
+.product-show-page .tour-info-box-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.product-show-page .tour-info-box-head h5 {
+  margin: 0;
+  color: var(--tour-detail-primary);
+  font-size: 24px;
+}
+
+.product-show-page .tour-info-box-icon {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgba(46, 112, 225, 0.1);
+  color: #2e70e1;
+  font-size: 18px;
+}
+
+.product-show-page .tour-info-box--accent .tour-info-box-icon {
+  background: rgba(255, 138, 0, 0.12);
+  color: #ff7a00;
+}
+
+.product-show-page .tour-info-box-note {
+  margin-bottom: 14px;
+  color: #243d6b;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.product-show-page .tour-info-box-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.product-show-page .tour-info-box-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #43597c;
+  line-height: 1.85;
+}
+
+.product-show-page .tour-info-box-list li + li {
+  margin-top: 10px;
+}
+
+.product-show-page .tour-info-box-list i {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #2e70e1;
+  color: #fff;
+  font-size: 11px;
+}
+
+.product-show-page .tour-info-box-list--accent i {
+  background: #ff7a00;
+}
+
+.product-show-page .itinerary-content-box--plain {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.product-show-page .itinerary-single-box--plain {
+  position: relative;
+  padding-bottom: 42px;
+}
+
+.product-show-page .itinerary-single-box--plain::before {
+  z-index: 0;
+}
+
+.product-show-page .itinerary-single-box--plain span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 2;
+  color: #fff;
+  background: transparent;
+}
+
+.product-show-page .itinerary-single-box--plain span::before {
+  z-index: -2;
+  background: #fff;
+}
+
+.product-show-page .itinerary-single-box--plain h3 {
+  position: relative;
+  z-index: 1;
+  color: var(--tour-detail-primary);
+}
+
+.product-show-page .itinerary-single-box--plain .product-detail-richtext,
+.product-show-page .itinerary-single-box--plain h4 {
+  position: relative;
+  z-index: 1;
+}
+
+.product-show-page .itinerary-single-box--plain .product-detail-richtext > *:last-child {
+  margin-bottom: 0;
+}
+
+.product-show-page .product-detail-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-bottom: 22px;
+  padding-bottom: 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-bottom: 0;
+  scrollbar-width: thin;
+}
+
+.product-show-page .product-detail-tabs .nav-item {
+  flex: 0 0 auto;
+}
+
+.product-show-page .product-detail-tabs .nav-link {
+  min-height: 46px;
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 14px;
+  background: #f2f6fd;
+  color: var(--tour-detail-primary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.product-show-page .product-detail-tabs .nav-link:hover,
+.product-show-page .product-detail-tabs .nav-link:focus {
+  color: var(--tour-detail-primary);
+  background: #e9f1fc;
+}
+
+.product-show-page .product-detail-tabs .nav-link.active {
+  background: linear-gradient(135deg, #1fcfe0, #12a7c7);
+  color: #fff;
+  box-shadow: 0 14px 30px rgba(18, 167, 199, 0.22);
+}
+
+.product-show-page .product-detail-tab-content {
+  padding: 28px;
+  border: 1px solid rgba(20, 61, 143, 0.08);
+  border-radius: 22px;
+  background: #fff;
+}
+
+.product-show-page .product-detail-richtext,
+.product-show-page .product-detail-richtext p,
+.product-show-page .product-detail-richtext li {
+  color: #43597c;
+  line-height: 1.85;
+}
+
+.product-show-page .product-detail-richtext h1,
+.product-show-page .product-detail-richtext h2,
+.product-show-page .product-detail-richtext h3,
+.product-show-page .product-detail-richtext h4,
+.product-show-page .product-detail-richtext h5,
+.product-show-page .product-detail-richtext h6 {
+  color: var(--tour-detail-primary);
+}
+
+.product-show-page .product-detail-richtext > *:last-child {
+  margin-bottom: 0;
+}
+
+.product-show-page .tour-booking-sticky {
+  position: sticky;
+  top: 110px;
+}
+
+.product-show-page .booking-sidebar-cta {
+  border: 1px solid rgba(20, 61, 143, 0.08);
+  box-shadow: 0 20px 46px rgba(20, 61, 143, 0.08);
+}
+
+.product-show-page .tour-cta-meta {
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.product-show-page .tour-cta-meta li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(20, 61, 143, 0.08);
+}
+
+.product-show-page .tour-cta-meta span {
+  color: #6d82a1;
+}
+
+.product-show-page .tour-cta-meta strong {
+  color: var(--tour-detail-primary);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.product-show-page .booking-sidebar-cta-actions {
+  margin-top: 24px;
+}
+
+.product-show-page .booking-sidebar-cta-actions .theme-btn,
+.product-show-page .booking-sidebar-cta-actions .border-btn,
+.product-show-page .booking-modal-actions .theme-btn,
+.product-show-page .booking-modal-actions .border-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.product-show-page .tour-booking-modal .modal-content {
+  border: 0;
+  border-radius: 28px;
+  box-shadow: 0 28px 70px rgba(9, 29, 68, 0.22);
+}
+
+.product-show-page .tour-booking-modal .modal-header {
+  padding: 26px 30px 12px;
+  border-bottom: 0;
+}
+
+.product-show-page .tour-booking-modal .modal-title {
+  margin-bottom: 4px;
+  color: var(--tour-detail-primary);
+}
+
+.product-show-page .tour-booking-modal .modal-header p {
+  color: #607392;
+}
+
+.product-show-page .tour-booking-modal .modal-body {
+  padding: 12px 30px 30px;
+}
+
+.product-show-page .tour-booking-popup-form .form-group {
+  margin-bottom: 18px;
+}
+
+.product-show-page .tour-booking-popup-form .form-control {
+  min-height: 56px;
+  border: 1px solid rgba(20, 61, 143, 0.14);
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.product-show-page .tour-booking-popup-form textarea.form-control {
+  min-height: 130px;
+}
+
+.product-show-page .tour-booking-popup-form .form-control:focus {
+  border-color: var(--tour-detail-accent);
+}
+
+.product-show-page .booking-modal-actions {
+  margin-top: 10px;
+}
+
+.product-show-page .tour-richtext,
+.product-show-page .tour-richtext p,
+.product-show-page .tour-richtext li {
+  color: #43597c;
+  line-height: 1.8;
+}
+
+.product-show-page .tour-richtext > *:last-child {
+  margin-bottom: 0;
+}
+
+.product-show-page .tour-highlight-item {
+  display: flex;
+  gap: 16px;
+}
+
+.product-show-page .tour-highlight-item i {
+  flex: 0 0 54px;
+  width: 54px;
+  height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(20, 61, 143, 0.12), rgba(20, 182, 203, 0.18));
+  color: var(--tour-detail-primary);
+  font-size: 20px;
+}
+
+.product-show-page .tour-highlight-item h4 {
+  margin-bottom: 6px;
+  color: var(--tour-detail-primary);
+  font-size: 18px;
+}
+
+.product-show-page .tour-highlight-item p {
+  margin-bottom: 0;
+  color: #607392;
+}
+
+.product-show-page .tour-attraction-list {
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.product-show-page .tour-attraction-list span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--tour-detail-soft);
+  color: var(--tour-detail-primary);
+  font-weight: 700;
+}
+
+.product-show-page .tour-map-frame {
+  overflow: hidden;
+  border-radius: 24px;
+  min-height: 360px;
+}
+
+.product-show-page .tour-map-frame iframe {
+  width: 100% !important;
+  min-height: 360px;
+  border: 0;
+}
+
+.product-show-page .tour-related-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 26px;
+  background: #fff;
+  border: 1px solid var(--tour-detail-border);
+  box-shadow: 0 18px 40px rgba(20, 61, 143, 0.08);
+}
+
+.product-show-page .tour-related-card-image {
+  display: block;
+  aspect-ratio: 16 / 11;
+}
+
+.product-show-page .tour-related-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+}
+
+.product-show-page .tour-related-card-category {
+  color: #0fa8c6;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.product-show-page .tour-related-card h4 {
+  font-size: 21px;
+  line-height: 1.4;
+}
+
+.product-show-page .tour-related-card h4 a,
+.product-show-page .tour-related-card-footer a {
+  color: var(--tour-detail-primary);
+}
+
+.product-show-page .tour-related-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.product-show-page .tour-related-card-footer strong {
+  color: var(--tour-detail-primary);
+  font-size: 18px;
+}
+
+.product-show-page .tour-booking-form .form-group {
+  margin-bottom: 16px;
+}
+
+.product-show-page .tour-booking-form .form-control {
+  min-height: 56px;
+  border: 1px solid rgba(20, 61, 143, 0.14);
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.product-show-page .tour-booking-form .form-control:focus {
+  border-color: var(--tour-detail-accent);
+}
+
+.product-show-page .tour-sidebar-list,
+.product-show-page .tour-benefit-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.product-show-page .tour-sidebar-list li,
+.product-show-page .tour-benefit-list li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.product-show-page .tour-sidebar-list li + li,
+.product-show-page .tour-benefit-list li + li {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(20, 61, 143, 0.08);
+}
+
+.product-show-page .tour-sidebar-list span {
+  color: #6d82a1;
+}
+
+.product-show-page .tour-sidebar-list strong {
+  color: var(--tour-detail-primary);
+  text-align: right;
+}
+
+.product-show-page .tour-benefit-list li {
+  justify-content: flex-start;
+  color: #43597c;
+  line-height: 1.7;
+}
+
+.product-show-page .tour-benefit-list i {
+  margin-top: 3px;
+  color: var(--tour-detail-accent);
+}
+
+.product-show-page .tour-organizer-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.product-show-page .tour-organizer-avatar {
+  width: 68px;
+  height: 68px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #173f90, #16b7cb);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 24px;
+}
+
+.product-show-page .tour-organizer-head h5 {
+  margin-bottom: 4px;
+  color: var(--tour-detail-primary);
+}
+
+.product-show-page .tour-organizer-head p {
+  margin-bottom: 0;
+  color: #6d82a1;
+}
+
+.product-detail-richtext{  }
+.product-detail-richtext ul{ padding-left:1rem; margin-bottom:.8rem }
+.product-detail-richtext ul li{ list-style:circle; }
+.product-detail-richtext p{ line-height:1.4rem !important; margin-bottom:.8rem }
+.product-detail-richtext h2{ font-size:1.1rem; font-weight:400; margin-bottom:.8rem }
+.product-detail-richtext h3{ font-size:1.1rem; font-weight:400; margin-bottom:.8rem }
+
+@media (max-width: 1199.98px) {
+  .product-show-page .tour-single-hero,
+  .product-show-page .tour-section-card,
+  .product-show-page .tour-sidebar-card {
+    border-radius: 24px;
+  }
+
+  .product-show-page .tour-media-grid-main {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .product-show-page .tour-gallery-mosaic {
+    grid-template-columns: 1fr;
+  }
+
+  .product-show-page .tour-gallery-mosaic-main {
+    min-height: 340px;
+  }
+
+  .product-show-page .tour-gallery-mosaic-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .product-show-page .tour-gallery-mosaic-thumb {
+    min-height: 180px;
+  }
+
+  .product-show-page .tour-media-grid,
+  .product-show-page .tour-fact-grid,
+  .product-show-page .tour-highlight-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-show-page .tour-sidebar {
+    margin-top: 4px;
+  }
+
+  .product-show-page .tour-media-grid-main {
+    min-height: 320px;
+  }
+
+  .product-show-page .tour-media-grid-thumb {
+    min-height: 160px;
+  }
+
+  .product-show-page .product-detail-tab-content {
+    padding: 22px;
+  }
+
+  .product-show-page .tour-info-box {
+    padding: 22px;
+  }
+
+  .product-show-page .tour-booking-sticky {
+    position: static;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .product-show-page .tour-gallery-mosaic {
+    gap: 3px;
+    border-radius: 20px;
+  }
+
+  .product-show-page .tour-gallery-mosaic-main {
+    min-height: 250px;
+  }
+
+  .product-show-page .tour-gallery-mosaic-side {
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+  }
+
+  .product-show-page .tour-gallery-mosaic-thumb {
+    min-height: 120px;
+  }
+
+  .product-show-page .tour-gallery-view-all {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    min-height: 40px;
+    padding: 9px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+  }
+
+  .product-show-page .tour-single-hero,
+  .product-show-page .tour-section-card,
+  .product-show-page .tour-sidebar-card {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .product-show-page .tour-single-copy h1 {
+    font-size: 30px;
+  }
+
+  .product-show-page .product-detail-tabs .nav-link {
+    min-height: 42px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  .product-show-page .product-detail-tab-content {
+    padding: 18px;
+  }
+
+  .product-show-page .tour-info-box {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .product-show-page .tour-info-box-head h5 {
+    font-size: 20px;
+  }
+
+  .product-show-page .tour-info-box-note {
+    font-size: 17px;
+  }
+
+  .product-show-page .tour-booking-modal .modal-header,
+  .product-show-page .tour-booking-modal .modal-body {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .product-show-page .tour-detail-tab-content {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .product-show-page .tour-media-grid-main {
+    min-height: 260px;
+    border-radius: 20px;
+  }
+
+  .product-show-page .tour-media-grid-thumb {
+    min-height: 120px;
+    border-radius: 20px;
+  }
+
+  .product-show-page .tour-sidebar-list li {
+    flex-direction: column;
+  }
+
+  .product-show-page .tour-sidebar-list strong {
+    text-align: left;
+  }
+}
