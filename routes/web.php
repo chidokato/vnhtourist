@@ -53,12 +53,20 @@ Route::prefix('admin')->name('backend.')->group(function () {
         Route::resource('categories', CategoryController::class)
             ->except(['show'])
             ->names('categories');
+        Route::get('categories/options', [CategoryController::class, 'options'])
+            ->name('categories.options');
+        Route::post('categories/quick-store', [CategoryController::class, 'quickStore'])
+            ->name('categories.quick-store');
         Route::patch('categories/{category}/toggle-status', [CategoryController::class, 'toggleStatus'])
             ->name('categories.toggle-status');
 
         Route::resource('tour-options', TourOptionController::class)
             ->except(['show'])
             ->names('tour-options');
+        Route::get('tour-options/options', [TourOptionController::class, 'options'])
+            ->name('tour-options.options');
+        Route::post('tour-options/quick-store', [TourOptionController::class, 'quickStore'])
+            ->name('tour-options.quick-store');
 
         Route::prefix('products')->name('products.')->group(function () {
             Route::get('/', [ContentController::class, 'productIndex'])->name('index');

@@ -107,8 +107,8 @@
                                             <form action="{{ route('backend.admin.authenticate') }}" method="POST">
                                                 @csrf
                                                 <div class="mb-3">
-                                                    <label for="email" class="form-label">Email hoac ten dang nhap</label>
-                                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', 'tuan.pn92@gmail.com') }}" placeholder="admin@nhadatvn.org">
+                                                    <label for="email" class="form-label">Nhập Email</label>
+                                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="" placeholder="Email">
                                                     @error('email')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -118,9 +118,9 @@
                                                     <div class="float-end">
                                                         <a href="#" class="text-muted">Quen mat khau?</a>
                                                     </div>
-                                                    <label class="form-label" for="password-input">Mat khau</label>
+                                                    <label class="form-label" for="password-input">Mật khẩu</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
-                                                        <input type="password" class="form-control pe-5 password-input @error('password') is-invalid @enderror" id="password-input" name="password" value="123456" placeholder="Nhap mat khau">
+                                                        <input type="password" class="form-control pe-5 password-input @error('password') is-invalid @enderror" id="password-input" name="password" value="" placeholder="Nhap mat khau">
                                                         <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon shadow-none" type="button" id="password-addon">
                                                             <i class="ri-eye-fill align-middle"></i>
                                                         </button>
@@ -145,10 +145,6 @@
                                             @if ($errors->any())
                                                 <div class="alert alert-danger mb-0" role="alert">
                                                     Dang nhap that bai. Vui long kiem tra email va mat khau.
-                                                </div>
-                                            @else
-                                                <div class="alert alert-info mb-0" role="alert">
-                                                    Tai khoan admin mac dinh: tuan.pn92@gmail.com / 123456
                                                 </div>
                                             @endif
                                         </div>

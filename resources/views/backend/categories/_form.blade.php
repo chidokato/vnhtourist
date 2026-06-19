@@ -1,5 +1,64 @@
 @csrf
 
+@once
+    @prepend('styles')
+        <link href="{{ asset('tourit/assets/vendor/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+        <style>
+            .select2-container {
+                width: 100% !important;
+            }
+
+            .select2-container--default .select2-selection--single {
+                min-height: 38px;
+                border: 1px solid #ced4da;
+                border-radius: 0.375rem;
+                display: flex;
+                align-items: center;
+                padding: 0 0.75rem;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                color: #212529;
+                line-height: 1.5;
+                padding-left: 0;
+                padding-right: 1.5rem;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 100%;
+                right: 0.75rem;
+            }
+
+            .select2-container--default.select2-container--open .select2-selection--single,
+            .select2-container--default .select2-selection--single:focus {
+                border-color: #405189;
+                box-shadow: 0 0 0 0.15rem rgba(64, 81, 137, 0.15);
+            }
+
+            .select2-dropdown {
+                border: 1px solid #ced4da;
+                border-radius: 0.5rem;
+                overflow: hidden;
+            }
+
+            .select2-search--dropdown {
+                padding: 0.75rem;
+            }
+
+            .select2-container--default .select2-search--dropdown .select2-search__field {
+                border: 1px solid #ced4da;
+                border-radius: 0.375rem;
+                padding: 0.5rem 0.75rem;
+            }
+        </style>
+    @endprepend
+
+    @prepend('scripts')
+        <script src="{{ asset('tourit/assets/js/jquery-3.7.1.min.js') }}"></script>
+        <script src="{{ asset('tourit/assets/vendor/select2/select2.min.js') }}"></script>
+    @endprepend
+@endonce
+
 <div class="row">
     <div class="col-xl-9">
         <div class="card border">
@@ -96,7 +155,7 @@
 
                 <div class="mb-3">
                     <label for="parent_id" class="form-label">Danh muc cha</label>
-                    <select id="parent_id" name="parent_id" class="form-select @error('parent_id') is-invalid @enderror">
+                    <select id="parent_id" name="parent_id" class="form-select js-category-parent-select @error('parent_id') is-invalid @enderror" data-placeholder="Chon danh muc cha">
                         <option value="">Khong co</option>
                         @foreach (($parentOptions[old('type', $category->type ?? request('type', 'product'))] ?? []) as $id => $name)
                             <option value="{{ $id }}" {{ (string) old('parent_id', $category->parent_id ?? '') === (string) $id ? 'selected' : '' }}>{{ $name }}</option>
@@ -131,14 +190,32 @@
         var slugInput = document.getElementById('slug');
         var seoLinkPreview = document.getElementById('seo-link-preview');
         var optionsByType = @json($parentOptions);
+        var selectedParent = '{{ (string) old('parent_id', $category->parent_id ?? '') }}';
 
         if (!typeSelect || !parentSelect) {
             return;
         }
 
+        function initParentSelect2() {
+            if (!window.jQuery || !window.jQuery.fn.select2) {
+                return;
+            }
+
+            var $parentSelect = window.jQuery(parentSelect);
+
+            if ($parentSelect.hasClass('select2-hidden-accessible')) {
+                $parentSelect.select2('destroy');
+            }
+
+            $parentSelect.select2({
+                placeholder: parentSelect.dataset.placeholder || 'Chon danh muc cha',
+                allowClear: true,
+                width: '100%'
+            });
+        }
+
         function renderParentOptions() {
             var selectedType = typeSelect.value;
-            var selectedParent = '{{ (string) old('parent_id', $category->parent_id ?? '') }}';
             var options = optionsByType[selectedType] || {};
 
             parentSelect.innerHTML = '<option value="">Khong co</option>';
@@ -154,6 +231,12 @@
 
                 parentSelect.appendChild(option);
             });
+
+            if (selectedParent && !options[selectedParent]) {
+                parentSelect.value = '';
+            }
+
+            initParentSelect2();
         }
 
         function updateSeoPreview() {
@@ -166,6 +249,7 @@
         }
 
         typeSelect.addEventListener('change', function () {
+            selectedParent = '';
             renderParentOptions();
             updateSeoPreview();
         });

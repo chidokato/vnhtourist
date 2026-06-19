@@ -140,6 +140,69 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function quickStore(Request $request)
+    {
+        $request->validate([
+            'type' => ['required', Rule::in(array_keys(Category::types()))],
+            'name' => ['required', 'string', 'max:255'],
+            'parent_id' => ['nullable', 'integer', 'exists:categories,id'],
+        ]);
+
+        $category = Category::create([
+            'type' => $request->type,
+            'parent_id' => $request->parent_id,
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+            'is_active' => true,
+            'sort_order' => 0,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Thêm danh mục thành công',
+            'data' => [
+                'value' => $category->id,
+                'label' => $category->name,
+            ]
+        ]);
+    }
+
+    public function options(Request $request)
+    {
+        $type = $request->query('type');
+        
+        $categories = Category::query()
+            ->where('is_active', true);
+            
+        if ($type) {
+            $categories->where('type', $type);
+        }
+            
+        $categories = $categories->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+            
+        $tree = $this->buildTree($categories);
+        $options = [];
+
+        $walk = function (Collection $nodes, string $prefix = '') use (&$walk, &$options): void {
+            foreach ($nodes as $node) {
+                $options[] = [
+                    'value' => $node->id,
+                    'label' => $prefix . $node->name,
+                ];
+                $walk($node->children_tree, $prefix . '-- ');
+            }
+        };
+
+        $walk($tree);
+            
+        return response()->json([
+            'success' => true,
+            'data' => $options
+        ]);
+    }
+
     protected function validateCategory(Request $request, ?int $ignoreId = null): array
     {
         return $request->validate([
@@ -179,13 +242,19 @@ class CategoryController extends Controller
             ->orderBy('name')
             ->get();
 
-        return collect(Category::types())->mapWithKeys(function ($label, $type) use ($categories, $excludeId) {
+        $excludedIds = collect();
+
+        if ($excludeId !== null) {
+            $excludedIds = collect($this->collectDescendantIds($categories, $excludeId));
+        }
+
+        return collect(Category::types())->mapWithKeys(function ($label, $type) use ($categories, $excludedIds) {
             $tree = $this->buildTree($categories->where('type', $type));
             $options = [];
 
-            $walk = function (Collection $nodes, string $prefix = '') use (&$walk, &$options, $excludeId): void {
+            $walk = function (Collection $nodes, string $prefix = '') use (&$walk, &$options, $excludedIds): void {
                 foreach ($nodes as $node) {
-                    if ($excludeId !== null && $node->id === $excludeId) {
+                    if ($excludedIds->contains($node->id)) {
                         continue;
                     }
 
@@ -198,6 +267,18 @@ class CategoryController extends Controller
 
             return [$type => $options];
         })->toArray();
+    }
+
+    protected function collectDescendantIds(Collection $categories, int $parentId): array
+    {
+        $ids = [$parentId];
+        $children = $categories->where('parent_id', $parentId);
+
+        foreach ($children as $child) {
+            $ids = array_merge($ids, $this->collectDescendantIds($categories, $child->id));
+        }
+
+        return array_values(array_unique($ids));
     }
 
     protected function isDescendant(Category $category, int $parentId): bool

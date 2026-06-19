@@ -110,4 +110,58 @@ class TourOptionController extends Controller
             'is_active' => ['nullable'],
         ]);
     }
+
+    public function quickStore(Request $request)
+    {
+        abort_unless(Schema::hasTable('tour_options'), 404);
+
+        $request->validate([
+            'group_key' => ['required', Rule::in(array_keys(TourOption::groups()))],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('tour_options', 'name')
+                    ->where(fn ($query) => $query->where('group_key', $request->input('group_key')))
+            ],
+        ]);
+
+        $option = TourOption::create([
+            'group_key' => $request->group_key,
+            'name' => $request->name,
+            'is_active' => true,
+            'sort_order' => 0,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Thêm tùy chọn thành công',
+            'data' => [
+                'value' => $option->name,
+                'label' => $option->name,
+            ]
+        ]);
+    }
+
+    public function options(Request $request)
+    {
+        abort_unless(Schema::hasTable('tour_options'), 404);
+
+        $groupKey = $request->query('group_key');
+        
+        $query = TourOption::query()->where('is_active', true);
+        
+        if ($groupKey) {
+            $query->where('group_key', $groupKey);
+        }
+        
+        $options = $query->orderBy('sort_order')
+            ->orderBy('name')
+            ->get(['name as value', 'name as label']);
+            
+        return response()->json([
+            'success' => true,
+            'data' => $options
+        ]);
+    }
 }

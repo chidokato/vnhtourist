@@ -161,14 +161,20 @@
                         <div class="col-lg-4">
                             <div class="mb-3">
                                 <label for="transport" class="form-label">Phuong tien</label>
-                                <select id="transport" name="transport" class="form-select @error('transport') is-invalid @enderror">
-                                    <option value="">Chon phuong tien</option>
-                                    @foreach (($tourOptionGroups['transport'] ?? []) as $value => $label)
-                                        <option value="{{ $value }}" {{ old('transport', $post->transport ?? '') === $value ? 'selected' : '' }}>{{ $label }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="d-flex gap-1">
+                                    <div class="flex-grow-1" style="min-width: 0;">
+                                        <select id="transport" name="transport" class="form-select @error('transport') is-invalid @enderror">
+                                            <option value="">Chon phuong tien</option>
+                                            @foreach (($tourOptionGroups['transport'] ?? []) as $value => $label)
+                                                <option value="{{ $value }}" {{ old('transport', $post->transport ?? '') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary js-quick-add-tour-option flex-shrink-0" data-group="transport" data-target="#transport" title="Thêm nhanh"><i class="ri-add-line"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary js-reload-tour-option flex-shrink-0" data-group="transport" data-target="#transport" title="Tải lại"><i class="ri-refresh-line"></i></button>
+                                </div>
                                 @error('transport')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -176,14 +182,20 @@
                         <div class="col-lg-4">
                             <div class="mb-3">
                                 <label for="departure_location" class="form-label">Dia diem khoi hanh</label>
-                                <select id="departure_location" name="departure_location" class="form-select @error('departure_location') is-invalid @enderror">
-                                    <option value="">Chon dia diem khoi hanh</option>
-                                    @foreach (($tourOptionGroups['location'] ?? []) as $value => $label)
-                                        <option value="{{ $value }}" {{ old('departure_location', $post->departure_location ?? '') === $value ? 'selected' : '' }}>{{ $label }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="d-flex gap-1">
+                                    <div class="flex-grow-1" style="min-width: 0;">
+                                        <select id="departure_location" name="departure_location" class="form-select @error('departure_location') is-invalid @enderror">
+                                            <option value="">Chon dia diem khoi hanh</option>
+                                            @foreach (($tourOptionGroups['location'] ?? []) as $value => $label)
+                                                <option value="{{ $value }}" {{ old('departure_location', $post->departure_location ?? '') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary js-quick-add-tour-option flex-shrink-0" data-group="location" data-target="#departure_location" title="Thêm nhanh"><i class="ri-add-line"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary js-reload-tour-option flex-shrink-0" data-group="location" data-target="#departure_location" title="Tải lại"><i class="ri-refresh-line"></i></button>
+                                </div>
                                 @error('departure_location')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -373,19 +385,25 @@
             <div class="card-body">
                 <div class="mb-3">
                     <label for="category_id" class="form-label">Danh muc (diem den)</label>
-                    <select
-                        id="category_id"
-                        name="category_id"
-                        class="form-select js-admin-category-select @error('category_id') is-invalid @enderror"
-                        data-placeholder="Chon danh muc"
-                    >
-                        <option value="">Khong chon</option>
-                        @foreach ($categories as $id => $name)
-                            <option value="{{ $id }}" {{ (string) old('category_id', $post->category_id ?? '') === (string) $id ? 'selected' : '' }}>{{ $name }}</option>
-                        @endforeach
-                    </select>
+                    <div class="d-flex gap-1">
+                        <div class="flex-grow-1" style="min-width: 0;">
+                            <select
+                                id="category_id"
+                                name="category_id"
+                                class="form-select js-admin-category-select @error('category_id') is-invalid @enderror"
+                                data-placeholder="Chon danh muc"
+                            >
+                                <option value="">Khong chon</option>
+                                @foreach ($categories as $id => $name)
+                                    <option value="{{ $id }}" {{ (string) old('category_id', $post->category_id ?? '') === (string) $id ? 'selected' : '' }}>{{ $name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary js-quick-add-category flex-shrink-0" data-type="{{ $type }}" data-target="#category_id" title="Thêm nhanh"><i class="ri-add-line"></i></button>
+                        <button type="button" class="btn btn-outline-secondary js-reload-category flex-shrink-0" data-type="{{ $type }}" data-target="#category_id" title="Tải lại"><i class="ri-refresh-line"></i></button>
+                    </div>
                     @error('category_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
 
@@ -501,3 +519,282 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="quickAddOptionModal" tabindex="-1" aria-labelledby="quickAddOptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickAddOptionModalLabel">Thêm tùy chọn mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="quickAddOptionName" class="form-label">Tên tùy chọn</label>
+                    <input type="text" class="form-control" id="quickAddOptionName" placeholder="Nhập tên tùy chọn...">
+                    <input type="hidden" id="quickAddOptionGroup">
+                    <input type="hidden" id="quickAddOptionTarget">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="btnQuickAddOptionSave">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="quickAddCategoryModal" tabindex="-1" aria-labelledby="quickAddCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="quickAddCategoryModalLabel">Thêm danh mục mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="quickAddCategoryParent" class="form-label">Danh mục cha</label>
+                    <select class="form-select" id="quickAddCategoryParent">
+                        <option value="">Không chọn</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="quickAddCategoryName" class="form-label">Tên danh mục</label>
+                    <input type="text" class="form-control" id="quickAddCategoryName" placeholder="Nhập tên danh mục...">
+                    <input type="hidden" id="quickAddCategoryType">
+                    <input type="hidden" id="quickAddCategoryTarget">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="btnQuickAddCategorySave">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#transport').select2({
+            placeholder: "Chọn phương tiện"
+        });
+        $('#departure_location').select2({
+            placeholder: "Chọn địa điểm khởi hành"
+        });
+
+        let quickAddModal = new bootstrap.Modal(document.getElementById('quickAddOptionModal'));
+        
+        $('#quickAddOptionModal').on('shown.bs.modal', function () {
+            $('#quickAddOptionName').focus();
+        });
+
+        $('#quickAddOptionName').on('keypress', function (e) {
+            if (e.which === 13) {
+                $('#btnQuickAddOptionSave').click();
+            }
+        });
+
+        $('.js-quick-add-tour-option').on('click', function() {
+            let btn = $(this);
+            let group = btn.data('group');
+            let targetSelect = btn.data('target');
+            
+            $('#quickAddOptionGroup').val(group);
+            $('#quickAddOptionTarget').val(targetSelect);
+            $('#quickAddOptionName').val('');
+            
+            quickAddModal.show();
+        });
+
+        $('#btnQuickAddOptionSave').on('click', function() {
+            let name = $('#quickAddOptionName').val().trim();
+            if (!name) {
+                alert('Vui lòng nhập tên tùy chọn mới.');
+                return;
+            }
+            
+            let group = $('#quickAddOptionGroup').val();
+            let targetSelect = $($('#quickAddOptionTarget').val());
+            let urlBase = $('#backend-content-form').data('url-base');
+            
+            let btn = $(this);
+            let originalHtml = btn.html();
+            
+            btn.prop('disabled', true).html('<i class="ri-loader-line ri-spin"></i> Đang lưu...');
+            
+            $.ajax({
+                url: urlBase + '/admin/tour-options/quick-store',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    group_key: group,
+                    name: name
+                },
+                success: function(res) {
+                    btn.prop('disabled', false).html(originalHtml);
+                    if (res.success) {
+                        let newOption = new Option(res.data.label, res.data.value, true, true);
+                        targetSelect.append(newOption).trigger('change');
+                        quickAddModal.hide();
+                    }
+                },
+                error: function(err) {
+                    btn.prop('disabled', false).html(originalHtml);
+                    let msg = 'Có lỗi xảy ra.';
+                    if (err.responseJSON && err.responseJSON.message) {
+                        msg = err.responseJSON.message;
+                    }
+                    alert(msg);
+                }
+            });
+        });
+        
+        $('.js-reload-tour-option').on('click', function() {
+            let btn = $(this);
+            let group = btn.data('group');
+            let targetSelect = $(btn.data('target'));
+            let urlBase = $('#backend-content-form').data('url-base');
+            let currentValue = targetSelect.val();
+            let firstOptionText = targetSelect.find('option:first').text();
+            let originalHtml = btn.html();
+            
+            btn.prop('disabled', true).html('<i class="ri-loader-line ri-spin"></i>');
+            
+            $.ajax({
+                url: urlBase + '/admin/tour-options/options',
+                method: 'GET',
+                data: { group_key: group },
+                success: function(res) {
+                    btn.prop('disabled', false).html(originalHtml);
+                    if (res.success) {
+                        targetSelect.empty();
+                        targetSelect.append(new Option(firstOptionText, '', false, false));
+                        res.data.forEach(function(item) {
+                            let selected = (item.value === currentValue);
+                            targetSelect.append(new Option(item.label, item.value, selected, selected));
+                        });
+                        targetSelect.trigger('change');
+                    }
+                },
+                error: function(err) {
+                    btn.prop('disabled', false).html(originalHtml);
+                    alert('Có lỗi xảy ra khi tải lại danh sách.');
+                }
+            });
+        });
+
+        let quickAddCatModal = new bootstrap.Modal(document.getElementById('quickAddCategoryModal'));
+        
+        $('#quickAddCategoryModal').on('shown.bs.modal', function () {
+            $('#quickAddCategoryName').focus();
+        });
+
+        $('#quickAddCategoryName').on('keypress', function (e) {
+            if (e.which === 13) {
+                $('#btnQuickAddCategorySave').click();
+            }
+        });
+
+        $('.js-quick-add-category').on('click', function() {
+            let btn = $(this);
+            let type = btn.data('type');
+            let targetSelect = $(btn.data('target'));
+            
+            $('#quickAddCategoryType').val(type);
+            $('#quickAddCategoryTarget').val(btn.data('target'));
+            $('#quickAddCategoryName').val('');
+            
+            let parentSelect = $('#quickAddCategoryParent');
+            parentSelect.empty();
+            parentSelect.append(new Option('Không chọn', ''));
+            targetSelect.find('option').each(function() {
+                if ($(this).val() !== '') {
+                    parentSelect.append(new Option($(this).text(), $(this).val()));
+                }
+            });
+            parentSelect.val('');
+            
+            quickAddCatModal.show();
+        });
+
+        $('#btnQuickAddCategorySave').on('click', function() {
+            let name = $('#quickAddCategoryName').val().trim();
+            if (!name) {
+                alert('Vui lòng nhập tên danh mục mới.');
+                return;
+            }
+            
+            let type = $('#quickAddCategoryType').val();
+            let parent_id = $('#quickAddCategoryParent').val();
+            let targetSelectSelector = $('#quickAddCategoryTarget').val();
+            let targetSelect = $(targetSelectSelector);
+            let urlBase = $('#backend-content-form').data('url-base');
+            
+            let btn = $(this);
+            let originalHtml = btn.html();
+            
+            btn.prop('disabled', true).html('<i class="ri-loader-line ri-spin"></i> Đang lưu...');
+            
+            $.ajax({
+                url: urlBase + '/admin/categories/quick-store',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    type: type,
+                    name: name,
+                    parent_id: parent_id
+                },
+                success: function(res) {
+                    btn.prop('disabled', false).html(originalHtml);
+                    if (res.success) {
+                        quickAddCatModal.hide();
+                        $('[data-target="' + targetSelectSelector + '"].js-reload-category').trigger('click', [res.data.value]);
+                    }
+                },
+                error: function(err) {
+                    btn.prop('disabled', false).html(originalHtml);
+                    let msg = 'Có lỗi xảy ra.';
+                    if (err.responseJSON && err.responseJSON.message) {
+                        msg = err.responseJSON.message;
+                    }
+                    alert(msg);
+                }
+            });
+        });
+        
+        $('.js-reload-category').on('click', function(e, newValueToSelect) {
+            let btn = $(this);
+            let type = btn.data('type');
+            let targetSelect = $(btn.data('target'));
+            let urlBase = $('#backend-content-form').data('url-base');
+            let currentValue = newValueToSelect !== undefined ? newValueToSelect : targetSelect.val();
+            let firstOptionText = targetSelect.find('option:first').text();
+            let originalHtml = btn.html();
+            
+            btn.prop('disabled', true).html('<i class="ri-loader-line ri-spin"></i>');
+            
+            $.ajax({
+                url: urlBase + '/admin/categories/options',
+                method: 'GET',
+                data: { type: type },
+                success: function(res) {
+                    btn.prop('disabled', false).html(originalHtml);
+                    if (res.success) {
+                        targetSelect.empty();
+                        targetSelect.append(new Option(firstOptionText, '', false, false));
+                        res.data.forEach(function(item) {
+                            let selected = (item.value == currentValue);
+                            targetSelect.append(new Option(item.label, item.value, selected, selected));
+                        });
+                        targetSelect.trigger('change');
+                    }
+                },
+                error: function(err) {
+                    btn.prop('disabled', false).html(originalHtml);
+                    alert('Có lỗi xảy ra khi tải lại danh sách.');
+                }
+            });
+        });
+    });
+</script>
+@endpush
