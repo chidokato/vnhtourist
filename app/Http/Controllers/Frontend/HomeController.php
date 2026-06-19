@@ -58,7 +58,7 @@ class HomeController extends BaseFrontendController
         $foreignCategoryIds = $foreignCategory ? $foreignCategory->children()->pluck('id')->push($foreignCategory->id)->toArray() : [];
 
         $foreignTours = Post::query()
-            ->with(['category', 'galleryImages'])
+            ->with(['category', 'galleryImages', 'province'])
             ->where('type', Post::TYPE_PRODUCT)
             ->where('is_active', true)
             ->whereIn('category_id', $foreignCategoryIds)
@@ -66,6 +66,62 @@ class HomeController extends BaseFrontendController
             ->orderByDesc('id')
             ->limit(8)
             ->get();
+
+        $domesticCategory = \App\Models\Category::where('slug', 'du-lich-trong-nuoc')->first();
+        $domesticCategoryIds = $domesticCategory ? $domesticCategory->children()->pluck('id')->push($domesticCategory->id)->toArray() : [];
+
+        $northKeywords = ['ha noi', 'ninh binh', 'ha giang', 'sapa', 'lao cai', 'quang ninh', 'ha long', 'hai phong', 'nam dinh', 'thai binh', 'bac ninh', 'bac giang', 'phu tho', 'yen bai', 'son la', 'dien bien', 'lai chau', 'hoa binh', 'lang son', 'cao bang', 'bac kan', 'tuyen quang', 'thai nguyen', 'vinh phuc', 'ha nam', 'hung yen', 'hai duong'];
+        $centralKeywords = ['da nang', 'hue', 'quang nam', 'hoi an', 'quang ngai', 'binh dinh', 'phu yen', 'khanh hoa', 'nha trang', 'ninh thuan', 'binh thuan', 'quang binh', 'quang tri', 'ha tinh', 'nghe an', 'thanh hoa', 'dak lak', 'gia lai', 'kon tum', 'lam dong', 'da lat', 'dak nong'];
+        $southKeywords = ['ho chi minh', 'sai gon', 'vung tau', 'ba ria', 'dong nai', 'binh duong', 'tay ninh', 'binh phuoc', 'long an', 'tien giang', 'ben tre', 'tra vinh', 'vinh long', 'dong thap', 'an giang', 'kien giang', 'phu quoc', 'can tho', 'hau giang', 'soc trang', 'bac lieu', 'ca mau'];
+
+        $resolveRegion = function (Post $tour) use ($northKeywords, $centralKeywords, $southKeywords) {
+            $haystack = \Illuminate\Support\Str::lower(trim(implode(' ', array_filter([
+                $tour->province?->name,
+                $tour->destination,
+                $tour->departure_location,
+                $tour->address,
+            ]))));
+
+            foreach ($northKeywords as $keyword) {
+                if (\Illuminate\Support\Str::contains($haystack, $keyword)) {
+                    return 'mien-bac';
+                }
+            }
+
+            foreach ($centralKeywords as $keyword) {
+                if (\Illuminate\Support\Str::contains($haystack, $keyword)) {
+                    return 'mien-trung';
+                }
+            }
+
+            foreach ($southKeywords as $keyword) {
+                if (\Illuminate\Support\Str::contains($haystack, $keyword)) {
+                    return 'mien-nam';
+                }
+            }
+
+            return 'mien-bac';
+        };
+
+        $domesticTours = Post::query()
+            ->with(['category', 'galleryImages', 'province'])
+            ->where('type', Post::TYPE_PRODUCT)
+            ->where('is_active', true)
+            ->when(
+                ! empty($domesticCategoryIds),
+                fn ($query) => $query->whereIn('category_id', $domesticCategoryIds),
+                fn ($query) => $query->whereNotIn('category_id', $foreignCategoryIds)
+            )
+            ->orderByDesc('is_featured')
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
+            ->limit(8)
+            ->get()
+            ->map(function (Post $tour) use ($resolveRegion) {
+                $tour->home_region = $resolveRegion($tour);
+
+                return $tour;
+            });
 
         return view('frontend.home', $this->sharedViewData([
             'featuredProducts' => Post::query()
@@ -95,6 +151,7 @@ class HomeController extends BaseFrontendController
                 ->get(),
             'locationProjects' => $locationProjects,
             'foreignTours' => $foreignTours,
+            'domesticTours' => $domesticTours,
             'apartments' => \App\Models\Apartment::query()
                 ->with(['images', 'project'])
                 ->where('is_active', true)

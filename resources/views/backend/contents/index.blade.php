@@ -22,6 +22,7 @@
                             @if ($type === 'product')
                                 <th>Gia</th>
                                 <th>Du an noi bat</th>
+                                <th>Nguoi dang</th>
                             @endif
                             <th>Trang thai</th>
                             <th>Ngay dang</th>
@@ -52,6 +53,11 @@
                                             </span>
                                         </div>
                                     </td>
+                                    <td>
+                                        {{ ($postsHasUserIdColumn ?? false)
+                                            ? $displayValue(optional($post->user)->name, 'Chua gan')
+                                            : 'Chua cap nhat DB' }}
+                                    </td>
                                 @endif
                                 <td>
                                     <div class="d-inline-flex align-items-center gap-2">
@@ -67,7 +73,7 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td>{{ $displayValue($post->published_at ? $post->published_at->format('d/m/Y H:i') : null) }}</td>
+                                <td>{{ $displayValue(($post->published_at ?? $post->created_at)?->format('d/m/Y H:i')) }}</td>
                                 <td class="text-end">
                                     <a href="{{ route($type === 'product' ? 'backend.products.edit' : 'backend.news.edit', $post) }}" class="btn btn-sm btn-soft-warning">Sua</a>
                                     <form action="{{ route($type === 'product' ? 'backend.products.destroy' : 'backend.news.destroy', $post) }}" method="POST" class="d-inline" data-confirm-delete data-confirm-message="Ban co chac muon xoa {{ strtolower($typeLabel) }} nay?">
@@ -79,7 +85,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="{{ $type === 'product' ? 7 : 5 }}" class="text-center text-muted py-4">
+                                <td colspan="{{ $type === 'product' ? 8 : 5 }}" class="text-center text-muted py-4">
                                     Chua co {{ strtolower($typeLabel) }} nao.
                                 </td>
                             </tr>

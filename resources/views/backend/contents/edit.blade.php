@@ -17,6 +17,9 @@
         <div class="card-header d-flex align-items-center justify-content-between">
             <h4 class="card-title mb-0">Cap nhat {{ strtolower($typeLabel) }}</h4>
             <div class="d-flex gap-2">
+                <a href="{{ $post->frontend_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-info">
+                    Xem thuc te
+                </a>
                 <button type="submit" form="content-form" name="save_stay" value="1" class="btn btn-success">Luu lai</button>
                 <button type="submit" form="content-form" class="btn btn-primary">Cap nhat {{ strtolower($typeLabel) }}</button>
                 <a href="{{ route($type === 'product' ? 'backend.products.index' : 'backend.news.index') }}" class="btn btn-light">Quay lai</a>

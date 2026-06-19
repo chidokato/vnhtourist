@@ -74,6 +74,7 @@
     padding: 4px 0 4px calc(24px + (var(--filter-depth, 0) * 18px));
     color: #22467d;
     cursor: pointer;
+    margin-bottom: 1rem;
 }
 
 .product-category-page .product-filter-option input {

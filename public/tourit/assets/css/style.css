@@ -429,7 +429,7 @@ preloader
 .site-heading-inline{
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 15px;
 }
@@ -460,7 +460,7 @@ preloader
 .site-title {
   font-weight: 700;
   text-transform: capitalize;
-  font-size: 40px;
+  font-size: 35px;
   color: var(--color-dark);
   margin-top: 8px;
   margin-bottom: 0;
@@ -3295,9 +3295,9 @@ hero css
 
 .filter-controls{
   position: relative;
-  border-radius: 50px 50px 0 50px;
-  padding: 5px;
-  background: var(--theme-color-light);
+  border-radius: 50px;
+  padding: 5px;    display: flex;
+    justify-content: center;
 }
 
 .filter-btns{
@@ -3311,7 +3311,7 @@ hero css
   background: var(--color-white);
   color: var(--color-dark);
   padding: 5px 20px;
-  border-radius: 50px 50px 0 50px;
+  border-radius: 50px;
   font-weight: 500;
   cursor: pointer;
   box-shadow: var(--box-shadow);
@@ -3948,11 +3948,12 @@ hero css
 
 .listing-header{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;align-items: center;
 }
 
 .listing-title{
-  font-size: 25px;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
 }
 
 .listing-location{

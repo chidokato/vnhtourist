@@ -75,6 +75,16 @@
     $destinationText = $plainText($product->destination) ?: ($plainText($product->attractions) ?: 'Dang cap nhat');
     $durationText = $plainText($product->duration) ?: 'Dang cap nhat';
     $transportText = $plainText($product->transport) ?: 'Dang cap nhat';
+    $transportIconClass = 'far fa-bus';
+
+    if (preg_match('/may bay|hang khong|air|flight|plane/i', $transportText)) {
+        $transportIconClass = 'far fa-plane-departure';
+    } elseif (preg_match('/tau|train|rail/i', $transportText)) {
+        $transportIconClass = 'far fa-train';
+    } elseif (preg_match('/thuyen|du thuyen|ship|boat/i', $transportText)) {
+        $transportIconClass = 'far fa-ship';
+    }
+
     $itineraryText = $plainText($product->itinerary) ?: 'Dang cap nhat';
     $publishedText = optional($product->published_at)->format('d/m/Y') ?: 'Dang cap nhat';
     $departureDateText = $product->departure_date ? optional($product->departure_date)->format('d/m/Y') : null;
@@ -287,16 +297,15 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="listing-content">
-
+                                <h4 class="listing-title">{{ $displayValue($product->title) }}</h4>
                                 <div class="listing-header">
                                     <div class="listing-header-info">
-                                        <h4 class="listing-title">{{ $displayValue($product->title) }}</h4>
-                                        <p class="listing-location"><i class="far fa-location-dot"></i> {{ $displayValue($headerMetaText) }}</p>
+                                        <p class="listing-location"><i class="far fa-location-dot"></i> <b>Lịch trình:</b> {{ $displayValue($headerMetaText) }}</p>
+                                        <p class="listing-location"><i class="{{ $transportIconClass }}"></i> <b>Phương tiện:</b> {{ $displayValue($transportText) }}</p>
                                     </div>
                                     <div class="listing-rate">
-                                        <span class="badge"><i class="far fa-star"></i> {{ $product->is_featured ? '5.0' : '4.8' }}</span>
-                                        <span class="listing-rate-type">{{ $product->is_featured ? 'Noi bat' : 'Pho bien' }}</span>
-                                        <span class="listing-rate-review">({{ $displayValue(optional($product->category)->name, 'Tour') }})</span>
+                                        <span class="badge"><i class="far fa-star"></i> {{ $product->is_featured ? '5.0' : '4.8' }}</span> <span class="listing-rate-review">(+1k Reviews)</span>
+                                        <!-- <span class="listing-rate-type">{{ $product->is_featured ? 'Noi bat' : 'Pho bien' }}</span> -->
                                     </div>
                                 </div>
 
@@ -327,11 +336,11 @@
                                         <div class="col-md-6 col-lg-3">
                                             <div class="listing-feature">
                                                 <div class="listing-feature-icon">
-                                                    <i class="far fa-plane-departure"></i>
+                                                    <i class="far fa-calendar-days"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>Phương tiện</h6>
-                                                    <span title="{{ $displayValue($transportText) }}">{{ $displayValue($transportText) }}</span>
+                                                    <h6>Ngày khởi hanh</h6>
+                                                    <span title="{{ $displayValue($departureDateText ?: $publishedText) }}">{{ $displayValue($departureDateText ?: $publishedText) }}</span>
                                                 </div>
                                             </div>
                                         </div>

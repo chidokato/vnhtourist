@@ -1161,18 +1161,25 @@
         </div> -->
         <!-- feature area end -->
         <!-- flight area -->
-        <div class="flight-area py-120">
+        <div class="flight-area pd-50 mb-50 bg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
                             <span class="site-title-tagline"><i class="far fa-plane"></i> Tour nước ngoài</span>
-                            <h2 class="site-title">Tour du lịch nước ngoài</h2>
+                            <h2 class="site-title">Tour du lịch dành cho bạn</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row g-4">
                     @forelse ($foreignTours ?? [] as $product)
+                        <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
+                            @include('frontend.products._tour_card', [
+                                'product' => $product,
+                                'imageFallback' => 'assets/img/flight/01.jpg',
+                            ])
+                        </div>
+                        @if (false)
                         @php
                             $resolveImage = function ($value) {
                                 return \App\Support\MediaManager::publicUrl($value);
@@ -1221,6 +1228,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     @empty
                         <div class="col-12 text-center">
                             <p>Đang cập nhật tour nước ngoài...</p>
@@ -1235,6 +1243,113 @@
             </div>
         </div>
         <!-- flight area end -->
+
+        <!-- tour area -->
+        <div class="tour-area pb-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
+                        <div class="site-heading text-center">
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Tour trong nước</span>
+                            <h2 class="site-title">Các tour được yêu thích nhất</h2>
+                        
+                            <div class="filter-controls mt-20">
+                                <ul class="filter-btns">
+                                    <li class="active" data-filter="*">Tất cả</li>
+                                    <li data-filter=".mien-bac">Miền Bắc</li>
+                                    <li data-filter=".mien-trung">Miền Trung</li>
+                                    <li data-filter=".mien-nam">Miền Nam</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row filter-box">
+                    @forelse ($domesticTours ?? [] as $product)
+                        @php
+                            $regionLabel = match ($product->home_region ?? '') {
+                                'mien-bac' => 'Miền Bắc',
+                                'mien-trung' => 'Miền Trung',
+                                'mien-nam' => 'Miền Nam',
+                                default => 'Trong nước',
+                            };
+                        @endphp
+                        <div class="col-md-6 col-lg-4 col-xl-3 filter-item {{ $product->home_region ?? 'mien-bac' }}">
+                            @include('frontend.products._tour_card', [
+                                'product' => $product,
+                                'primaryTag' => $regionLabel,
+                            ])
+                        </div>
+                        @if (false)
+                        @php
+                            $resolveImage = function ($value) {
+                                return \App\Support\MediaManager::publicUrl($value);
+                            };
+                            $formatPrice = function ($product) {
+                                if (! filled($product->price)) return 'Liên hệ';
+                                return number_format((float) $product->price, 0, ',', '.') . ' đ';
+                            };
+                            $plainText = function ($value) {
+                                return trim(preg_replace('/\s+/u', ' ', strip_tags((string) $value)));
+                            };
+                            $durationText = $plainText($product->duration) ?: 'Đang cập nhật';
+                            $addressText = $plainText($product->address) ?: ($plainText($product->destination) ?: 'Đang cập nhật địa điểm');
+                            $transportText = $plainText($product->transport) ?: 'Liên hệ để biết thêm';
+                            $departureText = $plainText($product->departure_location) ?: 'Đang cập nhật';
+                            $regionLabel = match ($product->home_region ?? '') {
+                                'mien-bac' => 'Miền Bắc',
+                                'mien-trung' => 'Miền Trung',
+                                'mien-nam' => 'Miền Nam',
+                                default => 'Trong nước',
+                            };
+                        @endphp
+                        <div class="col-md-6 col-lg-4 col-xl-3 filter-item {{ $product->home_region ?? 'mien-bac' }}">
+                            <div class="tour-item">
+                                <div class="tour-img">
+                                    @if($product->is_featured)
+                                        <span class="badge">Nổi bật</span>
+                                    @endif
+                                    @if ($resolveImage($product->image))
+                                        <img src="{{ $resolveImage($product->image) }}" alt="{{ $product->title }}" style="height: 250px; object-fit: cover;">
+                                    @else
+                                        <img src="assets/img/tour/01.jpg" alt="" style="height: 250px; object-fit: cover;">
+                                    @endif
+                                    <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
+                                </div>
+                                <div class="tour-content">
+                                    <div class="tour-top">
+                                        <a href="{{ $product->frontend_url }}" class="tour-category"><i class="far fa-tag"></i> {{ $regionLabel }}</a>
+                                        <span class="tour-place"><i class="far fa-bus"></i> {{ $transportText }}</span>
+                                    </div>
+                                    <h4 class="tour-title"><a href="{{ $product->frontend_url }}">{{ \Illuminate\Support\Str::limit($product->title, 50) }}</a></h4>
+                                    <p><i class="far fa-location-dot"></i> {{ $addressText }}</p>
+                                    <div class="hotel-rate">
+                                        <span class="badge"><i class="far fa-location-arrow"></i> {{ $departureText }}</span>
+                                        <span class="hotel-rate-type">Khởi hành linh hoạt</span>
+                                    </div>
+                                    <div class="tour-duration"><i class="far fa-clock"></i> {{ $durationText }}</div>
+                                    <div class="tour-bottom">
+                                        <div class="tour-price">
+                                            Từ <span>{{ $formatPrice($product) }}</span>
+                                        </div>
+                                        <div class="tour-text-btn">
+                                            <a href="{{ $product->frontend_url }}">Xem thêm <i class="fas fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    @empty
+                        <div class="col-12 text-center">
+                            <p>Đang cập nhật tour trong nước...</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+        <!-- tour area end -->
 
 
         <!-- hotel area -->
@@ -1407,23 +1522,20 @@
             <div class="container-fluid pe-0 p-lg-0">
                 <div class="col-lg-10 ms-lg-auto">
                     <div class="row g-4 align-items-center">
-                        <div class="col-md-8 col-lg-4 wow fadeInLeft" data-wow-delay=".25s">
+                        <div class="col-md-8 col-lg-5 wow fadeInLeft" data-wow-delay=".25s">
                             <div class="site-heading mb-3">
-                                <span class="site-title-tagline"><i class="far fa-plane"></i> Video nổi bật</span>
+                                <span class="site-title-tagline"><i class="far fa-plane"></i> KHÔNG GIAN SỰ KIỆN CHUYÊN NGHIỆP</span>
                                 <h2 class="site-title">
-                                    Cập nhật mới nhất và video truyền cảm hứng
+                                    Dịch Vụ Phòng Tiệc & Hội Trường <br> Đẳng Cấp Cho Mọi Sự Kiện
                                 </h2>
                             </div>
                             <p class="about-text">
-                                There are many variations of passages available but the majority have suffered
-                                alteration in some form injected  if you are going to use passage you need sure
-                                there
-                                isn't anything look even trong một trải nghiệm liền mạch.
+                                Chúng tôi cung cấp hệ thống phòng tiệc và hội trường hiện đại, phù hợp cho hội nghị, hội thảo, tiệc cưới, tiệc sinh nhật, sự kiện doanh nghiệp và các chương trình đặc biệt. Không gian sang trọng, trang thiết bị âm thanh ánh sáng chuyên nghiệp cùng đội ngũ phục vụ tận tâm sẽ mang đến cho quý khách những trải nghiệm hoàn hảo và đáng nhớ.
                             </p>
-                            <a href="#" class="theme-btn mt-30">Tìm hiểu thêm<i
+                            <a href="#" class="theme-btn mt-30">Xem Chi Tiết<i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="col-lg-8 wow fadeInRight" data-wow-delay=".25s">
+                        <div class="col-lg-7 wow fadeInRight" data-wow-delay=".25s">
                             <div class="video-content" style="background-image: url(assets/img/video/01.jpg);">
                                 <div class="row align-items-center">
                                     <div class="col-lg-12">
@@ -1506,6 +1618,7 @@
         <!-- banner area end -->
 
 
+        @if (false)
         <!-- tour area -->
         <div class="tour-area py-120">
             <div class="container">
@@ -1776,6 +1889,7 @@
             </div>
         </div>
         <!-- tour area end -->
+        @endif
 
 
         <!-- cta-area -->

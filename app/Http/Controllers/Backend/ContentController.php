@@ -20,6 +20,8 @@ use Illuminate\Validation\ValidationException;
 
 class ContentController extends Controller
 {
+    protected ?bool $postsHasUserIdColumn = null;
+
     public function productIndex()
     {
         return $this->indexByType(Post::TYPE_PRODUCT);
@@ -121,8 +123,14 @@ class ContentController extends Controller
 
     protected function indexByType(string $type)
     {
+        $relations = ['category'];
+
+        if ($this->postsHasUserIdColumn()) {
+            $relations[] = 'user';
+        }
+
         $posts = Post::query()
-            ->with('category')
+            ->with($relations)
             ->where('type', $type)
             ->latest()
             ->paginate(10);
@@ -131,6 +139,7 @@ class ContentController extends Controller
             'posts' => $posts,
             'type' => $type,
             'typeLabel' => Post::types()[$type],
+            'postsHasUserIdColumn' => $this->postsHasUserIdColumn(),
         ]);
     }
 
@@ -395,7 +404,7 @@ class ContentController extends Controller
                 ?? ($post->destination ?? null);
         }
 
-        return [
+        $payload = [
             'type' => $type,
             'category_id' => $validated['category_id'] ?? null,
             'seller_id' => $type === Post::TYPE_PRODUCT ? ($validated['seller_id'] ?? null) : null,
@@ -443,6 +452,21 @@ class ContentController extends Controller
             'is_featured' => $type === Post::TYPE_PRODUCT ? $request->boolean('is_featured') : false,
             'published_at' => $validated['published_at'] ?? null,
         ];
+
+        if ($this->postsHasUserIdColumn()) {
+            $payload['user_id'] = $post->user_id ?? auth()->id();
+        }
+
+        return $payload;
+    }
+
+    protected function postsHasUserIdColumn(): bool
+    {
+        if ($this->postsHasUserIdColumn === null) {
+            $this->postsHasUserIdColumn = Schema::hasColumn('posts', 'user_id');
+        }
+
+        return $this->postsHasUserIdColumn;
     }
 
     protected function categoryOptions(string $type)

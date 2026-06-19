@@ -3,6 +3,7 @@
     $logo = $settings ? \App\Support\MediaManager::publicUrl($settings->logo) : null;
     $logoDark = $settings ? \App\Support\MediaManager::publicUrl($settings->footer_logo) : null;
     $favicon = $settings ? \App\Support\MediaManager::publicUrl($settings->favicon) : null;
+    $tourCardCssVersion = @filemtime(public_path('tourit/assets/css/tour-card.css')) ?: time();
     $hotline = $settings->hotline ?? null;
     $email = $settings->email ?? null;
     $socialMap = collect($settings->social ?? [])->mapWithKeys(function ($item) {
@@ -35,6 +36,7 @@
     <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
     <link rel="stylesheet" href="assets/css/jquery.timepicker.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/tour-card.css?v={{ $tourCardCssVersion }}">
     <link rel="stylesheet" href="assets/css/local-fixes.css">
     @stack('styles')
 </head>

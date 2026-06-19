@@ -11,7 +11,7 @@
   justify-content: center;
   vertical-align: middle;
   font-style: normal;
-  line-height: 1;
+  line-height: 1;    margin-bottom: 3px;
 }
 
 .svg-icon svg {

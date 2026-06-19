@@ -16,6 +16,7 @@ class Post extends Model
         'type',
         'category_id',
         'seller_id',
+        'user_id',
         'title',
         'slug',
         'seo_title',
@@ -88,6 +89,11 @@ class Post extends Model
     public function seller()
     {
         return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function province()
