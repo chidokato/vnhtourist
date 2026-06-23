@@ -81,23 +81,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="product-filter-section">
-                                        <div class="product-filter-section-title">Phương tiện</div>
-                                        <div class="product-filter-option-box" data-transport-options>
-                                            @foreach ($transportOptions as $transport)
-                                                <label class="product-filter-option product-filter-option-checkbox">
-                                                    <input
-                                                        type="checkbox"
-                                                        name="transports[]"
-                                                        value="{{ $transport['name'] }}"
-                                                        @checked(in_array($transport['name'], $selectedTransports ?? [], true))
-                                                    >
-                                                    <span class="product-filter-option-label">{{ $displayValue($transport['name']) }}</span>
-                                                    <span class="product-filter-option-count">{{ $transport['count'] }}</span>
-                                                </label>
-                                            @endforeach
-                                        </div>
-                                    </div>
 
                                     <div class="product-filter-section">
                                         <label class="product-filter-section-title" for="filter-departure-date">Ngày khởi hành</label>

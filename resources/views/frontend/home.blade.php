@@ -1353,7 +1353,7 @@
 
 
         <!-- hotel area -->
-        <div class="hotel-area bg pt-80 pb-80">
+        <div class="hotel-area bg pt-80 pb-80" style="display: none;">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
@@ -1541,7 +1541,7 @@
                                     <div class="col-lg-12">
                                         <div class="video-wrapper">
                                             <a class="play-btn popup-youtube"
-                                                href="https://www.youtube.com/watch?v=jLS3DrTJrpI">
+                                                href="https://www.youtube.com/watch?v=hF3EtNWI74k">
                                                 <i class="fas fa-play"></i>
                                             </a>
                                         </div>
@@ -1557,7 +1557,7 @@
 
 
         <!-- banner area -->
-        <div class="banner-area bg pt-50 pb-50">
+        <div class="banner-area bg pt-50 pb-50" style="display: none;">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
@@ -1934,9 +1934,8 @@
                                 <img src="assets/img/safety.svg" alt="">
                             </div>
                             <div class="content">
-                                <h4>Safety And Trust</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable
-                                    content of a page when looking at its quá trình đặt chỗ.</p>
+                                <h4>An Toàn Và Tin Cậy</h4>
+                                <p>Chúng tôi luôn đặt sự an toàn của khách hàng lên hàng đầu. Mọi quá trình đặt chỗ đều được bảo mật tuyệt đối, giúp bạn hoàn toàn an tâm.</p>
                             </div>
                         </div>
                         <div class="choose-item">
@@ -1945,9 +1944,8 @@
                                 <img src="assets/img/price.svg" alt="">
                             </div>
                             <div class="content">
-                                <h4>100% Price Transparency</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable
-                                    content of a page when looking at its quá trình đặt chỗ.</p>
+                                <h4>Minh Bạch Giá Cả 100%</h4>
+                                <p>Không có phí ẩn, không phụ thu bất ngờ. Mọi thông tin về chi phí luôn được công khai và minh bạch trước khi bạn hoàn tất đặt chỗ.</p>
                             </div>
                         </div>
                         <div class="choose-item">
@@ -1956,15 +1954,14 @@
                                 <img src="assets/img/booking-confirm.svg" alt="">
                             </div>
                             <div class="content">
-                                <h4>Du lịch an tâm hơn</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable
-                                    content of a page when looking at its quá trình đặt chỗ.</p>
+                                <h4>Đặt Chỗ Nhanh Chóng</h4>
+                                <p>Trải nghiệm hệ thống đặt vé thông minh và tiện lợi. Bạn có thể dễ dàng quản lý lịch trình và chuyến đi của mình mọi lúc mọi nơi.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="choose-img">
-                            <img class="shape" src="assets/img/shape/04.png" alt="">
+                            <img class="shape" src="assets/img/bay.png" alt="">
                             <img class="img-1" src="assets/img/anh3.webp" alt="">
                             <img class="img-2" src="assets/img/anh4.webp" alt="">
                         </div>

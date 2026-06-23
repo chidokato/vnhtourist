@@ -32,9 +32,9 @@
                     <tbody>
                         @forelse ($posts as $post)
                             <tr>
-                                <td>
-                                    <div class="fw-medium">{{ $displayValue($post->title) }}</div>
-                                    <div class="text-muted small">{{ $displayValue($post->slug) }}</div>
+                                <td style="max-width: 300px;">
+                                    <div class="fw-medium text-truncate" title="{{ $post->title }}">{{ $displayValue($post->title) }}</div>
+                                    <div class="text-muted small text-truncate" title="{{ $post->slug }}">{{ $displayValue($post->slug) }}</div>
                                 </td>
                                 <td>{{ $displayValue(optional($post->category)->name) }}</td>
                                 @if ($type === 'product')
