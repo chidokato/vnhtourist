@@ -158,15 +158,17 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
+                        <div class="col-lg-8">
                             <div class="mb-3">
                                 <label for="transport" class="form-label">Phuong tien</label>
                                 <div class="d-flex gap-1">
                                     <div class="flex-grow-1" style="min-width: 0;">
-                                        <select id="transport" name="transport" class="form-select @error('transport') is-invalid @enderror">
-                                            <option value="">Chon phuong tien</option>
+                                        @php
+                                            $selectedTransports = old('transport', isset($post) && $post->transport ? explode(', ', $post->transport) : []);
+                                        @endphp
+                                        <select id="transport" name="transport[]" multiple class="form-select @error('transport') is-invalid @enderror">
                                             @foreach (($tourOptionGroups['transport'] ?? []) as $value => $label)
-                                                <option value="{{ $value }}" {{ old('transport', $post->transport ?? '') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                                                <option value="{{ $value }}" {{ in_array($value, (array)$selectedTransports) ? 'selected' : '' }}>{{ $label }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -153,7 +153,7 @@ class ContentController extends Controller
             'categories' => $this->categoryOptions($type),
             'sellerOptions' => $this->sellerOptions(),
             'tourOptionGroups' => $this->tourOptionGroups([
-                TourOption::GROUP_TRANSPORT => old('transport'),
+                TourOption::GROUP_TRANSPORT => old('transport', []),
                 TourOption::GROUP_LOCATION => array_filter([
                     old('departure_location'),
                 ]),
@@ -190,7 +190,7 @@ class ContentController extends Controller
             'categories' => $this->categoryOptions($type),
             'sellerOptions' => $this->sellerOptions(),
             'tourOptionGroups' => $this->tourOptionGroups([
-                TourOption::GROUP_TRANSPORT => old('transport', $post->transport),
+                TourOption::GROUP_TRANSPORT => old('transport', isset($post) && $post->transport ? explode(', ', $post->transport) : []),
                 TourOption::GROUP_LOCATION => array_filter([
                     old('departure_location', $post->departure_location),
                 ]),
@@ -283,7 +283,8 @@ class ContentController extends Controller
             'destination' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
             'departure_date' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
             'attractions' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string'] : ['nullable'],
-            'transport' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
+            'transport' => $type === Post::TYPE_PRODUCT ? ['nullable', 'array'] : ['nullable'],
+            'transport.*' => ['string', 'max:255'],
             'duration' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
             'guide_content' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string'] : ['nullable'],
             'visa_content' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string'] : ['nullable'],
@@ -421,7 +422,7 @@ class ContentController extends Controller
             'destination' => $destination,
             'departure_date' => $type === Post::TYPE_PRODUCT ? ($validated['departure_date'] ?? null) : null,
             'attractions' => $type === Post::TYPE_PRODUCT ? ($validated['attractions'] ?? null) : null,
-            'transport' => $type === Post::TYPE_PRODUCT ? ($validated['transport'] ?? null) : null,
+            'transport' => $type === Post::TYPE_PRODUCT ? (isset($validated['transport']) && is_array($validated['transport']) ? implode(', ', $validated['transport']) : null) : null,
             'duration' => $type === Post::TYPE_PRODUCT ? ($validated['duration'] ?? null) : null,
             'guide_content' => $type === Post::TYPE_PRODUCT ? ($validated['guide_content'] ?? null) : null,
             'visa_content' => $type === Post::TYPE_PRODUCT ? ($validated['visa_content'] ?? null) : null,

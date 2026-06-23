@@ -70,36 +70,25 @@ class HomeController extends BaseFrontendController
         $domesticCategory = \App\Models\Category::where('slug', 'du-lich-trong-nuoc')->first();
         $domesticCategoryIds = $domesticCategory ? $domesticCategory->children()->pluck('id')->push($domesticCategory->id)->toArray() : [];
 
-        $northKeywords = ['ha noi', 'ninh binh', 'ha giang', 'sapa', 'lao cai', 'quang ninh', 'ha long', 'hai phong', 'nam dinh', 'thai binh', 'bac ninh', 'bac giang', 'phu tho', 'yen bai', 'son la', 'dien bien', 'lai chau', 'hoa binh', 'lang son', 'cao bang', 'bac kan', 'tuyen quang', 'thai nguyen', 'vinh phuc', 'ha nam', 'hung yen', 'hai duong'];
-        $centralKeywords = ['da nang', 'hue', 'quang nam', 'hoi an', 'quang ngai', 'binh dinh', 'phu yen', 'khanh hoa', 'nha trang', 'ninh thuan', 'binh thuan', 'quang binh', 'quang tri', 'ha tinh', 'nghe an', 'thanh hoa', 'dak lak', 'gia lai', 'kon tum', 'lam dong', 'da lat', 'dak nong'];
-        $southKeywords = ['ho chi minh', 'sai gon', 'vung tau', 'ba ria', 'dong nai', 'binh duong', 'tay ninh', 'binh phuoc', 'long an', 'tien giang', 'ben tre', 'tra vinh', 'vinh long', 'dong thap', 'an giang', 'kien giang', 'phu quoc', 'can tho', 'hau giang', 'soc trang', 'bac lieu', 'ca mau'];
+        $mbCategory = \App\Models\Category::where('slug', 'mien-bac')->first();
+        $mtCategory = \App\Models\Category::where('slug', 'mien-trung')->first();
+        $mnCategory = \App\Models\Category::where('slug', 'mien-nam')->first();
 
-        $resolveRegion = function (Post $tour) use ($northKeywords, $centralKeywords, $southKeywords) {
-            $haystack = \Illuminate\Support\Str::lower(trim(implode(' ', array_filter([
-                $tour->province?->name,
-                $tour->destination,
-                $tour->departure_location,
-                $tour->address,
-            ]))));
+        $mbIds = $mbCategory ? $mbCategory->children()->pluck('id')->push($mbCategory->id)->toArray() : [];
+        $mtIds = $mtCategory ? $mtCategory->children()->pluck('id')->push($mtCategory->id)->toArray() : [];
+        $mnIds = $mnCategory ? $mnCategory->children()->pluck('id')->push($mnCategory->id)->toArray() : [];
 
-            foreach ($northKeywords as $keyword) {
-                if (\Illuminate\Support\Str::contains($haystack, $keyword)) {
-                    return 'mien-bac';
-                }
+        $resolveRegion = function (Post $tour) use ($mbIds, $mtIds, $mnIds) {
+            $catId = $tour->category_id;
+            if (in_array($catId, $mbIds)) {
+                return 'mien-bac';
             }
-
-            foreach ($centralKeywords as $keyword) {
-                if (\Illuminate\Support\Str::contains($haystack, $keyword)) {
-                    return 'mien-trung';
-                }
+            if (in_array($catId, $mtIds)) {
+                return 'mien-trung';
             }
-
-            foreach ($southKeywords as $keyword) {
-                if (\Illuminate\Support\Str::contains($haystack, $keyword)) {
-                    return 'mien-nam';
-                }
+            if (in_array($catId, $mnIds)) {
+                return 'mien-nam';
             }
-
             return 'mien-bac';
         };
 
@@ -157,6 +146,11 @@ class HomeController extends BaseFrontendController
                 ->where('is_active', true)
                 ->orderByDesc('id')
                 ->limit(10)
+                ->get(),
+            'experts' => \App\Models\Expert::query()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->orderByDesc('id')
                 ->get(),
         ] + $seo));
     }

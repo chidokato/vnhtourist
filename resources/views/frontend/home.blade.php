@@ -1026,7 +1026,7 @@
 
 
         <!-- about-area -->
-        <div class="about-area py-120">
+        <div class="about-area py-120 d-none">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
@@ -1973,7 +1973,7 @@
 
 
         <!-- car area -->
-        <div class="car-area bg pt-80 pb-80">
+        <div class="car-area bg pt-80 pb-80" style="display: none;">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
@@ -2174,7 +2174,7 @@
 
 
         <!-- team-area -->
-        <div class="team-area py-120">
+        <div class="team-area py-120 d-none">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
@@ -2185,94 +2185,38 @@
                     </div>
                 </div>
                 <div class="row g-5">
+                    @forelse ($experts ?? [] as $expert)
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <div class="team-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
                             <div class="team-img">
-                                <img src="assets/img/team/01.jpg" alt="thumb">
+                                @if ($expert->image)
+                                    <img src="{{ \App\Support\MediaManager::publicUrl($expert->image) }}" alt="{{ $expert->name }}">
+                                @else
+                                    <img src="{{ asset('assets/img/team/01.jpg') }}" alt="{{ $expert->name }}">
+                                @endif
                             </div>
                             <div class="team-content">
                                 <div class="team-bio">
-                                    <h5><a href="#">Edna Craig</a></h5>
-                                    <span>Head of Design</span>
+                                    <h5><a href="javascript:void(0)">{{ $expert->name }}</a></h5>
+                                    <span>{{ $expert->role }}</span>
                                 </div>
                                 <div class="team-social">
                                     <ul class="team-social-btn">
                                         <li><span><i class="far fa-share-alt"></i></span></li>
-                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-x-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                        @if($expert->facebook_url)<li><a href="{{ $expert->facebook_url }}"><i class="fab fa-facebook-f"></i></a></li>@endif
+                                        @if($expert->twitter_url)<li><a href="{{ $expert->twitter_url }}"><i class="fab fa-x-twitter"></i></a></li>@endif
+                                        @if($expert->instagram_url)<li><a href="{{ $expert->instagram_url }}"><i class="fab fa-instagram"></i></a></li>@endif
+                                        @if($expert->linkedin_url)<li><a href="{{ $expert->linkedin_url }}"><i class="fab fa-linkedin-in"></i></a></li>@endif
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="team-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".50s">
-                            <div class="team-img">
-                                <img src="assets/img/team/02.jpg" alt="thumb">
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Jeffrey Cox</a></h5>
-                                    <span>Founder & Director</span>
-                                </div>
-                                <div class="team-social">
-                                    <ul class="team-social-btn">
-                                        <li><span><i class="far fa-share-alt"></i></span></li>
-                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-x-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                    @empty
+                    <div class="col-12 text-center">
+                        <p>Đang cập nhật đội ngũ chuyên gia...</p>
                     </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="team-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".75s">
-                            <div class="team-img">
-                                <img src="assets/img/team/03.jpg" alt="thumb">
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Audrey Gadis</a></h5>
-                                    <span>Ho tro tu van</span>
-                                </div>
-                                <div class="team-social">
-                                    <ul class="team-social-btn">
-                                        <li><span><i class="far fa-share-alt"></i></span></li>
-                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-x-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="team-item wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">
-                            <div class="team-img">
-                                <img src="assets/img/team/04.jpg" alt="thumb">
-                            </div>
-                            <div class="team-content">
-                                <div class="team-bio">
-                                    <h5><a href="#">Rodger Garza</a></h5>
-                                    <span>Account Manager</span>
-                                </div>
-                                <div class="team-social">
-                                    <ul class="team-social-btn">
-                                        <li><span><i class="far fa-share-alt"></i></span></li>
-                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-x-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>
