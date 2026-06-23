@@ -202,21 +202,23 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
+                        
+
+                        <div class="col-lg-8">
                             <div class="mb-3">
-                                <label for="departure_date" class="form-label">Ngay khoi hanh</label>
-                                <input type="date" id="departure_date" name="departure_date" class="form-control @error('departure_date') is-invalid @enderror" value="{{ old('departure_date', $post->departure_date ?? '') }}">
-                                @error('departure_date')
+                                <label for="attractions" class="form-label">Diem tham quan</label>
+                                <input type="text" id="attractions" name="attractions" class="form-control @error('attractions') is-invalid @enderror" value="{{ old('attractions', $post->attractions ?? '') }}" placeholder="Vi du: Phap, Duc, Thuy Si">
+                                @error('attractions')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
 
-                        <div class="col-lg-12">
+                        <div class="col-lg-4">
                             <div class="mb-3">
-                                <label for="attractions" class="form-label">Diem tham quan</label>
-                                <input type="text" id="attractions" name="attractions" class="form-control @error('attractions') is-invalid @enderror" value="{{ old('attractions', $post->attractions ?? '') }}" placeholder="Vi du: Phap, Duc, Thuy Si">
-                                @error('attractions')
+                                <label for="departure_date" class="form-label">Ngay khoi hanh</label>
+                                <input type="date" id="departure_date" name="departure_date" class="form-control @error('departure_date') is-invalid @enderror" value="{{ old('departure_date', $post->departure_date ?? '') }}">
+                                @error('departure_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -434,7 +436,6 @@
                             </div>
                             <div class="col-4">
                                 <select id="price_unit" name="price_unit" class="form-select @error('price_unit') is-invalid @enderror">
-                                    <option value="ty" {{ $storedPriceUnit === 'ty' ? 'selected' : '' }}>Ty</option>
                                     <option value="trieu" {{ $storedPriceUnit === 'trieu' ? 'selected' : '' }}>Trieu</option>
                                 </select>
                                 @error('price_unit')
