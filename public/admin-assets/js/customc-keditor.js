@@ -251,6 +251,7 @@ function initEditor() {
                 'AIAssistant',
                 'CKBox',
                 'EasyImage',
+                'Base64UploadAdapter',
                 'MultiLevelList',
                 'RealTimeCollaborativeComments',
                 'RealTimeCollaborativeTrackChanges',

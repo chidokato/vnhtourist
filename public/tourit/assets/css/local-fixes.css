@@ -367,6 +367,8 @@ a.is-disabled-link {
   height: 250px;
 }
 
+.blog-area .blog-item-img a{ width:100% }
+
 .blog-area .blog-item-img img {
   width: 100%;
   height: 100%;

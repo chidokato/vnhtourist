@@ -59,7 +59,7 @@
                                         <a href="{{ $post->frontend_url }}">{{ $displayValue($post->title) }}</a>
                                     </h4>
                                     @if (filled($post->summary))
-                                        <p class="news-summary">{{ $displayValue($post->summary) }}</p>
+                                        <div class="news-summary">{!! $displayValue($post->summary) !!}</div>
                                     @endif
                                     <a class="theme-btn mt-3" href="{{ $post->frontend_url }}">
                                         Xem thêm <i class="fas fa-arrow-circle-right"></i>
