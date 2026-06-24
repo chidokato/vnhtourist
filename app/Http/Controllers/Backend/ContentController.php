@@ -291,7 +291,14 @@ class ContentController extends Controller
                 'max:255',
                 Rule::unique('posts', 'slug')->ignore($ignoreId),
             ],
-            'tour_code' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
+            'tour_code' => $type === Post::TYPE_PRODUCT
+                ? [
+                    'nullable',
+                    'string',
+                    'max:255',
+                    Rule::unique('posts', 'tour_code')->ignore($ignoreId)
+                ]
+                : ['nullable'],
             'seo_title' => ['nullable', 'string', 'max:255'],
             'seo_description' => ['nullable', 'string'],
             'summary' => ['nullable', 'string'],
@@ -352,6 +359,8 @@ class ContentController extends Controller
             'published_at' => ['nullable', 'date'],
             'is_active' => ['nullable'],
             'is_featured' => $type === Post::TYPE_PRODUCT ? ['nullable'] : ['nullable'],
+        ], [
+            'tour_code.unique' => 'Mã tour này đã tồn tại trong hệ thống. Vui lòng nhập một mã khác để tránh trùng lặp.',
         ]);
 
         if ($this->containsInlineBase64Image($validated['content'] ?? null)) {
