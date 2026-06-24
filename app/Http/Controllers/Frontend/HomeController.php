@@ -6,6 +6,16 @@ use App\Models\Post;
 
 class HomeController extends BaseFrontendController
 {
+    private function getCategoryIds(?\App\Models\Category $category): array
+    {
+        if (!$category) return [];
+        $ids = [$category->id];
+        foreach ($category->children as $child) {
+            $ids = array_merge($ids, $this->getCategoryIds($child));
+        }
+        return $ids;
+    }
+
     public function index()
     {
         $seo = $this->staticPageSeo('home', [
@@ -55,7 +65,7 @@ class HomeController extends BaseFrontendController
             ->values();
 
         $foreignCategory = \App\Models\Category::where('slug', 'tour-nuoc-ngoai')->first();
-        $foreignCategoryIds = $foreignCategory ? $foreignCategory->children()->pluck('id')->push($foreignCategory->id)->toArray() : [];
+        $foreignCategoryIds = $this->getCategoryIds($foreignCategory);
 
         $foreignTours = Post::query()
             ->with(['category', 'galleryImages', 'province'])
@@ -68,15 +78,15 @@ class HomeController extends BaseFrontendController
             ->get();
 
         $domesticCategory = \App\Models\Category::where('slug', 'du-lich-trong-nuoc')->first();
-        $domesticCategoryIds = $domesticCategory ? $domesticCategory->children()->pluck('id')->push($domesticCategory->id)->toArray() : [];
+        $domesticCategoryIds = $this->getCategoryIds($domesticCategory);
 
         $mbCategory = \App\Models\Category::where('slug', 'mien-bac')->first();
         $mtCategory = \App\Models\Category::where('slug', 'mien-trung')->first();
         $mnCategory = \App\Models\Category::where('slug', 'mien-nam')->first();
 
-        $mbIds = $mbCategory ? $mbCategory->children()->pluck('id')->push($mbCategory->id)->toArray() : [];
-        $mtIds = $mtCategory ? $mtCategory->children()->pluck('id')->push($mtCategory->id)->toArray() : [];
-        $mnIds = $mnCategory ? $mnCategory->children()->pluck('id')->push($mnCategory->id)->toArray() : [];
+        $mbIds = $this->getCategoryIds($mbCategory);
+        $mtIds = $this->getCategoryIds($mtCategory);
+        $mnIds = $this->getCategoryIds($mnCategory);
 
         $resolveRegion = function (Post $tour) use ($mbIds, $mtIds, $mnIds) {
             $catId = $tour->category_id;

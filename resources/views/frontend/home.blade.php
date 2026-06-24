@@ -1252,7 +1252,6 @@
                         <div class="site-heading text-center">
                             <span class="site-title-tagline"><i class="far fa-plane"></i> Tour trong nước</span>
                             <h2 class="site-title">Các tour được yêu thích nhất</h2>
-                        
                             <div class="filter-controls mt-20">
                                 <ul class="filter-btns">
                                     <li class="active" data-filter="*">Tất cả</li>

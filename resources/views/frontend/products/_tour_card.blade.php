@@ -25,7 +25,7 @@
     $imageUrl = $resolveImage($product->image) ?: ($imageFallback ?? 'assets/img/tour/01.jpg');
 @endphp
 
-<article class="tour-listing-card">
+<article class="tour-listing-card mb-4">
     <a href="{{ $product->frontend_url }}" class="tour-card-media" aria-label="Xem chi tiết {{ $displayValue($product->title) }}">
         <img src="{{ $imageUrl }}" alt="{{ $displayValue($product->title) }}">
         <span class="tour-card-badge-top">{{ $displayValue($badgeText) }}</span>
