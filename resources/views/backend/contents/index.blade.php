@@ -5,6 +5,29 @@
 @section('breadcrumb', $typeLabel)
 
 @section('content')
+    <div class="card mb-3">
+        <div class="card-body">
+            <form action="{{ url()->current() }}" method="GET">
+                <div class="row g-2">
+                    <div class="col-md-3">
+                        <select name="category_id" class="form-select">
+                            <option value="">Tat ca danh muc</option>
+                            @foreach($categories as $id => $name)
+                                <option value="{{ $id }}" {{ request('category_id') == $id ? 'selected' : '' }}>{{ $name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Tim kiem theo ma tour hoac tieu de..." value="{{ request('search') }}">
+                            <button class="btn btn-primary" type="submit">Tim kiem</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header d-flex align-items-center justify-content-between">
             <h4 class="card-title mb-0">Quan ly {{ strtolower($typeLabel) }}</h4>
@@ -17,6 +40,9 @@
                 <table class="table table-nowrap align-middle mb-0">
                     <thead class="table-light">
                         <tr>
+                            @if ($type === 'product')
+                                <th>Mã tour</th>
+                            @endif
                             <th>Tieu de</th>
                             <th>Category</th>
                             @if ($type === 'product')
@@ -32,6 +58,9 @@
                     <tbody>
                         @forelse ($posts as $post)
                             <tr>
+                                @if ($type === 'product')
+                                    <td>{{ $displayValue($post->tour_code) }}</td>
+                                @endif
                                 <td style="max-width: 300px;">
                                     <div class="fw-medium text-truncate" title="{{ $post->title }}">{{ $displayValue($post->title) }}</div>
                                     <div class="text-muted small text-truncate" title="{{ $post->slug }}">{{ $displayValue($post->slug) }}</div>
@@ -85,7 +114,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="{{ $type === 'product' ? 8 : 5 }}" class="text-center text-muted py-4">
+                                <td colspan="{{ $type === 'product' ? 9 : 5 }}" class="text-center text-muted py-4">
                                     Chua co {{ strtolower($typeLabel) }} nao.
                                 </td>
                             </tr>

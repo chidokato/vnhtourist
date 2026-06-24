@@ -472,6 +472,16 @@
                 </div>
 
                 @if ($type === 'product')
+                    <div class="mb-3">
+                        <label for="tour_code" class="form-label">Mã tour</label>
+                        <input type="text" id="tour_code" name="tour_code" class="form-control @error('tour_code') is-invalid @enderror" value="{{ old('tour_code', $post->tour_code ?? '') }}" placeholder="Nhập mã tour">
+                        @error('tour_code')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
+
+                @if ($type === 'product')
                     <div class="mb-3 d-none">
                         <label for="seller_id" class="form-label">Seller</label>
                         <select id="seller_id" name="seller_id" class="form-select @error('seller_id') is-invalid @enderror">

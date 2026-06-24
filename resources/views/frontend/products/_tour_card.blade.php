@@ -35,7 +35,6 @@
     <div class="tour-card-body">
         <div class="tour-card-tags">
             <span class="tour-card-tag">{{ $displayValue($primaryTag) }}</span>
-            <span class="tour-card-tag tour-card-tag--accent">{{ $displayValue($secondaryTag) }}</span>
         </div>
         <h4 class="tour-card-title">
             <a href="{{ $product->frontend_url }}">{{ $displayValue($product->title) }}</a>

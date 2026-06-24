@@ -1278,7 +1278,6 @@
                         <div class="col-md-6 col-lg-4 col-xl-3 filter-item {{ $product->home_region ?? 'mien-bac' }}">
                             @include('frontend.products._tour_card', [
                                 'product' => $product,
-                                'primaryTag' => $regionLabel,
                             ])
                         </div>
                         @if (false)

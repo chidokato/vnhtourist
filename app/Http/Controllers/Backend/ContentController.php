@@ -129,17 +129,31 @@ class ContentController extends Controller
             $relations[] = 'user';
         }
 
+        $search = request('search');
+        $categoryId = request('category_id');
+
         $posts = Post::query()
             ->with($relations)
             ->where('type', $type)
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('tour_code', 'like', "%{$search}%");
+                });
+            })
+            ->when($categoryId, function ($query, $categoryId) {
+                $query->where('category_id', $categoryId);
+            })
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('backend.contents.index', [
             'posts' => $posts,
             'type' => $type,
             'typeLabel' => Post::types()[$type],
             'postsHasUserIdColumn' => $this->postsHasUserIdColumn(),
+            'categories' => $this->categoryOptions($type),
         ]);
     }
 
@@ -277,6 +291,7 @@ class ContentController extends Controller
                 'max:255',
                 Rule::unique('posts', 'slug')->ignore($ignoreId),
             ],
+            'tour_code' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
             'seo_title' => ['nullable', 'string', 'max:255'],
             'seo_description' => ['nullable', 'string'],
             'summary' => ['nullable', 'string'],
@@ -421,6 +436,7 @@ class ContentController extends Controller
             'seller_id' => $type === Post::TYPE_PRODUCT ? ($validated['seller_id'] ?? null) : null,
             'title' => $validated['title'],
             'slug' => $validated['slug'] ?: Str::slug($validated['title']),
+            'tour_code' => $type === Post::TYPE_PRODUCT ? ($validated['tour_code'] ?? null) : null,
             'seo_title' => $validated['seo_title'] ?? null,
             'seo_description' => $validated['seo_description'] ?? null,
             'summary' => $validated['summary'] ?? null,

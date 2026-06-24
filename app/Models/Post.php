@@ -14,6 +14,7 @@ class Post extends Model
 
     protected $fillable = [
         'type',
+        'tour_code',
         'category_id',
         'seller_id',
         'user_id',
