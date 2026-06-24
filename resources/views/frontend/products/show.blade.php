@@ -464,40 +464,7 @@
                                     </div>
                                 @endif
 
-                                @if ($relatedProducts->isNotEmpty())
-                                    <div class="listing-item">
-                                        <h4 class="mb-4">Tour lien quan</h4>
-                                        <div class="row g-4">
-                                            @foreach ($relatedProducts as $relatedProduct)
-                                                @php
-                                                    $relatedImage = $resolveImage($relatedProduct->image) ?: asset('tourit/assets/img/tour/01.jpg');
-                                                @endphp
-                                                <div class="col-md-6 col-lg-4">
-                                                    <div class="hotel-item">
-                                                        <div class="hotel-img">
-                                                            <a href="{{ $relatedProduct->frontend_url }}">
-                                                                <img src="{{ $relatedImage }}" alt="{{ $displayValue($relatedProduct->title) }}">
-                                                            </a>
-                                                        </div>
-                                                        <div class="hotel-content">
-                                                            <h4 class="hotel-title">
-                                                                <a href="{{ $relatedProduct->frontend_url }}">{{ $displayValue($relatedProduct->title) }}</a>
-                                                            </h4>
-                                                            <div class="hotel-bottom">
-                                                                <div class="hotel-price">
-                                                                    <span class="hotel-price-amount">{{ $formatPrice($relatedProduct->price) }}</span>
-                                                                </div>
-                                                                <div class="hotel-text-btn">
-                                                                    <a href="{{ $relatedProduct->frontend_url }}">Xem chi tiet <i class="far fa-arrow-right"></i></a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
+
                             </div>
                         </div>
 
@@ -508,8 +475,25 @@
                                     <div class="listing-price">
                                         <h4 class="listing-price-tag">{{ $product->is_featured ? 'Bestseller' : 'Tour hot' }}</h4>
                                         <div class="listing-price-amount">
-                                            From <span>{{ $formatPrice($product->price) }}</span>
+                                            <div style="font-size: 0.45em; text-transform: none; font-weight: normal; letter-spacing: 0; color: #666; margin-bottom: 2px;">Giá người lớn từ</div>
+                                            <span>{{ $formatPrice($product->price) }}</span>
                                         </div>
+                                        @if ($product->price > 0 && ($product->child_price_percent || $product->infant_price_percent))
+                                        <div class="mt-3 pt-3 border-top" style="font-size: 0.95rem; text-transform: none; letter-spacing: 0;">
+                                            @if ($product->child_price_percent)
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <span class="text-muted" style="font-weight: normal;">Trẻ em ({{ $product->child_price_percent }}%)</span>
+                                                    <span class="fw-bold" style="color: #1a1a1a;">{{ $formatPrice($product->price * $product->child_price_percent / 100) }}</span>
+                                                </div>
+                                            @endif
+                                            @if ($product->infant_price_percent)
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="text-muted" style="font-weight: normal;">Em bé ({{ $product->infant_price_percent }}%)</span>
+                                                    <span class="fw-bold" style="color: #1a1a1a;">{{ $formatPrice($product->price * $product->infant_price_percent / 100) }}</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        @endif
                                     </div>
 
                                     @if (session('customer_inquiry_success'))
@@ -517,10 +501,21 @@
                                     @endif
 
                                     <ul class="tour-cta-meta">
-                                        <li>
-                                            <span>Ngay khoi hanh</span>
-                                            <strong>{{ $displayValue($departureDateText ?: $publishedText) }}</strong>
-                                        </li>
+                                        @if ($product->departurePrices && $product->departurePrices->isNotEmpty())
+                                            <li>
+                                                <span>Lịch khởi hành</span>
+                                                <ul class="list-unstyled mb-0 text-end">
+                                                    @foreach ($product->departurePrices as $dp)
+                                                        <li class="mb-1"><strong>{{ $dp->departure_date }}</strong>: <span class="text-danger fw-bold">{{ $formatPrice($dp->price ?: $product->price) }}</span></li>
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <span>Ngay khoi hanh</span>
+                                                <strong>{{ $displayValue($departureDateText ?: $publishedText) }}</strong>
+                                            </li>
+                                        @endif
                                         <li>
                                             <span>Phuong tien</span>
                                             <strong>{{ $displayValue($transportText) }}</strong>
@@ -539,6 +534,24 @@
                             </div>
                         </div>
                     </div>
+                    
+                    @if ($relatedProducts->isNotEmpty())
+                        <div class="related-tours-wrapper mt-5 pt-3 border-top">
+                            <div class="listing-item">
+                                <h4 class="mb-4">Tour liên quan</h4>
+                                <div class="row g-4">
+                                    @foreach ($relatedProducts as $relatedProduct)
+                                        <div class="col-md-6 col-lg-3">
+                                            @include('frontend.products._tour_card', [
+                                                'product' => $relatedProduct,
+                                                'currentCategoryName' => $displayValue(optional($product->category)->name, 'Tour'),
+                                            ])
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

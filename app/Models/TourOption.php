@@ -11,6 +11,7 @@ class TourOption extends Model
 
     public const GROUP_TRANSPORT = 'transport';
     public const GROUP_LOCATION = 'location';
+    public const GROUP_DEPARTURE_DATE = 'departure_date';
 
     protected $fillable = [
         'group_key',
@@ -28,6 +29,7 @@ class TourOption extends Model
         return [
             self::GROUP_TRANSPORT => 'Phuong tien',
             self::GROUP_LOCATION => 'Dia diem',
+            self::GROUP_DEPARTURE_DATE => 'Ngay khoi hanh',
         ];
     }
 }

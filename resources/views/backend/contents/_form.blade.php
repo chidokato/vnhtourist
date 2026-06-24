@@ -93,6 +93,52 @@
                 border-radius: 0.375rem;
                 padding: 0.5rem 0.75rem;
             }
+
+            /* Custom for Select2 Multiple (Tags) */
+            .select2-container--default .select2-selection--multiple {
+                min-height: 38px;
+                border: 1px solid #ced4da;
+                border-radius: 0.375rem;
+                padding: 2px 4px;
+            }
+
+            .select2-container--default.select2-container--open .select2-selection--multiple,
+            .select2-container--default .select2-selection--multiple:focus {
+                border-color: #405189;
+                box-shadow: 0 0 0 0.15rem rgba(64, 81, 137, 0.15);
+            }
+
+            .select2-container--default .select2-selection--multiple .select2-selection__choice {
+                background-color: #ebf4ff;
+                border: 1px solid transparent;
+                border-radius: 20px;
+                color: #0059b2;
+                padding: 2px 10px 2px 8px;
+                margin-top: 4px;
+                margin-left: 4px;
+                display: inline-flex;
+                flex-direction: row;
+                gap: 6px;
+                align-items: center;
+                font-size: 0.875rem;
+            }
+
+            .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+                border: none;
+                background: transparent;
+                color: #0059b2;
+                padding: 0;
+                font-weight: normal;
+                cursor: pointer;
+                transition: color 0.2s ease;
+                opacity: 0.7;
+            }
+
+            .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+                background: transparent;
+                color: #004080;
+                opacity: 1;
+            }
         </style>
     @endprepend
 
@@ -204,7 +250,7 @@
 
                         
 
-                        <div class="col-lg-8">
+                        <div class="col-lg-7">
                             <div class="mb-3">
                                 <label for="attractions" class="form-label">Diem tham quan</label>
                                 <input type="text" id="attractions" name="attractions" class="form-control @error('attractions') is-invalid @enderror" value="{{ old('attractions', $post->attractions ?? '') }}" placeholder="Vi du: Phap, Duc, Thuy Si">
@@ -214,14 +260,28 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
+                        <div class="col-lg-5">
                             <div class="mb-3">
                                 <label for="departure_date" class="form-label">Ngay khoi hanh</label>
-                                <input type="date" id="departure_date" name="departure_date" class="form-control @error('departure_date') is-invalid @enderror" value="{{ old('departure_date', $post->departure_date ?? '') }}">
+                                <div class="d-flex gap-1">
+                                    <div class="flex-grow-1" style="min-width: 0;">
+                                        @php
+                                            $selectedDepartureDates = old('departure_date', isset($post) && $post->departure_date ? explode(', ', $post->departure_date) : []);
+                                        @endphp
+                                        <select id="departure_date" name="departure_date[]" multiple class="form-select @error('departure_date') is-invalid @enderror">
+                                            @foreach (($tourOptionGroups['departure_date'] ?? []) as $value => $label)
+                                                <option value="{{ $value }}" {{ in_array($value, (array)$selectedDepartureDates) ? 'selected' : '' }}>{{ $label }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary js-quick-add-tour-option flex-shrink-0" data-group="departure_date" data-target="#departure_date" title="Thêm nhanh"><i class="ri-add-line"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary js-reload-tour-option flex-shrink-0" data-group="departure_date" data-target="#departure_date" title="Tải lại"><i class="ri-refresh-line"></i></button>
+                                </div>
                                 @error('departure_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
+
                         </div>
 
                         <div class="col-lg-4">
@@ -412,7 +472,7 @@
                 </div>
 
                 @if ($type === 'product')
-                    <div class="mb-3">
+                    <div class="mb-3 d-none">
                         <label for="seller_id" class="form-label">Seller</label>
                         <select id="seller_id" name="seller_id" class="form-select @error('seller_id') is-invalid @enderror">
                             <option value="">Khong chon</option>
@@ -426,27 +486,64 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="price" class="form-label">Gia</label>
+                        <label for="price" class="form-label">Gia (người lớn)</label>
+                        <div class="input-group">
+                            <input type="number" step="0.01" min="0" id="price" name="price" class="form-control @error('price') is-invalid @enderror" value="{{ $storedPrice ?? '' }}">
+                            <span class="input-group-text">Triệu</span>
+                            <input type="hidden" name="price_unit" value="trieu">
+                        </div>
+                        @error('price')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                        @error('price_unit')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3" id="departure_prices_container" style="display: none;">
+                        <label class="form-label">Giá theo ngày khởi hành (Triệu VNĐ)</label>
+                        <div id="departure_prices_list" class="d-flex flex-column gap-2"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Giá Trẻ em & Em bé (tỷ lệ % so với người lớn)</label>
                         <div class="row g-2">
-                            <div class="col-8">
-                                <input type="number" step="0.01" min="0" id="price" name="price" class="form-control @error('price') is-invalid @enderror" value="{{ $storedPrice ?? '' }}">
-                                @error('price')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="col-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text bg-light text-muted">Trẻ em</span>
+                                    <input type="number" name="child_price_percent" class="form-control @error('child_price_percent') is-invalid @enderror" value="{{ old('child_price_percent', $post->child_price_percent ?? '') }}" placeholder="VD: 80" min="0" max="100">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                @error('child_price_percent')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="col-4">
-                                <select id="price_unit" name="price_unit" class="form-select @error('price_unit') is-invalid @enderror">
-                                    <option value="trieu" {{ $storedPriceUnit === 'trieu' ? 'selected' : '' }}>Trieu</option>
-                                </select>
-                                @error('price_unit')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="col-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text bg-light text-muted">Em bé</span>
+                                    <input type="number" name="infant_price_percent" class="form-control @error('infant_price_percent') is-invalid @enderror" value="{{ old('infant_price_percent', $post->infant_price_percent ?? '') }}" placeholder="VD: 50" min="0" max="100">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                @error('infant_price_percent')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                     </div>
                 @endif
 
-                <div class="card border mb-3">
+                
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', $post->is_active ?? true) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_active">Hien thi {{ strtolower($typeLabel) }}</label>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="card border mb-3">
                     <div class="card-header">
                         <h5 class="card-title mb-0">Hinh anh</h5>
                     </div>
@@ -513,13 +610,6 @@
                         @endif
                     </div>
                 </div>
-
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', $post->is_active ?? true) ? 'checked' : '' }}>
-                    <label class="form-check-label" for="is_active">Hien thi {{ strtolower($typeLabel) }}</label>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -584,6 +674,49 @@
         $('#departure_location').select2({
             placeholder: "Chọn địa điểm khởi hành"
         });
+        $('#departure_date').select2({
+            placeholder: "Chọn ngày khởi hành"
+        });
+
+        let oldDeparturePrices = @json(isset($departurePrices) ? $departurePrices : (old('departure_prices') ?? []));
+        
+        function renderDeparturePrices() {
+            let selectedDates = $('#departure_date').val() || [];
+            let container = $('#departure_prices_container');
+            let list = $('#departure_prices_list');
+            
+            if (selectedDates.length === 0) {
+                container.hide();
+                list.empty();
+                return;
+            }
+            
+            container.show();
+            
+            let currentValues = {};
+            list.find('input').each(function() {
+                let dateKey = $(this).data('date');
+                currentValues[dateKey] = $(this).val();
+            });
+            
+            list.empty();
+            
+            selectedDates.forEach(function(dateValue) {
+                let dateLabel = $('#departure_date option[value="' + dateValue + '"]').text() || dateValue;
+                let val = currentValues[dateValue] !== undefined ? currentValues[dateValue] : (oldDeparturePrices[dateValue] || '');
+                
+                let html = `
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text" style="width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${dateLabel}">${dateLabel}</span>
+                        <input type="number" step="0.01" class="form-control" name="departure_prices[${dateValue}]" value="${val}" placeholder="Mặc định" data-date="${dateValue}">
+                    </div>
+                `;
+                list.append(html);
+            });
+        }
+        
+        $('#departure_date').on('change', renderDeparturePrices);
+        renderDeparturePrices();
 
         let quickAddModal = new bootstrap.Modal(document.getElementById('quickAddOptionModal'));
         

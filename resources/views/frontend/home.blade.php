@@ -33,7 +33,7 @@
             <div class="container">
                 <div class="search-wrapper">
                     <!-- search header -->
-                    <div class="search-header">
+                    <div class="search-header d-none">
                         <div class="search-nav">
                             <ul class="nav nav-pills" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -879,7 +879,7 @@
                             tabindex="0">
                             <div class="tour-search">
                                 <div class="search-form">
-                                    <form action="#">
+                                    <form action="{{ url('/tour-trong-nuoc') }}" method="GET">
                                         <div class="tour-search-wrapper">
                                             <div class="row">
                                                 <div class="col-lg-4">
@@ -1010,7 +1010,7 @@
                                             </div>
                                             <div class="search-btn">
                                                 <button type="submit" class="theme-btn"><span
-                                                        class="far fa-search"></span>Đăng ký đặt tour</button>
+                                                        class="far fa-search"></span>Tìm kiếm</button>
                                             </div>
                                         </div>
                                     </form>

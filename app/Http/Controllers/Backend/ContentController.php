@@ -154,6 +154,7 @@ class ContentController extends Controller
             'sellerOptions' => $this->sellerOptions(),
             'tourOptionGroups' => $this->tourOptionGroups([
                 TourOption::GROUP_TRANSPORT => old('transport', []),
+                TourOption::GROUP_DEPARTURE_DATE => old('departure_date', []),
                 TourOption::GROUP_LOCATION => array_filter([
                     old('departure_location'),
                 ]),
@@ -171,6 +172,7 @@ class ContentController extends Controller
 
         $post = Post::create($this->payload($request, $validated, $type));
         $this->syncGalleryImages($request, $post, $type);
+        $this->syncDeparturePrices($request, $post, $type);
 
         return redirect()
             ->route($this->routePrefix($type) . '.index')
@@ -189,8 +191,10 @@ class ContentController extends Controller
             'typeLabel' => Post::types()[$type],
             'categories' => $this->categoryOptions($type),
             'sellerOptions' => $this->sellerOptions(),
+            'departurePrices' => $post->departurePrices->pluck('price', 'departure_date')->toArray(),
             'tourOptionGroups' => $this->tourOptionGroups([
                 TourOption::GROUP_TRANSPORT => old('transport', isset($post) && $post->transport ? explode(', ', $post->transport) : []),
+                TourOption::GROUP_DEPARTURE_DATE => old('departure_date', isset($post) && $post->departure_date ? explode(', ', $post->departure_date) : []),
                 TourOption::GROUP_LOCATION => array_filter([
                     old('departure_location', $post->departure_location),
                 ]),
@@ -210,6 +214,7 @@ class ContentController extends Controller
 
         $post->update($this->payload($request, $validated, $type, $post));
         $this->syncGalleryImages($request, $post, $type);
+        $this->syncDeparturePrices($request, $post, $type);
 
         if ($request->boolean('save_stay')) {
             return redirect()
@@ -281,7 +286,12 @@ class ContentController extends Controller
             'itinerary' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
             'departure_location' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
             'destination' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
-            'departure_date' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
+            'departure_date' => $type === Post::TYPE_PRODUCT ? ['nullable', 'array'] : ['nullable'],
+            'departure_date.*' => ['string', 'max:255'],
+            'departure_prices' => $type === Post::TYPE_PRODUCT ? ['nullable', 'array'] : ['nullable'],
+            'departure_prices.*' => ['nullable', 'numeric', 'min:0'],
+            'child_price_percent' => $type === Post::TYPE_PRODUCT ? ['nullable', 'integer', 'min:0', 'max:100'] : ['nullable'],
+            'infant_price_percent' => $type === Post::TYPE_PRODUCT ? ['nullable', 'integer', 'min:0', 'max:100'] : ['nullable'],
             'attractions' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string'] : ['nullable'],
             'transport' => $type === Post::TYPE_PRODUCT ? ['nullable', 'array'] : ['nullable'],
             'transport.*' => ['string', 'max:255'],
@@ -420,7 +430,7 @@ class ContentController extends Controller
             'itinerary' => $type === Post::TYPE_PRODUCT ? ($validated['itinerary'] ?? null) : null,
             'departure_location' => $type === Post::TYPE_PRODUCT ? ($validated['departure_location'] ?? null) : null,
             'destination' => $destination,
-            'departure_date' => $type === Post::TYPE_PRODUCT ? ($validated['departure_date'] ?? null) : null,
+            'departure_date' => $type === Post::TYPE_PRODUCT ? (isset($validated['departure_date']) && is_array($validated['departure_date']) ? implode(', ', $validated['departure_date']) : null) : null,
             'attractions' => $type === Post::TYPE_PRODUCT ? ($validated['attractions'] ?? null) : null,
             'transport' => $type === Post::TYPE_PRODUCT ? (isset($validated['transport']) && is_array($validated['transport']) ? implode(', ', $validated['transport']) : null) : null,
             'duration' => $type === Post::TYPE_PRODUCT ? ($validated['duration'] ?? null) : null,
@@ -659,6 +669,32 @@ class ContentController extends Controller
                     'image' => $this->storeImage($file),
                     'image_type' => $imageType,
                     'sort_order' => $sortOrder,
+                ]);
+            }
+        }
+    }
+
+    private function syncDeparturePrices(Request $request, Post $post, string $type)
+    {
+        if ($type !== Post::TYPE_PRODUCT) {
+            return;
+        }
+
+        $departurePrices = $request->input('departure_prices', []);
+        $dates = $request->input('departure_date', []);
+
+        $post->departurePrices()->delete();
+
+        if (!is_array($dates) || empty($dates)) {
+            return;
+        }
+
+        foreach ($dates as $date) {
+            $price = $departurePrices[$date] ?? null;
+            if ($price !== null && $price !== '') {
+                $post->departurePrices()->create([
+                    'departure_date' => $date,
+                    'price' => $price,
                 ]);
             }
         }

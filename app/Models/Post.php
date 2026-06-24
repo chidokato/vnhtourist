@@ -57,6 +57,8 @@ class Post extends Model
         'bathroom_count_to',
         'image',
         'price',
+        'child_price_percent',
+        'infant_price_percent',
         'is_active',
         'is_featured',
         'published_at',
@@ -69,7 +71,8 @@ class Post extends Model
         'area_from' => 'decimal:2',
         'area_to' => 'decimal:2',
         'price' => 'decimal:2',
-        'departure_date' => 'date',
+        'child_price_percent' => 'integer',
+        'infant_price_percent' => 'integer',
         'published_at' => 'datetime',
     ];
 
@@ -119,6 +122,11 @@ class Post extends Model
     public function customerInquiries()
     {
         return $this->hasMany(CustomerInquiry::class)->latest();
+    }
+
+    public function departurePrices()
+    {
+        return $this->hasMany(PostDeparturePrice::class);
     }
 
     public function getFrontendUrlAttribute(): string
