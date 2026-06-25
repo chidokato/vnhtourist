@@ -471,6 +471,29 @@
                     @enderror
                 </div>
 
+                @if ($type === 'news')
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Thẻ (Tags)</label>
+                        <div class="d-flex gap-1">
+                            <div class="flex-grow-1" style="min-width: 0;">
+                                @php
+                                    $selectedTags = old('tags', isset($post) && $post->tags ? (is_array($post->tags) ? $post->tags : explode(', ', $post->tags)) : []);
+                                @endphp
+                                <select id="tags" name="tags[]" multiple class="form-select @error('tags') is-invalid @enderror">
+                                    @foreach (($tourOptionGroups['tag'] ?? []) as $value => $label)
+                                        <option value="{{ $value }}" {{ in_array($value, $selectedTags) ? 'selected' : '' }}>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary js-quick-add-tour-option flex-shrink-0" data-group="tag" data-target="#tags" title="Thêm nhanh"><i class="ri-add-line"></i></button>
+                            <button type="button" class="btn btn-outline-secondary js-reload-tour-option flex-shrink-0" data-group="tag" data-target="#tags" title="Tải lại"><i class="ri-refresh-line"></i></button>
+                        </div>
+                        @error('tags')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
+
                 @if ($type === 'product')
                     <div class="mb-3">
                         <label for="tour_code" class="form-label">Mã tour</label>
@@ -679,8 +702,16 @@
 <script>
     $(document).ready(function() {
         $('#transport').select2({
-            placeholder: "Chọn phương tiện"
+            placeholder: "Chọn phương tiện",
+            allowClear: true
         });
+
+        $('#tags').select2({
+            placeholder: "Chọn hoặc nhập thẻ...",
+            allowClear: true,
+            tags: true
+        });
+
         $('#departure_location').select2({
             placeholder: "Chọn địa điểm khởi hành"
         });

@@ -14,7 +14,7 @@
     };
 
     $formatPrice = function ($value) {
-        return $value !== null ? number_format((float) $value, 0, ',', '.') . ' d' : 'Lien he';
+        return $value !== null ? number_format((float) $value, 0, ',', '.') . ' ₫' : 'Liên hệ';
     };
 
     $extractListItems = function ($value) use ($plainText) {
@@ -71,10 +71,10 @@
         ? route('frontend.categories.show', $product->category->slug)
         : route('frontend.home');
 
-    $departureText = $plainText($product->departure_location) ?: ($plainText($product->address) ?: 'Dang cap nhat');
-    $destinationText = $plainText($product->destination) ?: ($plainText($product->attractions) ?: 'Dang cap nhat');
-    $durationText = $plainText($product->duration) ?: 'Dang cap nhat';
-    $transportText = $plainText($product->transport) ?: 'Dang cap nhat';
+    $departureText = $plainText($product->departure_location) ?: ($plainText($product->address) ?: 'Đang cập nhật');
+    $destinationText = $plainText($product->destination) ?: ($plainText($product->attractions) ?: 'Đang cập nhật');
+    $durationText = $plainText($product->duration) ?: 'Đang cập nhật';
+    $transportText = $plainText($product->transport) ?: 'Đang cập nhật';
     $transportIconClass = 'far fa-bus';
 
     if (preg_match('/may bay|hang khong|air|flight|plane/i', $transportText)) {
@@ -85,8 +85,8 @@
         $transportIconClass = 'far fa-ship';
     }
 
-    $itineraryText = $plainText($product->itinerary) ?: 'Dang cap nhat';
-    $publishedText = optional($product->published_at)->format('d/m/Y') ?: 'Dang cap nhat';
+    $itineraryText = $plainText($product->itinerary) ?: 'Đang cập nhật';
+    $publishedText = optional($product->published_at)->format('d/m/Y') ?: 'Đang cập nhật';
     $departureDateText = $product->departure_date ? optional($product->departure_date)->format('d/m/Y') : null;
 
     $addressParts = array_filter([
@@ -94,8 +94,8 @@
         $plainText(optional($product->ward)->name),
         $plainText(optional($product->province)->name),
     ]);
-    $locationText = count($addressParts) ? implode(', ', $addressParts) : 'Dang cap nhat';
-    $headerMetaText = $plainText($product->itinerary) ?: ($locationText !== 'Dang cap nhat' ? $locationText : 'Dang cap nhat');
+    $locationText = count($addressParts) ? implode(', ', $addressParts) : 'Đang cập nhật';
+    $headerMetaText = $plainText($product->itinerary) ?: ($locationText !== 'Đang cập nhật' ? $locationText : 'Đang cập nhật');
 
     $attractionItems = collect(preg_split('/[\r\n,;|]+/', (string) $product->attractions))
         ->map(fn ($item) => trim(strip_tags((string) $item)))
@@ -238,7 +238,8 @@
 @section('meta_keywords', $pageKeywords ?? '')
 
 @push('styles')
-    <link rel="stylesheet" href="assets/css/product-show-page.css">
+    <link rel="stylesheet" href="{{ asset('tourit/assets/css/product-show-page.css') }}">
+    <link rel="stylesheet" href="{{ asset('tourit/assets/css/booking-sidebar.css') }}">
 @endpush
 
 @section('content')
@@ -311,7 +312,7 @@
 
                                 <div class="listing-item">
                                     <div class="row g-4">
-                                        <div class="col-md-6 col-lg-3">
+                                        <div class="col-6 col-md-6 col-lg-3">
                                             <div class="listing-feature">
                                                 <div class="listing-feature-icon">
                                                     <i class="far fa-clock"></i>
@@ -322,7 +323,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-lg-3">
+                                        <div class="col-6 col-md-6 col-lg-3">
                                             <div class="listing-feature">
                                                 <div class="listing-feature-icon">
                                                     <i class="far fa-location-dot"></i>
@@ -333,18 +334,18 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-lg-3">
+                                        <div class="col-6 col-md-6 col-lg-3">
                                             <div class="listing-feature">
                                                 <div class="listing-feature-icon">
                                                     <i class="far fa-calendar-days"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>Ngày khởi hanh</h6>
+                                                    <h6>Ngày khởi hành</h6>
                                                     <span title="{{ $displayValue($departureDateText ?: $publishedText) }}">{{ $displayValue($departureDateText ?: $publishedText) }}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-lg-3">
+                                        <div class="col-6 col-md-6 col-lg-3">
                                             <div class="listing-feature">
                                                 <div class="listing-feature-icon">
                                                     <i class="far fa-earth-americas"></i>
@@ -469,69 +470,152 @@
                         </div>
 
                         <div class="col-lg-4">
+                            <div class="mobile-booking-overlay js-mobile-booking-overlay"></div>
+                            <button type="button" class="btn btn-primary mobile-floating-booking-btn js-mobile-booking-open">
+                                Đặt tour ngay
+                            </button>
+                            
                             <div class="tour-booking-sticky">
-                            <div class="booking-sidebar listing-side-content booking-sidebar-cta">
-                                <div class="booking-item">
-                                    <div class="listing-price">
-                                        <h4 class="listing-price-tag">{{ $product->is_featured ? 'Bestseller' : 'Tour hot' }}</h4>
-                                        <div class="listing-price-amount">
-                                            <div style="font-size: 0.45em; text-transform: none; font-weight: normal; letter-spacing: 0; color: #666; margin-bottom: 2px;">Giá người lớn từ</div>
-                                            <span>{{ $formatPrice($product->price) }}</span>
+                            <div class="booking-sidebar listing-side-content booking-sidebar-cta booking-sidebar-new js-booking-sidebar" data-child-percent="{{ $product->child_price_percent ?? 0 }}" data-infant-percent="{{ $product->infant_price_percent ?? 0 }}">
+                                <div class="booking-item booking-item-new">
+                                    <!-- Header -->
+                                    <div class="booking-sidebar-header">
+                                        <button type="button" class="mobile-booking-close js-mobile-booking-close"><i class="fas fa-times"></i></button>
+                                        <div class="booking-price-label">Giá từ</div>
+                                        <div class="d-flex align-items-baseline mb-3">
+                                            <h3 class="booking-price-value js-main-price-display">{{ $formatPrice($product->price) }}</h3>
+                                            <span class="booking-price-unit">/người</span>
                                         </div>
-                                        @if ($product->price > 0 && ($product->child_price_percent || $product->infant_price_percent))
-                                        <div class="mt-3 pt-3 border-top" style="font-size: 0.95rem; text-transform: none; letter-spacing: 0;">
-                                            @if ($product->child_price_percent)
-                                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                                    <span class="text-muted" style="font-weight: normal;">Trẻ em ({{ $product->child_price_percent }}%)</span>
-                                                    <span class="fw-bold" style="color: #1a1a1a;">{{ $formatPrice($product->price * $product->child_price_percent / 100) }}</span>
-                                                </div>
-                                            @endif
-                                            @if ($product->infant_price_percent)
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <span class="text-muted" style="font-weight: normal;">Em bé ({{ $product->infant_price_percent }}%)</span>
-                                                    <span class="fw-bold" style="color: #1a1a1a;">{{ $formatPrice($product->price * $product->infant_price_percent / 100) }}</span>
-                                                </div>
-                                            @endif
+                                        <hr class="booking-header-divider">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="booking-tour-code-label">Mã tour:</span>
+                                            <strong class="booking-tour-code-value">{{ $product->tour_code ?: 'Đang cập nhật' }}</strong>
                                         </div>
-                                        @endif
                                     </div>
 
-                                    @if (session('customer_inquiry_success'))
-                                        <div class="alert alert-success mb-3">{{ session('customer_inquiry_success') }}</div>
-                                    @endif
-
-                                    <ul class="tour-cta-meta">
-                                        @if ($product->departurePrices && $product->departurePrices->isNotEmpty())
-                                            <li>
-                                                <span>Lịch khởi hành</span>
-                                                <ul class="list-unstyled mb-0 text-end">
-                                                    @foreach ($product->departurePrices as $dp)
-                                                        <li class="mb-1"><strong>{{ $dp->departure_date }}</strong>: <span class="text-danger fw-bold">{{ $formatPrice($dp->price ?: $product->price) }}</span></li>
-                                                    @endforeach
-                                                </ul>
-                                            </li>
-                                        @else
-                                            <li>
-                                                <span>Ngay khoi hanh</span>
-                                                <strong>{{ $displayValue($departureDateText ?: $publishedText) }}</strong>
-                                            </li>
+                                    <!-- Body -->
+                                    <div class="booking-sidebar-body">
+                                        @if (session('customer_inquiry_success'))
+                                            <div class="alert alert-success mb-3">{{ session('customer_inquiry_success') }}</div>
                                         @endif
-                                        <li>
-                                            <span>Phuong tien</span>
-                                            <strong>{{ $displayValue($transportText) }}</strong>
-                                        </li>
-                                    </ul>
 
-                                    <div class="listing-side-btn booking-sidebar-cta-actions">
-                                        <button type="button" class="theme-btn" data-bs-toggle="modal" data-bs-target="#tourBookingModal">
-                                            <span class="far fa-paper-plane"></span> Dang ky ngay
-                                        </button>
-                                        <a href="{{ route('frontend.contact') }}" class="border-btn"><i class="far fa-envelope"></i> Lien he ngay</a>
+                                        @if ($product->departurePrices && $product->departurePrices->isNotEmpty())
+                                        <div class="mb-4">
+                                            <div class="booking-section-title">Ngày khởi hành</div>
+                                            <div class="d-flex gap-2 flex-wrap">
+                                                @foreach ($product->departurePrices as $index => $dp)
+                                                @php
+                                                    $dateParts = explode('/', $dp->departure_date);
+                                                    $shortDate = count($dateParts) >= 2 ? $dateParts[0] . '/' . $dateParts[1] : $dp->departure_date;
+                                                    $rawPrice = $dp->price ?: $product->price;
+                                                    $displayPrice = $rawPrice > 0 ? ($rawPrice < 1000 ? $rawPrice : $rawPrice / 1000000) : 0;
+                                                    $realPrice = $rawPrice > 0 ? ($rawPrice < 1000 ? $rawPrice * 1000000 : $rawPrice) : 0;
+                                                @endphp
+                                                <label class="btn btn-outline-primary p-2 text-center booking-date-btn {{ $index === 0 ? 'active' : '' }}" data-price="{{ $realPrice }}" style="cursor: pointer;">
+                                                    <div class="booking-date-value">{{ $shortDate }}</div>
+                                                    <div class="booking-date-price">{{ $displayPrice > 0 ? rtrim(rtrim(number_format($displayPrice, 1, ',', '.'), '0'), ',') . 'tr' : 'Liên hệ' }}</div>
+                                                </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        @elseif($departureDateText)
+                                        <div class="mb-4">
+                                            <div class="booking-section-title">Ngày khởi hành</div>
+                                            <label class="btn btn-primary p-2 text-center booking-date-btn">
+                                                <div class="booking-date-value">{{ $displayValue($departureDateText) }}</div>
+                                                @php
+                                                    $fallbackPrice = $product->price > 0 ? $product->price / 1000000 : 0;
+                                                @endphp
+                                                <div class="booking-date-price">{{ $fallbackPrice > 0 ? rtrim(rtrim(number_format($fallbackPrice, 1, ',', '.'), '0'), ',') . 'tr' : 'Liên hệ' }}</div>
+                                            </label>
+                                        </div>
+                                        @endif
+
+                                        <div class="mb-3">
+                                            <div class="booking-section-title">Số người</div>
+                                            
+                                            <!-- Người lớn -->
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div>
+                                                    <div class="booking-qty-label">Người lớn</div>
+                                                    <div class="booking-qty-price js-adult-price-display">{{ $formatPrice($product->price) }}</div>
+                                                </div>
+                                                <div class="input-group" style="width: 100px;">
+                                                    <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-minus booking-qty-btn" type="button">-</button>
+                                                    <input type="text" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-adult-input booking-qty-input" value="1" readonly data-price="{{ $product->price }}" data-label="Người lớn">
+                                                    <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-plus booking-qty-btn" type="button">+</button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Trẻ em -->
+                                            @if ($product->child_price_percent)
+                                            @php $childPrice = $product->price * $product->child_price_percent / 100; @endphp
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div>
+                                                    <div class="booking-qty-label">Trẻ em</div>
+                                                    <div class="booking-qty-price js-child-price-display">{{ $formatPrice($childPrice) }}</div>
+                                                </div>
+                                                <div class="input-group" style="width: 100px;">
+                                                    <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-minus booking-qty-btn" type="button">-</button>
+                                                    <input type="text" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-child-input booking-qty-input" value="0" readonly data-price="{{ $childPrice }}" data-label="Trẻ em">
+                                                    <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-plus booking-qty-btn" type="button">+</button>
+                                                </div>
+                                            </div>
+                                            @endif
+
+                                            <!-- Em bé -->
+                                            @if ($product->infant_price_percent)
+                                            @php $infantPrice = $product->price * $product->infant_price_percent / 100; @endphp
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div>
+                                                    <div class="booking-qty-label">Em bé</div>
+                                                    <div class="booking-qty-price js-infant-price-display">{{ $formatPrice($infantPrice) }}</div>
+                                                </div>
+                                                <div class="input-group" style="width: 100px;">
+                                                    <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-minus booking-qty-btn" type="button">-</button>
+                                                    <input type="text" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-infant-input booking-qty-input" value="0" readonly data-price="{{ $infantPrice }}" data-label="Em bé">
+                                                    <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-plus booking-qty-btn" type="button">+</button>
+                                                </div>
+                                            </div>
+                                            @endif
+                                        </div>
+
+                                        <div class="p-3 mb-4 rounded booking-summary-box">
+                                            <div class="js-booking-summary-list mb-1 booking-summary-list">
+                                                <div class="d-flex justify-content-between mb-1">
+                                                    <span>Người lớn x 1</span>
+                                                    <strong class="booking-summary-item-price">{{ $formatPrice($product->price) }}</strong>
+                                                </div>
+                                            </div>
+                                            <hr class="my-2 booking-summary-divider">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="booking-total-label">Tổng cộng</span>
+                                                <strong class="js-booking-total booking-total-value">{{ $formatPrice($product->price) }}</strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex gap-2 mb-4">
+                                            <button type="button" class="btn btn-primary w-50 booking-action-btn m-0" data-bs-toggle="modal" data-bs-target="#tourBookingModal">
+                                                Đặt tour ngay
+                                            </button>
+                                            <a href="{{ route('frontend.contact') }}" class="btn btn-outline-primary w-50 booking-action-btn m-0">
+                                                Tư vấn miễn phí
+                                            </a>
+                                        </div>
+
+                                        @if(!empty($settings->hotline))
+                                        <div class="text-center booking-hotline-box">
+                                            <i class="fas fa-phone me-2"></i> Hotline: <strong class="booking-hotline-number">{{ $settings->hotline }}</strong>
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-
                             </div>
+
+                            @push('scripts')
+                            <script src="{{ asset('tourit/assets/js/booking-sidebar.js') }}"></script>
+                            @endpush
                         </div>
                     </div>
                     

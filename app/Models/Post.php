@@ -63,6 +63,7 @@ class Post extends Model
         'is_active',
         'is_featured',
         'published_at',
+        'tags',
     ];
 
     protected $casts = [
@@ -75,6 +76,7 @@ class Post extends Model
         'child_price_percent' => 'integer',
         'infant_price_percent' => 'integer',
         'published_at' => 'datetime',
+        'tags' => 'array',
     ];
 
     public static function types(): array

@@ -180,10 +180,19 @@ class PageController extends BaseFrontendController
 
         $categoryTree = $this->buildCategoryTree($categories);
 
+        $keyword = request('keyword');
+        $tag = request('tag');
+
         $posts = Post::query()
             ->with('category')
             ->where('type', Post::TYPE_NEWS)
             ->where('is_active', true)
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where('title', 'like', '%' . $keyword . '%');
+            })
+            ->when($tag, function ($query) use ($tag) {
+                $query->whereJsonContains('tags', $tag);
+            })
             ->orderByDesc('published_at')
             ->orderByDesc('id')
             ->paginate(9)
@@ -230,11 +239,20 @@ class PageController extends BaseFrontendController
         $categoryIds = $this->collectDescendantIds($allCategories, $category->id);
         $categoryTree = $this->buildCategoryTree($allCategories);
 
+        $keyword = request('keyword');
+        $tag = request('tag');
+
         $posts = Post::query()
             ->with('category')
             ->where('type', Post::TYPE_NEWS)
             ->where('is_active', true)
             ->whereIn('category_id', $categoryIds)
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where('title', 'like', '%' . $keyword . '%');
+            })
+            ->when($tag, function ($query) use ($tag) {
+                $query->whereJsonContains('tags', $tag);
+            })
             ->orderByDesc('published_at')
             ->orderByDesc('id')
             ->paginate(9)

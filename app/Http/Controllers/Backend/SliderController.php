@@ -31,6 +31,7 @@ class SliderController extends Controller
             'subtitle' => 'nullable|string|max:255',
             'image_file' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'link' => 'nullable|string|max:255',
+            'button_text' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ]);
@@ -60,6 +61,7 @@ class SliderController extends Controller
             'subtitle' => 'nullable|string|max:255',
             'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'link' => 'nullable|string|max:255',
+            'button_text' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ]);

@@ -172,6 +172,7 @@ class ContentController extends Controller
                 TourOption::GROUP_LOCATION => array_filter([
                     old('departure_location'),
                 ]),
+                TourOption::GROUP_TAG => old('tags', []),
             ]),
             'provinceOptions' => $this->provinceOptions(),
             'wardOptions' => $this->wardOptionsForProvince($selectedProvinceId),
@@ -205,13 +206,16 @@ class ContentController extends Controller
             'typeLabel' => Post::types()[$type],
             'categories' => $this->categoryOptions($type),
             'sellerOptions' => $this->sellerOptions(),
-            'departurePrices' => $post->departurePrices->pluck('price', 'departure_date')->toArray(),
+            'departurePrices' => $post->departurePrices->mapWithKeys(function ($dp) {
+                return [$dp->departure_date => $dp->price / 1000000];
+            })->toArray(),
             'tourOptionGroups' => $this->tourOptionGroups([
-                TourOption::GROUP_TRANSPORT => old('transport', isset($post) && $post->transport ? explode(', ', $post->transport) : []),
-                TourOption::GROUP_DEPARTURE_DATE => old('departure_date', isset($post) && $post->departure_date ? explode(', ', $post->departure_date) : []),
+                TourOption::GROUP_TRANSPORT => old('transport', isset($post) && $post->transport ? (is_array($post->transport) ? $post->transport : explode(', ', $post->transport)) : []),
+                TourOption::GROUP_DEPARTURE_DATE => old('departure_date', isset($post) && $post->departure_date ? (is_array($post->departure_date) ? $post->departure_date : explode(', ', $post->departure_date)) : []),
                 TourOption::GROUP_LOCATION => array_filter([
                     old('departure_location', $post->departure_location),
                 ]),
+                TourOption::GROUP_TAG => old('tags', isset($post) && $post->tags ? (is_array($post->tags) ? $post->tags : explode(', ', $post->tags)) : []),
             ]),
             'provinceOptions' => $this->provinceOptions(),
             'wardOptions' => $this->wardOptionsForProvince($selectedProvinceId),
@@ -318,6 +322,8 @@ class ContentController extends Controller
             'transport' => $type === Post::TYPE_PRODUCT ? ['nullable', 'array'] : ['nullable'],
             'transport.*' => ['string', 'max:255'],
             'duration' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
+            'tags' => $type === Post::TYPE_NEWS ? ['nullable', 'array'] : ['nullable'],
+            'tags.*' => ['string', 'max:255'],
             'guide_content' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string'] : ['nullable'],
             'visa_content' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string'] : ['nullable'],
             'insurance_content' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string'] : ['nullable'],
@@ -458,6 +464,9 @@ class ContentController extends Controller
             'departure_date' => $type === Post::TYPE_PRODUCT ? (isset($validated['departure_date']) && is_array($validated['departure_date']) ? implode(', ', $validated['departure_date']) : null) : null,
             'attractions' => $type === Post::TYPE_PRODUCT ? ($validated['attractions'] ?? null) : null,
             'transport' => $type === Post::TYPE_PRODUCT ? (isset($validated['transport']) && is_array($validated['transport']) ? implode(', ', $validated['transport']) : null) : null,
+            'tags' => $type === Post::TYPE_NEWS ? ($validated['tags'] ?? null) : null,
+            'child_price_percent' => $type === Post::TYPE_PRODUCT ? ($validated['child_price_percent'] ?? null) : null,
+            'infant_price_percent' => $type === Post::TYPE_PRODUCT ? ($validated['infant_price_percent'] ?? null) : null,
             'duration' => $type === Post::TYPE_PRODUCT ? ($validated['duration'] ?? null) : null,
             'guide_content' => $type === Post::TYPE_PRODUCT ? ($validated['guide_content'] ?? null) : null,
             'visa_content' => $type === Post::TYPE_PRODUCT ? ($validated['visa_content'] ?? null) : null,
@@ -719,7 +728,7 @@ class ContentController extends Controller
             if ($price !== null && $price !== '') {
                 $post->departurePrices()->create([
                     'departure_date' => $date,
-                    'price' => $price,
+                    'price' => (float) $price * 1000000,
                 ]);
             }
         }

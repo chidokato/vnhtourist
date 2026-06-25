@@ -12,6 +12,7 @@ class TourOption extends Model
     public const GROUP_TRANSPORT = 'transport';
     public const GROUP_LOCATION = 'location';
     public const GROUP_DEPARTURE_DATE = 'departure_date';
+    public const GROUP_TAG = 'tag';
 
     protected $fillable = [
         'group_key',
@@ -27,9 +28,10 @@ class TourOption extends Model
     public static function groups(): array
     {
         return [
-            self::GROUP_TRANSPORT => 'Phuong tien',
-            self::GROUP_LOCATION => 'Dia diem',
-            self::GROUP_DEPARTURE_DATE => 'Ngay khoi hanh',
+            self::GROUP_TRANSPORT => 'Phương tiện',
+            self::GROUP_LOCATION => 'Địa điểm',
+            self::GROUP_DEPARTURE_DATE => 'Ngày khởi hành',
+            self::GROUP_TAG => 'Thẻ (Tags)',
         ];
     }
 }

@@ -26,7 +26,7 @@
                                                     <p>{{ $slider->subtitle }}</p>
                                                 @endif
                                                 @if($slider->link)
-                                                    <a href="{{ $slider->link }}" class="theme-btn mt-4">Khám phá ngay</a>
+                                                    <a href="{{ $slider->link }}" class="theme-btn mt-4">{{ $slider->button_text ?: 'Khám phá ngay' }}</a>
                                                 @endif
                                             </div>
                                         </div>

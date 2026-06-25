@@ -877,4 +877,10 @@ a.is-disabled-link {
     padding: 8px 0;
   }
   .hero-single {padding-top: 300px !important;}
+  .svg-icon svg{ color:#000 }
+  
+}
+
+.listing-feature-content h6 {
+    white-space: nowrap;
 }
