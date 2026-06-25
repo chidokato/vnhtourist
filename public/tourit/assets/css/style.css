@@ -4591,13 +4591,10 @@ hero css
 .itinerary-single-box span {
   position: absolute;
   display: inline-block;
-  left: 5px;
-  top: 3px;
   width: auto;
   min-width: 50px;
   padding: 0 10px;
   height: 30px;
-  line-height: 50px;
   font-size: 14px;
   white-space: nowrap;
   color: var(--color-white);
@@ -4644,7 +4641,7 @@ hero css
 
 .itinerary-single-box h3 {
   display: block;
-  font-size: 21px;
+  font-size: 20px;
   line-height: 34px;
   font-weight: 600;
   margin-bottom: 10px;

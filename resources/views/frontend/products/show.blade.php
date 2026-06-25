@@ -433,11 +433,19 @@
                                                     <div class="itinerary-content-box itinerary-content-box--plain">
                                                         @foreach ($itinerarySections as $section)
                                                             <div class="itinerary-single-box itinerary-single-box--plain {{ $loop->last ? 'pb-0' : '' }}">
-                                                                <span>Ngày {{ $section['index'] }}</span>
                                                                 @if ($section['meta'])
                                                                     <h4>{{ $displayValue($section['meta']) }}</h4>
                                                                 @endif
-                                                                <h3>{{ $displayValue($section['title']) }}</h3>
+                                                                @php
+                                                                    $titleText = $displayValue($section['title']);
+                                                                    $titleText = trim(str_replace(['&nbsp;', '&#160;'], ' ', $titleText));
+                                                                    if (!preg_match('/^ng[aà]y/i', $titleText)) {
+                                                                        $titleText = '<span class="itinerary-day-label">Ngày ' . $section['index'] . ': </span>' . $titleText;
+                                                                    } else {
+                                                                        $titleText = preg_replace('/^(Ng[aà]y\s+\d+[:\-]*\s*)/i', '<span class="itinerary-day-label">$1</span>', $titleText);
+                                                                    }
+                                                                @endphp
+                                                                <h3>{!! $titleText !!}</h3>
                                                                 <div class="product-detail-richtext">
                                                                     {!! $section['body'] !!}
                                                                 </div>
