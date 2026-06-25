@@ -10,19 +10,47 @@
 
         <!-- hero area -->
         <div class="hero-section">
-            <div class="hero-single" style="background: url(assets/img/hero/hero-1.jpg)">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-12 mx-auto">
-                            <div class="hero-content text-center">
-                                <div class="hero-content-wrapper">
-                                    <h1 class="hero-title">Cùng nhau khám phá thế giới</h1>
-                                    <p>Đăng ký đặt tour, khách sạn, xe và gói nghỉ dưỡng nhanh chóng</p>
+            <div class="hero-slider-2 owl-carousel owl-theme">
+                @if(isset($sliders) && $sliders->count() > 0)
+                    @foreach($sliders as $slider)
+                        <div class="hero-single" style="background-image: url('{{ \App\Support\MediaManager::publicUrl($slider->image) }}')">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-12 mx-auto">
+                                        <div class="hero-content text-center">
+                                            <div class="hero-content-wrapper">
+                                                @if($slider->title)
+                                                    <h1 class="hero-title">{{ $slider->title }}</h1>
+                                                @endif
+                                                @if($slider->subtitle)
+                                                    <p>{{ $slider->subtitle }}</p>
+                                                @endif
+                                                @if($slider->link)
+                                                    <a href="{{ $slider->link }}" class="theme-btn mt-4">Khám phá ngay</a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="hero-single" style="background-image: url('{{ asset('tourit/assets/img/slider.webp') }}')">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-12 mx-auto">
+                                    <div class="hero-content text-center">
+                                        <div class="hero-content-wrapper">
+                                            <h1 class="hero-title">Find Your Next Place To Visit</h1>
+                                            <p>Discover Amzaing Places At Exclusive Deals And Enjoy Your Holiday</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
         <!-- hero area end -->
@@ -33,7 +61,7 @@
             <div class="container">
                 <div class="search-wrapper">
                     <!-- search header -->
-                    <div class="search-header d-none">
+                    <div class="search-header">
                         <div class="search-nav">
                             <ul class="nav nav-pills" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -41,28 +69,6 @@
                                         data-bs-target="#pills-7" type="button" role="tab" aria-controls="pills-7"
                                         aria-selected="true"><i class="far fa-earth-americas"></i>Tour</button>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="pills-tab-2" data-bs-toggle="pill"
-                                        data-bs-target="#pills-2" type="button" role="tab" aria-controls="pills-2"
-                                        aria-selected="false"><i class="far fa-hotel"></i>Khách sạn</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="pills-tab-4" data-bs-toggle="pill"
-                                        data-bs-target="#pills-4" type="button" role="tab" aria-controls="pills-4"
-                                        aria-selected="false"><i class="far fa-car-building"></i>Kỳ nghỉ
-                                        trọn gói</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="pills-tab-5" data-bs-toggle="pill"
-                                        data-bs-target="#pills-5" type="button" role="tab" aria-controls="pills-5"
-                                        aria-selected="false"><i class="far fa-car"></i>Xe</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="pills-tab-6" data-bs-toggle="pill"
-                                        data-bs-target="#pills-6" type="button" role="tab" aria-controls="pills-6"
-                                        aria-selected="false"><i class="far fa-ship"></i>Du thuyền</button>
-                                </li>
-                                
                             </ul>
                         </div>
                     </div>
@@ -70,9 +76,6 @@
 
                     <!-- tab content -->
                     <div class="tab-content" id="pills-tabContent">
-
-                        <!-- tab 1 -->
-                        
 
                         <!-- tab 2 -->
                         <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-tab-2"
@@ -882,52 +885,45 @@
                                     <form action="{{ url('/tour-trong-nuoc') }}" method="GET">
                                         <div class="tour-search-wrapper">
                                             <div class="row">
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="form-group">
                                                         <label>Điểm đến tour</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="destination" class="form-control"
-                                                                value="Đà Nẵng, Việt Nam">
-                                                            <i class="fal fa-earth-americas"></i>
+                                                                value="" placeholder="Đà Nẵng">
                                                         </div>
-                                                        <p>Nhập điểm đến tour bạn muốn đăng ký</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <div class="search-form-date">
                                                             <div class="search-form-journey">
-                                                                <label>Ngày đi</label>
+                                                                <label>Từ ngày</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="journey-date"
                                                                         class="form-control date-picker journey-date">
-                                                                    <i class="fal fa-calendar-days"></i>
                                                                 </div>
-                                                                <p class="journey-day-name"></p>
                                                             </div>
                                                             <div class="search-form-return">
-                                                                <label>Ngày về</label>
+                                                                <label>Đến ngày</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="return-date"
                                                                         class="form-control date-picker return-date">
                                                                 </div>
-                                                                <p class="return-day-name"></p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="form-group dropdown passenger-box">
-                                                        <div class="passenger-class" role="menu"
+                                                        <div class="passenger-class form-group " role="menu"
                                                             data-bs-toggle="dropdown" aria-expanded="false">
                                                             <label>Khách tham gia</label>
                                                             <div class="form-group-icon">
-                                                                <div class="passenger-total">
+                                                                <div class="passenger-total form-control">
                                                                     <span class="passenger-total-amount">2</span> khách đăng ký
                                                                 </div>
-                                                                <i class="fal fa-user-tie-hair"></i>
                                                             </div>
-                                                            <p class="passenger-class-name">Thông tin đoàn khách</p>
                                                         </div>
                                                         <div class="dropdown-menu dropdown-menu-end">
                                                             <div class="dropdown-item">
@@ -981,36 +977,14 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="dropdown-item">
-                                                                <h6 class="mb-3 mt-2">Loại tour đăng ký</h6>
-                                                                <div class="passenger-class-info">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio"
-                                                                            value="Tiêu chuẩn" name="room-type"
-                                                                            id="room-type10">
-                                                                        <label class="form-check-label"
-                                                                            for="room-type10">
-                                                                            Tiêu chuẩn
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio"
-                                                                            value="Cao cấp" name="room-type"
-                                                                            id="room-type12">
-                                                                        <label class="form-check-label"
-                                                                            for="room-type12">
-                                                                            Cao cấp
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="search-btn">
-                                                <button type="submit" class="theme-btn"><span
+                                                <div class="col-lg-2">
+                                                    <button type="submit" class="theme-btn btn-submit"><span
                                                         class="far fa-search"></span>Tìm kiếm</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
@@ -1161,7 +1135,7 @@
         </div> -->
         <!-- feature area end -->
         <!-- flight area -->
-        <div class="flight-area pd-50 mb-50 bg">
+        <div class="flight-area pd-50 mb-50">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
@@ -1245,7 +1219,7 @@
         <!-- flight area end -->
 
         <!-- tour area -->
-        <div class="tour-area pb-120">
+        <div class="tour-area pb-120 bg pt-50">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">

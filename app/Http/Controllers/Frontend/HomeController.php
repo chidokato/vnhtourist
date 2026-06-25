@@ -162,6 +162,11 @@ class HomeController extends BaseFrontendController
                 ->orderBy('sort_order')
                 ->orderByDesc('id')
                 ->get(),
+            'sliders' => \App\Models\Slider::query()
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->orderByDesc('id')
+                ->get(),
         ] + $seo));
     }
 }

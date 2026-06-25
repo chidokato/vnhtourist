@@ -366,8 +366,8 @@
                     @if ($type !== 'product')
                         <div class="col-12">
                             <div class="mb-3">
-                                <label for="summary" class="form-label">Thông tin nổi bật</label>
-                                <textarea id="summary" name="summary" rows="3" class="form-control editor @error('summary') is-invalid @enderror">{{ old('summary', $post->summary ?? '') }}</textarea>
+                                <label for="summary" class="form-label">Mô tả ngắn</label>
+                                <textarea id="summary" name="summary" rows="3" class="form-control @error('summary') is-invalid @enderror">{{ old('summary', $post->summary ?? '') }}</textarea>
                                 @error('summary')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

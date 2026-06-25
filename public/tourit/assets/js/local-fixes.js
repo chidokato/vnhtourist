@@ -157,7 +157,6 @@
 
   function backgroundFallbacks() {
     var backgroundNodes = [
-      { selector: ".hero-single", path: "assets/img/slider.webp" },
       { selector: ".video-content", path: "assets/img/anh2.webp" }
     ];
 

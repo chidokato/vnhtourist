@@ -3,6 +3,7 @@
     $logo = $settings ? \App\Support\MediaManager::publicUrl($settings->logo) : null;
     $logoDark = $settings ? \App\Support\MediaManager::publicUrl($settings->footer_logo) : null;
     $favicon = $settings ? \App\Support\MediaManager::publicUrl($settings->favicon) : null;
+    $owlCarouselCssVersion = @filemtime(public_path('tourit/assets/css/owl.carousel.min.css')) ?: time();
     $tourCardCssVersion = @filemtime(public_path('tourit/assets/css/tour-card.css')) ?: time();
     $hotline = $settings->hotline ?? null;
     $email = $settings->email ?? null;
@@ -31,7 +32,7 @@
     <link rel="stylesheet" href="assets/css/all-fontawesome.min.css">
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/magnific-popup.min.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css?v={{ $owlCarouselCssVersion }}">
     <link rel="stylesheet" href="assets/css/nice-select.min.css">
     <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
     <link rel="stylesheet" href="assets/css/jquery.timepicker.min.css">

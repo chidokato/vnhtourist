@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\ExpertController;
 use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\SeoConfigController;
+use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\TourOptionController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\CustomerInquiryController as FrontendCustomerInquiryController;
@@ -122,6 +123,12 @@ Route::prefix('admin')->name('backend.')->group(function () {
             ->names('experts');
         Route::patch('experts/{expert}/toggle-status', [ExpertController::class, 'toggleStatus'])
             ->name('experts.toggle-status');
+
+        Route::resource('sliders', SliderController::class)
+            ->except(['show'])
+            ->names('sliders');
+        Route::patch('sliders/{slider}/toggle-status', [SliderController::class, 'toggleStatus'])
+            ->name('sliders.toggle-status');
 
         Route::get('customer-inquiries', [BackendCustomerInquiryController::class, 'index'])
             ->name('customer-inquiries.index');
