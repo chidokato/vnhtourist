@@ -22,7 +22,8 @@
     $primaryTag = $primaryTag ?? ($product->category?->name ?? ($currentCategoryName ?? 'Tour'));
     $secondaryTag = $secondaryTag ?? ($promoText !== '' ? \Illuminate\Support\Str::limit($promoText, 28) : ($product->is_featured ? 'Tour nổi bật' : 'Mới cập nhật'));
     $badgeText = $badgeText ?? ($product->is_featured ? 'Đề xuất' : 'Mới');
-    $imageUrl = $resolveImage($product->image) ?: ($imageFallback ?? 'assets/img/tour/01.jpg');
+    $imageUrl = $resolveImage($product->image) ?: ($imageFallback ?? asset('tourit/assets/img/tour/01.webp'));
+    $inWishlist = session()->has('wishlist.' . $product->id);
 @endphp
 
 <article class="tour-listing-card mb-4">
@@ -30,6 +31,9 @@
         <img src="{{ $imageUrl }}" alt="{{ $displayValue($product->title) }}">
         <span class="tour-card-badge-top">{{ $displayValue($badgeText) }}</span>
         <span class="tour-card-duration">{{ $displayValue($durationText) }}</span>
+        <span class="add-wishlist {{ $inWishlist ? 'active' : '' }}" data-id="{{ $product->id }}" onclick="event.preventDefault(); toggleWishlist(this, {{ $product->id }});">
+            <i class="{{ $inWishlist ? 'fas' : 'far' }} fa-heart"></i>
+        </span>
     </a>
 
     <div class="tour-card-body">

@@ -22,7 +22,7 @@
             <ul class="pagination">
                 <li class="page-item {{ $products->onFirstPage() ? 'disabled' : '' }}">
                     <a class="page-link" href="{{ $products->previousPageUrl() ?: '#' }}" aria-label="Trang trước">
-                        <span aria-hidden="true"><i class="far fa-arrow-left"></i></span>
+                        <span aria-hidden="true"><i class="fas fa-arrow-left"></i></span>
                     </a>
                 </li>
                 @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
@@ -32,7 +32,7 @@
                 @endforeach
                 <li class="page-item {{ $products->hasMorePages() ? '' : 'disabled' }}">
                     <a class="page-link" href="{{ $products->nextPageUrl() ?: '#' }}" aria-label="Trang sau">
-                        <span aria-hidden="true"><i class="far fa-arrow-right"></i></span>
+                        <span aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
                     </a>
                 </li>
             </ul>

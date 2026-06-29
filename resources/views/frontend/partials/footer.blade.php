@@ -112,5 +112,5 @@
         </div>
     </div>
 
-    <a href="#" id="scroll-top"><i class="far fa-angle-up"></i></a>
+
 </footer>

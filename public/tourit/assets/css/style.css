@@ -1177,6 +1177,7 @@ theme button
   padding-top: 0px;
   padding-bottom: 0px;
   z-index: 999;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.17);
 }
 
 .navbar.fixed-top {
@@ -4754,6 +4755,8 @@ hero css
   margin-top: 15px;
 }
 
+.mfp-figure img, .mfp-iframe-holder .mfp-content{ max-width:900px }
+
 
 @media all and (min-width: 992px) and (max-width: 1199px) {
   .listing-rating-range-item{
@@ -8307,10 +8310,9 @@ sidebar css
     font-size: 16px;
   }
 }
-.news-category-page .site-breadcrumb{ padding-top: 50px;
-  padding-bottom: 50px; }
-.product-category-page .site-breadcrumb{ padding-top: 50px;
-  padding-bottom: 50px; }
+.news-category-page .site-breadcrumb{ padding-top: 50px; padding-bottom: 50px; }
+.pages-category{ margin-top:0 }
+.product-category-page .site-breadcrumb{ padding-top: 50px; padding-bottom: 50px; }
 .news-category-page{ margin-top:0 }
 
 /* ===================
@@ -8712,6 +8714,9 @@ sidebar css
 
 .user-profile-img img {
   border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .user-profile-sidebar-top p{

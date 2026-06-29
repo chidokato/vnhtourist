@@ -83,7 +83,7 @@
                             <ul class="pagination">
                                 <li class="page-item {{ $posts->onFirstPage() ? 'disabled' : '' }}">
                                     <a class="page-link" href="{{ $posts->previousPageUrl() ?: '#' }}" aria-label="Trang trước">
-                                        <span aria-hidden="true"><i class="far fa-arrow-left"></i></span>
+                                        <span aria-hidden="true"><i class="fas fa-arrow-left"></i></span>
                                     </a>
                                 </li>
                                 @foreach ($posts->getUrlRange(1, $posts->lastPage()) as $page => $url)
@@ -93,7 +93,7 @@
                                 @endforeach
                                 <li class="page-item {{ $posts->hasMorePages() ? '' : 'disabled' }}">
                                     <a class="page-link" href="{{ $posts->nextPageUrl() ?: '#' }}" aria-label="Trang sau">
-                                        <span aria-hidden="true"><i class="far fa-arrow-right"></i></span>
+                                        <span aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
                                     </a>
                                 </li>
                             </ul>

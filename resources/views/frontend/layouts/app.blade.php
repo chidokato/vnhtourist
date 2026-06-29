@@ -65,6 +65,112 @@
     <script src="assets/js/wow.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/local-fixes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: '{{ session('success') }}',
+                    confirmButtonText: 'Đóng',
+                    confirmButtonColor: '#3085d6'
+                });
+            @endif
+
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: '{{ session('error') }}',
+                    confirmButtonText: 'Đóng',
+                    confirmButtonColor: '#d33'
+                });
+            @endif
+
+            @if(session('warning'))
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cảnh báo!',
+                    text: '{{ session('warning') }}',
+                    confirmButtonText: 'Đóng',
+                    confirmButtonColor: '#f8bb86'
+                });
+            @endif
+
+            @if(session('info'))
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Thông tin',
+                    text: '{{ session('info') }}',
+                    confirmButtonText: 'Đóng',
+                    confirmButtonColor: '#3fc3ee'
+                });
+            @endif
+
+            @if($errors->any())
+                let errorMessages = '';
+                @foreach($errors->all() as $error)
+                    errorMessages += '{{ $error }}\n';
+                @endforeach
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Có lỗi xảy ra!',
+                    text: errorMessages,
+                    confirmButtonText: 'Đóng',
+                    confirmButtonColor: '#d33'
+                });
+            @endif
+        });
+
+        function toggleWishlist(element, productId) {
+            fetch('{{ route('frontend.wishlist.toggle') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ product_id: productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    if(data.is_added) {
+                        element.classList.add('active');
+                        element.querySelector('i').classList.remove('far');
+                        element.querySelector('i').classList.add('fas');
+                    } else {
+                        element.classList.remove('active');
+                        element.querySelector('i').classList.remove('fas');
+                        element.querySelector('i').classList.add('far');
+                    }
+                    
+                    // Update header counter if exists
+                    const counters = document.querySelectorAll('#wishlist-counter, #wishlist-counter-home');
+                    counters.forEach(c => c.innerText = data.count);
+                    
+                    const wishlistLinks = document.querySelectorAll('.wishlist-header-link');
+                    wishlistLinks.forEach(link => {
+                        if (data.count > 0) {
+                            link.style.display = '';
+                        } else {
+                            link.style.display = 'none';
+                        }
+                    });
+
+                    // Optional: Show toast or alert
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Thành công',
+                    //     text: data.message,
+                    //     timer: 1500,
+                    //     showConfirmButton: false
+                    // });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
     @stack('scripts')
 </body>
 </html>

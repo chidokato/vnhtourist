@@ -1,0 +1,129 @@
+    .booking-step-block {
+        background: #fff;
+        border: 1px solid #eef2f6;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+    .booking-step-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #1a2b4c;
+    }
+    .booking-step-number {
+        background: #2874f0;
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 16px;
+    }
+    /* Date Selector */
+    .date-selector {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .date-item {
+        border: 1px solid #eef2f6;
+        border-radius: 8px;
+        padding: 12px 16px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-width: 100px;
+    }
+    .date-item.active {
+        background: #2874f0;
+        color: #fff;
+        border-color: #2874f0;
+    }
+    .date-item .date { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+    .date-item .price { font-size: 13px; }
+    
+    /* Quantity Selector */
+    .qty-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        border: 1px solid #eef2f6;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+    .qty-info h6 { margin: 0; font-weight: 600; color: #1a2b4c; }
+    .qty-info p { margin: 4px 0 0; font-size: 13px; color: #666; }
+    .qty-info .price { color: #2874f0; font-weight: 600; font-size: 14px; margin-top: 4px; }
+    .qty-controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    .qty-btn {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #eef2f6;
+        border-radius: 50%;
+        background: #fff;
+        color: #2874f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 18px;
+        transition: all 0.2s;
+    }
+    .qty-btn:hover { background: #f8f9fa; }
+    .qty-input {
+        width: 40px;
+        text-align: center;
+        border: none;
+        font-weight: 700;
+        font-size: 16px;
+        background: transparent;
+    }
+    
+    /* Summary Card */
+    .summary-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        overflow: hidden;
+    }
+    .summary-img img { width: 100%; height: 200px; object-fit: cover; }
+    .summary-content { padding: 15PX; }
+    .summary-title { font-size: 16px; font-weight: 700; color: #1a2b4c; margin-bottom: 6px; line-height: 1.4; }
+    .summary-info-list { list-style: none; padding: 0; margin: 0 0 10px 0; }
+    .summary-info-list li {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #666;
+    }
+    .summary-info-list li span:last-child { font-weight: 600; color: #1a2b4c; text-align: right; }
+    .summary-divider { border-top: 1px dashed #eef2f6; margin: 10px 0; }
+    .price-breakdown { list-style: none; padding: 0; margin: 0; }
+    .price-breakdown li {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #1a2b4c;
+    }
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #eef2f6;
+    }
+    .total-row span { font-weight: 700; font-size: 16px; color: #1a2b4c; }
+    .total-row strong { font-weight: 800; font-size: 24px; color: #1a2b4c; }

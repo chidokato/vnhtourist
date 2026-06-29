@@ -27,7 +27,6 @@
     display: block;
     aspect-ratio: 16 / 11;
     overflow: hidden;
-    background: #dfefff;
 }
 
 .tour-card-media img {
@@ -35,6 +34,7 @@
     height: 100%;
     object-fit: cover;
     transition: transform .45s ease;
+        border-radius: 30px 0px;
 }
 
 .tour-listing-card:hover .tour-card-media img {
@@ -57,6 +57,32 @@
     letter-spacing: .04em;
     text-transform: uppercase;
     box-shadow: 0 10px 25px rgba(27, 185, 207, 0.35);
+}
+
+.tour-card-media .add-wishlist {
+    width: 40px;
+    height: 40px;
+    line-height: 35px;
+    text-align: center;
+    background: var(--theme-color);
+    border: 3px solid var(--color-white);
+    color: var(--color-white);
+    border-radius: 50px 50px 50px 0;
+    position: absolute;
+    left: -5px;
+    bottom: -5px;
+    z-index: 2;
+    transition: all .3s ease;
+}
+
+.tour-card-media .add-wishlist:hover {
+    background: var(--theme-color2);
+    color: var(--color-white);
+}
+
+.tour-card-media .add-wishlist.active, .tour-img .add-wishlist.active {
+    background: #e74c3c;
+    border-color: #fff;
 }
 
 .tour-card-duration {

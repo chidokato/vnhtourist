@@ -34,8 +34,19 @@
             <div class="col-md-5">
                 <div class="header-top-right">
                     <div class="account">
-                        <a href="#"><i class="far fa-sign-in"></i>Dang nhap</a>
-                        <a href="#"><i class="far fa-user-tie"></i>Dang ky</a>
+                        <a href="{{ route('frontend.wishlist.index') }}" class="position-relative wishlist-header-link" style="margin-right: 15px; {{ count(array_filter(session('wishlist', []))) > 0 ? '' : 'display: none;' }}">
+                            <i class="far fa-heart" style="font-size: 18px; margin-right: 0;"></i>
+                            <span id="wishlist-counter" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px; padding: 3px 5px; border: 1px solid #fff; margin-top: 5px;">
+                                {{ count(array_filter(session('wishlist', []))) }}
+                            </span>
+                        </a>
+                        @auth
+                            <a href="{{ route('frontend.profile') }}"><i class="far fa-user"></i> {{ auth()->user()->name }}</a>
+                            
+                        @else
+                            <a href="{{ route('frontend.login') }}"><i class="far fa-sign-in"></i> Đăng nhập</a>
+                            <a href="{{ route('frontend.register') }}"><i class="far fa-user-tie"></i> Đăng ký</a>
+                        @endauth
                     </div>
                 </div>
             </div>

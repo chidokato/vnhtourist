@@ -501,8 +501,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Body -->
-                                    <div class="booking-sidebar-body">
+                                    <form action="{{ route('frontend.checkout.step1', $product->id) }}" method="GET" class="booking-sidebar-body">
                                         @if (session('customer_inquiry_success'))
                                             <div class="alert alert-success mb-3">{{ session('customer_inquiry_success') }}</div>
                                         @endif
@@ -520,6 +519,7 @@
                                                     $realPrice = $rawPrice > 0 ? ($rawPrice < 1000 ? $rawPrice * 1000000 : $rawPrice) : 0;
                                                 @endphp
                                                 <label class="btn btn-outline-primary p-2 text-center booking-date-btn {{ $index === 0 ? 'active' : '' }}" data-price="{{ $realPrice }}" style="cursor: pointer;">
+                                                    <input type="radio" name="departure_date" value="{{ $dp->departure_date }}" class="d-none" {{ $index === 0 ? 'checked' : '' }}>
                                                     <div class="booking-date-value">{{ $shortDate }}</div>
                                                     <div class="booking-date-price">{{ $displayPrice > 0 ? rtrim(rtrim(number_format($displayPrice, 1, ',', '.'), '0'), ',') . 'tr' : 'Liên hệ' }}</div>
                                                 </label>
@@ -529,7 +529,8 @@
                                         @elseif($departureDateText)
                                         <div class="mb-4">
                                             <div class="booking-section-title">Ngày khởi hành</div>
-                                            <label class="btn btn-primary p-2 text-center booking-date-btn">
+                                            <label class="btn btn-primary p-2 text-center booking-date-btn active">
+                                                <input type="radio" name="departure_date" value="{{ $displayValue($departureDateText) }}" class="d-none" checked>
                                                 <div class="booking-date-value">{{ $displayValue($departureDateText) }}</div>
                                                 @php
                                                     $fallbackPrice = $product->price > 0 ? $product->price / 1000000 : 0;
@@ -550,7 +551,7 @@
                                                 </div>
                                                 <div class="input-group" style="width: 100px;">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-minus booking-qty-btn" type="button">-</button>
-                                                    <input type="text" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-adult-input booking-qty-input" value="1" readonly data-price="{{ $product->price }}" data-label="Người lớn">
+                                                    <input type="text" name="adult_quantity" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-adult-input booking-qty-input" value="1" readonly data-price="{{ $product->price }}" data-label="Người lớn">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-plus booking-qty-btn" type="button">+</button>
                                                 </div>
                                             </div>
@@ -565,7 +566,7 @@
                                                 </div>
                                                 <div class="input-group" style="width: 100px;">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-minus booking-qty-btn" type="button">-</button>
-                                                    <input type="text" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-child-input booking-qty-input" value="0" readonly data-price="{{ $childPrice }}" data-label="Trẻ em">
+                                                    <input type="text" name="child_quantity" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-child-input booking-qty-input" value="0" readonly data-price="{{ $childPrice }}" data-label="Trẻ em">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-plus booking-qty-btn" type="button">+</button>
                                                 </div>
                                             </div>
@@ -581,7 +582,7 @@
                                                 </div>
                                                 <div class="input-group" style="width: 100px;">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-minus booking-qty-btn" type="button">-</button>
-                                                    <input type="text" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-infant-input booking-qty-input" value="0" readonly data-price="{{ $infantPrice }}" data-label="Em bé">
+                                                    <input type="text" name="infant_quantity" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-infant-input booking-qty-input" value="0" readonly data-price="{{ $infantPrice }}" data-label="Em bé">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-plus booking-qty-btn" type="button">+</button>
                                                 </div>
                                             </div>
@@ -603,12 +604,12 @@
                                         </div>
 
                                         <div class="d-flex gap-2 mb-4">
-                                            <button type="button" class="btn btn-primary w-50 booking-action-btn m-0" data-bs-toggle="modal" data-bs-target="#tourBookingModal">
+                                            <button type="submit" class="btn btn-primary w-50 booking-action-btn m-0">
                                                 Đặt tour ngay
                                             </button>
-                                            <a href="{{ route('frontend.contact') }}" class="btn btn-outline-primary w-50 booking-action-btn m-0">
+                                            <button type="button" class="btn btn-outline-primary w-50 booking-action-btn m-0" data-bs-toggle="modal" data-bs-target="#tourBookingModal">
                                                 Tư vấn miễn phí
-                                            </a>
+                                            </button>
                                         </div>
 
                                         @if(!empty($settings->hotline))
@@ -616,7 +617,7 @@
                                             <i class="fas fa-phone me-2"></i> Hotline: <strong class="booking-hotline-number">{{ $settings->hotline }}</strong>
                                         </div>
                                         @endif
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                             </div>
@@ -650,14 +651,14 @@
     </main>
 
     <div class="modal fade tour-booking-modal" id="tourBookingModal" tabindex="-1" aria-labelledby="tourBookingModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header">
                     <div>
-                        <h4 class="modal-title" id="tourBookingModalLabel">Dang ky tu van tour</h4>
-                        <p class="mb-0">{{ $displayValue($product->title) }}</p>
+                        <h4 class="modal-title" id="tourBookingModalLabel">Đăng ký tư vấn tour</h4>
+                        <p class="mb-0 text-muted" style="font-size: 14px;">{{ $displayValue($product->title) }}</p>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Dong"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
                 <div class="modal-body">
                     @if (session('customer_inquiry_success'))
@@ -681,53 +682,34 @@
                         <input type="hidden" name="source_url" value="{{ url()->current() }}">
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Ngay khoi hanh</label>
-                                    <div class="form-group-icon">
-                                        <input type="text" class="form-control" value="{{ $displayValue($departureDateText ?: $publishedText) }}" readonly>
-                                        <i class="fal fa-calendar-days"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Phuong tien</label>
-                                    <div class="form-group-icon">
-                                        <input type="text" class="form-control" value="{{ $displayValue($transportText) }}" readonly>
-                                        <i class="fal fa-bus"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Ho ten</label>
-                                    <input type="text" name="name" class="form-control @if($customerInquiryErrors->has('name')) is-invalid @endif" value="{{ old('name') }}" placeholder="Nhap ho ten">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">So dien thoai</label>
-                                    <input type="text" name="phone" class="form-control @if($customerInquiryErrors->has('phone')) is-invalid @endif" value="{{ old('phone') }}" placeholder="Nhap so dien thoai">
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Họ tên *</label>
+                                    <input type="text" name="name" class="form-control @if($customerInquiryErrors->has('name')) is-invalid @endif" value="{{ old('name') }}" placeholder="Nhập họ tên" required>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Số điện thoại *</label>
+                                    <input type="text" name="phone" class="form-control @if($customerInquiryErrors->has('phone')) is-invalid @endif" value="{{ old('phone') }}" placeholder="Nhập số điện thoại" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group mb-3">
                                     <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control @if($customerInquiryErrors->has('email')) is-invalid @endif" value="{{ old('email') }}" placeholder="Nhap email">
+                                    <input type="email" name="email" class="form-control @if($customerInquiryErrors->has('email')) is-invalid @endif" value="{{ old('email') }}" placeholder="Nhập email">
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="form-label">Noi dung</label>
-                                    <textarea name="message" rows="4" class="form-control @if($customerInquiryErrors->has('message')) is-invalid @endif" placeholder="Can tu van them ve lich trinh, gia, dich vu...">{{ old('message') }}</textarea>
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Lời nhắn</label>
+                                    <textarea name="message" rows="4" class="form-control @if($customerInquiryErrors->has('message')) is-invalid @endif" placeholder="Bạn cần tư vấn thêm về lịch trình, giá cả, dịch vụ...">{{ old('message') }}</textarea>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="listing-side-btn booking-modal-actions">
-                            <button type="submit" class="theme-btn"><span class="far fa-paper-plane"></span> Gui yeu cau</button>
-                            <button type="button" class="border-btn" data-bs-dismiss="modal"><i class="far fa-xmark"></i> Dong</button>
+                        <div class="listing-side-btn booking-modal-actions d-flex gap-2">
+                            <button type="submit" class="theme-btn flex-grow-1 m-0"><span class="far fa-paper-plane me-1"></span> Gửi yêu cầu</button>
                         </div>
                     </form>
                 </div>

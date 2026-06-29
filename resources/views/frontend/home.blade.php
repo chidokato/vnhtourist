@@ -1275,6 +1275,7 @@
                                 'mien-nam' => 'Miền Nam',
                                 default => 'Trong nước',
                             };
+                            $inWishlist = session()->has('wishlist.' . $product->id);
                         @endphp
                         <div class="col-md-6 col-lg-4 col-xl-3 filter-item {{ $product->home_region ?? 'mien-bac' }}">
                             <div class="tour-item">
@@ -1285,9 +1286,9 @@
                                     @if ($resolveImage($product->image))
                                         <img src="{{ $resolveImage($product->image) }}" alt="{{ $product->title }}" style="height: 250px; object-fit: cover;">
                                     @else
-                                        <img src="assets/img/tour/01.jpg" alt="" style="height: 250px; object-fit: cover;">
+                                        <img src="{{ asset('tourit/assets/img/tour/01.webp') }}" alt="" style="height: 250px; object-fit: cover;">
                                     @endif
-                                    <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
+                                    <a href="#" class="add-wishlist {{ $inWishlist ? 'active' : '' }}" onclick="event.preventDefault(); toggleWishlist(this, {{ $product->id }});"><i class="{{ $inWishlist ? 'fas' : 'far' }} fa-heart"></i></a>
                                 </div>
                                 <div class="tour-content">
                                     <div class="tour-top">

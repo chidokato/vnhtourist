@@ -111,6 +111,24 @@
   background: url("../img/IDC01542.jpg") center center / cover no-repeat !important;
 }
 
+.play-btn {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.play-btn i {
+  margin-left: 3px; /* visual balance for play icon */
+}
+
+.mfp-wrap {
+  z-index: 100000 !important;
+}
+.mfp-bg {
+  z-index: 99999 !important;
+}
+
 .partner-slider img,
 .footer-payment-method img,
 .work-process-item img,
