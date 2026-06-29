@@ -193,7 +193,6 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 14px;
-    margin-top: auto;
     padding-top: 16px;
     border-top: 1px solid rgba(19, 60, 139, 0.1);
 }

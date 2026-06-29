@@ -23,7 +23,7 @@
 
 @section('content')
     <main class="main product-category-page">
-        <div class="site-breadcrumb" style="background: url(assets/img/banner/04.jpg)">
+        <div class="site-breadcrumb d-none d-lg-block" style="background: url(assets/img/banner/04.jpg)">
             <div class="container pt-10">
                 <h2 class="breadcrumb-title">{{ $displayValue($category->name) }}</h2>
                 <ul class="breadcrumb-menu">
@@ -33,12 +33,17 @@
             </div>
         </div>
 
-        <div class="py-50">
+        <div class="py-50 mt-5 mt-lg-0">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-lg-4 col-xl-3">
-                        <aside class="sidebar-area">
-                            <div class="widget product-filter-widget">
+                        <aside class="sidebar-area offcanvas-lg offcanvas-start" tabindex="-1" id="filterSidebar" aria-labelledby="filterSidebarLabel">
+                            <div class="offcanvas-header border-bottom d-lg-none">
+                                <h5 class="offcanvas-title" id="filterSidebarLabel">Bộ lọc tour</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#filterSidebar" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body p-0 flex-column">
+                                <div class="widget product-filter-widget w-100 border-0">
                                 <div class="product-filter-header">
                                     <h4 class="widget-title">Tìm tour nhanh</h4>
                                 </div>
@@ -96,14 +101,20 @@
                                     </div>
                                 </form>
                             </div>
+                            </div>
                         </aside>
                     </div>
 
                     <div class="col-lg-8 col-xl-9">
                         <div>
                             <div class="product-results-head">
-                                <div class="product-results-status" data-product-results-status style="display: flex; align-items: center;">
-                                    {{ $products->total() }} tour
+                                <div class="d-flex align-items-center gap-2">
+                                    <button class="btn btn-primary d-lg-none py-2 px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" aria-controls="filterSidebar">
+                                        <i class="fas fa-filter me-1"></i> Bộ lọc
+                                    </button>
+                                    <div class="product-results-status" data-product-results-status style="display: flex; align-items: center;">
+                                        {{ $products->total() }} tour
+                                    </div>
                                 </div>
                                 <div>
                                     <div class="input-group" style="max-width: 320px;">

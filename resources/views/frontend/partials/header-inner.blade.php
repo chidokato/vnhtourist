@@ -64,13 +64,24 @@
                     @endif
                 </a>
                 <div class="mobile-menu-right">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#main_nav" aria-expanded="false" aria-label="Mo menu dieu huong">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Mo menu dieu huong">
                         <span class="navbar-toggler-btn-icon"><i class="far fa-bars"></i></span>
                     </button>
                 </div>
-                <div class="collapse navbar-collapse" id="main_nav">
-                    <ul class="navbar-nav">
+                <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="main_nav" aria-labelledby="main_nav_label">
+                    <div class="offcanvas-header border-bottom">
+                        <h5 class="offcanvas-title" id="main_nav_label">
+                            @if ($logoDark)
+                                <img src="{{ $logoDark }}" alt="Logo" style="height: 30px;">
+                            @else
+                                Menu
+                            @endif
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#main_nav" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav w-100">
                         @forelse ($menuTree ?? collect() as $menu)
                             @include('frontend.partials.tourit-menu-item', ['menu' => $menu, 'level' => 0])
                         @empty
@@ -85,6 +96,7 @@
                             </li>
                         @endforelse
                     </ul>
+                    </div>
                 </div>
             </div>
         </nav>

@@ -25,7 +25,7 @@
     $hasGrandChildren = $children->contains(function ($child) {
         return ($child->children_tree ?? collect())->isNotEmpty();
     });
-    $useMegaMenu = $isRoot && $hasChildren && $hasGrandChildren;
+    $useMegaMenu = false;
 
     $megaColumns = collect();
 
@@ -65,7 +65,7 @@
     <a
         class="{{ $isRoot ? 'nav-link' : 'dropdown-item' }} {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $isActive ? 'active' : '' }}"
         href="{{ $menuUrl }}"
-        @if ($hasChildren)
+        @if ($hasChildren && $isRoot)
             data-bs-toggle="dropdown"
         @endif
         @if ($menu->target === '_blank')

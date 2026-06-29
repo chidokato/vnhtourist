@@ -483,9 +483,16 @@
 
                         <div class="col-lg-4">
                             <div class="mobile-booking-overlay js-mobile-booking-overlay"></div>
-                            <button type="button" class="btn btn-primary mobile-floating-booking-btn js-mobile-booking-open">
-                                Đặt tour ngay
-                            </button>
+                            <div class="mobile-bottom-booking-bar d-lg-none">
+                                <div class="mbb-price-col">
+                                    <span class="mbb-price-label">Giá từ</span>
+                                    <div class="mbb-price-value">{!! $product->price ? number_format((float) $product->price, 0, ',', '.') . ' ₫<small>/người</small>' : 'Liên hệ' !!}</div>
+                                </div>
+                                <div class="mbb-actions-col">
+                                    <button type="button" class="btn btn-primary mbb-btn mbb-book-btn js-mobile-booking-open">Đặt tour</button>
+                                    <button type="button" class="btn btn-light mbb-btn mbb-consult-btn text-primary" data-bs-toggle="modal" data-bs-target="#tourBookingModal">Tư vấn</button>
+                                </div>
+                            </div>
                             
                             <div class="tour-booking-sticky">
                             <div class="booking-sidebar listing-side-content booking-sidebar-cta booking-sidebar-new js-booking-sidebar" data-child-percent="{{ $product->child_price_percent ?? 0 }}" data-infant-percent="{{ $product->infant_price_percent ?? 0 }}">
