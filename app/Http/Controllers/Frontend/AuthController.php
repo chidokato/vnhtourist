@@ -110,7 +110,7 @@ class AuthController extends BaseFrontendController
                         'email' => $googleUser->email,
                         'google_id' => $googleUser->id,
                         'avatar' => $googleUser->avatar,
-                        'password' => null, // Không có password khi đăng nhập bằng Google
+                        'password' => Hash::make(\Illuminate\Support\Str::random(24)), // Tạo password ngẫu nhiên thay vì null
                     ]);
                     Auth::login($newUser);
                 }
