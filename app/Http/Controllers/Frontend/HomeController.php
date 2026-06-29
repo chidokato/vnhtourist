@@ -114,13 +114,20 @@ class HomeController extends BaseFrontendController
             ->orderByDesc('is_featured')
             ->orderByDesc('published_at')
             ->orderByDesc('id')
-            ->limit(8)
+            ->limit(100)
             ->get()
-            ->map(function (Post $tour) use ($resolveRegion) {
+            ->map(function (Post $tour, $index) use ($resolveRegion) {
                 $tour->home_region = $resolveRegion($tour);
+                $tour->original_index = $index;
 
                 return $tour;
-            });
+            })
+            ->groupBy('home_region')
+            ->flatMap(function ($tours) {
+                return $tours->take(8);
+            })
+            ->sortBy('original_index')
+            ->values();
 
         return view('frontend.home', $this->sharedViewData([
             'featuredProducts' => Post::query()

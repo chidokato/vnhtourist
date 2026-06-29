@@ -1228,8 +1228,7 @@
                             <h2 class="site-title">Các tour được yêu thích nhất</h2>
                             <div class="filter-controls mt-20">
                                 <ul class="filter-btns">
-                                    <li class="active" data-filter="*">Tất cả</li>
-                                    <li data-filter=".mien-bac">Miền Bắc</li>
+                                    <li class="active" data-filter=".mien-bac">Miền Bắc</li>
                                     <li data-filter=".mien-trung">Miền Trung</li>
                                     <li data-filter=".mien-nam">Miền Nam</li>
                                 </ul>

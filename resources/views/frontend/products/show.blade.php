@@ -4,6 +4,9 @@
     $customerInquiryErrors = $errors->getBag('customerInquiry');
 
     $resolveImage = function ($value) {
+        if (!\App\Support\MediaManager::diskPath($value)) {
+            return null;
+        }
         return \App\Support\MediaManager::publicUrl($value);
     };
 
@@ -59,8 +62,9 @@
     $galleryItems = $galleryItems->unique('src')->values();
 
     if ($galleryItems->isEmpty()) {
+        $placeholderImage = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%23f0f0f0'/%3E%3Ctext x='300' y='200' fill='%23999999' font-family='sans-serif' font-size='24' text-anchor='middle' alignment-baseline='middle'%3EĐang cập nhật ảnh%3C/text%3E%3C/svg%3E";
         $galleryItems = collect([[
-            'src' => asset('tourit/assets/img/tour/01.jpg'),
+            'src' => $placeholderImage,
             'alt' => $displayValue($product->title),
         ]]);
     }

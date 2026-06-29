@@ -445,12 +445,22 @@ class ContentController extends Controller
                 ?? ($post->destination ?? null);
         }
 
+        $slug = $validated['slug'] ?? null;
+        if (empty($slug)) {
+            $slug = Str::slug($validated['title']);
+        }
+        if (empty($slug)) {
+            do {
+                $slug = strtolower(Str::random(10));
+            } while (\App\Models\Post::where('slug', $slug)->exists());
+        }
+
         $payload = [
             'type' => $type,
             'category_id' => $validated['category_id'] ?? null,
             'seller_id' => $type === Post::TYPE_PRODUCT ? ($validated['seller_id'] ?? null) : null,
             'title' => $validated['title'],
-            'slug' => $validated['slug'] ?: Str::slug($validated['title']),
+            'slug' => $slug,
             'tour_code' => $type === Post::TYPE_PRODUCT ? ($validated['tour_code'] ?? null) : null,
             'seo_title' => $validated['seo_title'] ?? null,
             'seo_description' => $validated['seo_description'] ?? null,

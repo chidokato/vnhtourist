@@ -370,16 +370,31 @@ Version         : 1.0
     // project filter
     $(window).on('load', function () {
         if ($(".filter-box").children().length > 0) {
-            $(".filter-box").isotope({
-                itemSelector: '.filter-item',
-                masonry: {
-                    columnWidth: 1
-                },
-            });
+            var limitIsotope = function(filterValue) {
+                var count = 0;
+                $(".filter-box").isotope({
+                    itemSelector: '.filter-item',
+                    masonry: {
+                        columnWidth: 1
+                    },
+                    filter: function() {
+                        var isMatch = filterValue === '*' || $(this).is(filterValue);
+                        if (isMatch && count < 8) {
+                            count++;
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+            };
+
+            // Initial load
+            var initialFilter = $('.filter-btns li.active').attr('data-filter') || '*';
+            limitIsotope(initialFilter);
 
             $('.filter-btns').on('click', 'li', function () {
                 var filterValue = $(this).attr('data-filter');
-                $(".filter-box").isotope({ filter: filterValue });
+                limitIsotope(filterValue);
             });
 
             $(".filter-btns li").each(function () {

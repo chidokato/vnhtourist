@@ -134,6 +134,10 @@ class Post extends Model
 
     public function getFrontendUrlAttribute(): string
     {
+        if (empty($this->slug)) {
+            return '#';
+        }
+
         if ($this->category?->slug) {
             return route('frontend.content.show', [
                 'categorySlug' => $this->category->slug,
