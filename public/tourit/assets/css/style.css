@@ -422,7 +422,7 @@ preloader
 ====================== */
 
 .site-heading {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   position: relative;
 }
 
@@ -1370,6 +1370,10 @@ button.navbar-toggler:focus {
     font-size: 25px;
     color: var(--color-white);
     font-weight: 500;
+  }
+
+  .frontend-inner .navbar-toggler-btn-icon {
+    color: var(--color-dark);
   }
 
   .navbar.fixed-top .mobile-menu-link {
@@ -3985,7 +3989,7 @@ hero css
 }
 
 .listing-title{
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-bottom: 1rem;
 }
 
@@ -10324,4 +10328,59 @@ sidebar css
   
 }
 
+/* Remove default background from tab-content in tour-area */
+.tour-area .tab-content {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border: none !important;
+}
 
+/* Prevent box-shadow from being clipped by overflow:hidden, which causes a solid white block at the bottom */
+.tour-tab-slider .owl-stage-outer {
+  padding: 20px 0;
+}
+
+/* Remove shadow from tour cards inside the slider frame as requested */
+.tour-tab-slider .tour-listing-card {
+  box-shadow: none !important;
+}
+
+.tour-tab-slider.owl-theme .owl-nav {
+  margin-top: 0;
+}
+.tour-tab-slider.owl-theme .owl-nav [class*=owl-] {
+  color: var(--theme-color);
+  font-size: 20px;
+  background: var(--color-white);
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  transition: var(--transition);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 35%;
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0;
+}
+.tour-tab-slider.owl-theme .owl-nav [class*=owl-]:hover {
+  background: var(--theme-color);
+  color: var(--color-white);
+}
+.tour-tab-slider.owl-theme .owl-nav .owl-prev {
+  left: -20px;
+}
+.tour-tab-slider.owl-theme .owl-nav .owl-next {
+  right: -20px;
+}
+@media (max-width: 767px) {
+  .tour-tab-slider.owl-theme .owl-nav .owl-prev {
+    left: 0;
+  }
+  .tour-tab-slider.owl-theme .owl-nav .owl-next {
+    right: 0;
+  }
+}

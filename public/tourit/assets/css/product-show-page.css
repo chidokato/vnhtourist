@@ -413,11 +413,12 @@
 }
 
 .product-show-page .tour-info-box-list li {
-  display: flex;
+  line-height: 1.4rem;
+  /*display: flex;
   align-items: flex-start;
   gap: 12px;
   color: #43597c;
-  line-height: 1.85;
+  line-height: 1.85;*/
 }
 
 .product-show-page .tour-info-box-list li + li {
@@ -426,9 +427,9 @@
 
 .product-show-page .tour-info-box-list i {
   flex: 0 0 20px;
-  width: 20px;
-  height: 20px;
-  margin-top: 6px;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -629,14 +630,14 @@
   text-overflow: ellipsis;
 }
 
-.product-show-page .listing-header-info .listing-location,
+/*.product-show-page .listing-header-info .listing-location,
 .product-show-page .listing-header-info .listing-transport {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 6px;
   color: #22467f;
-}
+}*/
 
 .product-show-page .listing-header-info .listing-transport {
   margin-bottom: 0;
@@ -996,6 +997,10 @@
 }
 
 @media (max-width: 991.98px) {
+  .product-show-page .tour-single {
+    margin-top: 210px !important;
+  }
+
   .product-show-page {
     --tour-gallery-height: 340px;
   }

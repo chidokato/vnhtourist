@@ -1227,31 +1227,53 @@
                             <span class="site-title-tagline"><i class="far fa-plane"></i> Tour trong nước</span>
                             <h2 class="site-title">Các tour được yêu thích nhất</h2>
                             <div class="filter-controls mt-20">
-                                <ul class="filter-btns">
-                                    <li class="active" data-filter=".mien-bac">Miền Bắc</li>
-                                    <li data-filter=".mien-trung">Miền Trung</li>
-                                    <li data-filter=".mien-nam">Miền Nam</li>
+                                <ul class="filter-btns nav nav-pills justify-content-center" role="tablist">
+                                    <li class="active" data-bs-toggle="pill" data-bs-target="#tab-mien-bac" role="tab">Miền Bắc</li>
+                                    <li data-bs-toggle="pill" data-bs-target="#tab-mien-trung" role="tab">Miền Trung</li>
+                                    <li data-bs-toggle="pill" data-bs-target="#tab-mien-nam" role="tab">Miền Nam</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="row filter-box">
-                    @forelse ($domesticTours ?? [] as $product)
-                        @php
-                            $regionLabel = match ($product->home_region ?? '') {
-                                'mien-bac' => 'Miền Bắc',
-                                'mien-trung' => 'Miền Trung',
-                                'mien-nam' => 'Miền Nam',
-                                default => 'Trong nước',
-                            };
-                        @endphp
-                        <div class="col-md-6 col-lg-4 col-xl-3 filter-item {{ $product->home_region ?? 'mien-bac' }}">
-                            @include('frontend.products._tour_card', [
-                                'product' => $product,
-                            ])
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab-mien-bac" role="tabpanel">
+                        <div class="tour-tab-slider owl-carousel owl-theme">
+                            @foreach ($domesticTours ?? [] as $product)
+                                @if(($product->home_region ?? 'mien-bac') === 'mien-bac' || ($product->home_region ?? '') === '')
+                                    <div class="tour-slider-item">
+                                        @include('frontend.products._tour_card', ['product' => $product])
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="tab-mien-trung" role="tabpanel">
+                        <div class="tour-tab-slider owl-carousel owl-theme">
+                            @foreach ($domesticTours ?? [] as $product)
+                                @if(($product->home_region ?? '') === 'mien-trung')
+                                    <div class="tour-slider-item">
+                                        @include('frontend.products._tour_card', ['product' => $product])
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="tab-mien-nam" role="tabpanel">
+                        <div class="tour-tab-slider owl-carousel owl-theme">
+                            @foreach ($domesticTours ?? [] as $product)
+                                @if(($product->home_region ?? '') === 'mien-nam')
+                                    <div class="tour-slider-item">
+                                        @include('frontend.products._tour_card', ['product' => $product])
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
                         @if (false)
                         @php
                             $resolveImage = function ($value) {
@@ -1313,12 +1335,7 @@
                             </div>
                         </div>
                         @endif
-                    @empty
-                        <div class="col-12 text-center">
-                            <p>Đang cập nhật tour trong nước...</p>
-                        </div>
-                    @endforelse
-                </div>
+                <!-- end tab-content -->
             </div>
         </div>
         <!-- tour area end -->
@@ -2454,6 +2471,36 @@
         <!-- partner area end -->
 
     </main>
-@endsection
 
+    @push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.tour-tab-slider').owlCarousel({
+                loop: false,
+                margin: 25,
+                nav: true,
+                dots: true,
+                navText: [
+                    "<i class='fas fa-angle-left'></i>",
+                    "<i class='fas fa-angle-right'></i>"
+                ],
+                autoplay: false,
+                responsive: {
+                    0: { items: 1 },
+                    600: { items: 2 },
+                    1000: { items: 3 },
+                    1200: { items: 4 },
+                }
+            });
+
+            $('button[data-bs-toggle="pill"], li[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr('data-bs-target');
+                if ($(target).find('.owl-carousel').length > 0) {
+                    $(target).find('.owl-carousel').trigger('refresh.owl.carousel');
+                }
+            });
+        });
+    </script>
+    @endpush
+@endsection
 

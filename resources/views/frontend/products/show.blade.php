@@ -79,14 +79,14 @@
     $destinationText = $plainText($product->destination) ?: ($plainText($product->attractions) ?: 'Đang cập nhật');
     $durationText = $plainText($product->duration) ?: 'Đang cập nhật';
     $transportText = $plainText($product->transport) ?: 'Đang cập nhật';
-    $transportIconClass = 'far fa-bus';
+    $transportIconClass = 'fas fa-bus';
 
     if (preg_match('/may bay|hang khong|air|flight|plane/i', $transportText)) {
-        $transportIconClass = 'far fa-plane-departure';
+        $transportIconClass = 'fas fa-plane-departure';
     } elseif (preg_match('/tau|train|rail/i', $transportText)) {
-        $transportIconClass = 'far fa-train';
+        $transportIconClass = 'fas fa-train';
     } elseif (preg_match('/thuyen|du thuyen|ship|boat/i', $transportText)) {
-        $transportIconClass = 'far fa-ship';
+        $transportIconClass = 'fas fa-ship';
     }
 
     $itineraryText = $plainText($product->itinerary) ?: 'Đang cập nhật';
@@ -248,7 +248,7 @@
 
 @section('content')
     <main class="main product-show-page">
-        <div class="site-breadcrumb" style="background: url({{ $heroImage }}) center center / cover no-repeat;">
+        <div class="site-breadcrumb d-none d-lg-block" style="background: url({{ $heroImage }}) center center / cover no-repeat;">
             <div class="container">
                 <h2 class="breadcrumb-title">{{ $displayValue($product->title) }}</h2>
                 <ul class="breadcrumb-menu">
@@ -308,10 +308,10 @@
                                         <p class="listing-location"><i class="far fa-location-dot"></i> <b>Lịch trình:</b> {{ $displayValue($headerMetaText) }}</p>
                                         <p class="listing-location"><i class="{{ $transportIconClass }}"></i> <b>Phương tiện:</b> {{ $displayValue($transportText) }}</p>
                                     </div>
-                                    <div class="listing-rate">
+                                    <!-- <div class="listing-rate">
                                         <span class="badge"><i class="far fa-star"></i> {{ $product->is_featured ? '5.0' : '4.8' }}</span> <span class="listing-rate-review">(+1k Reviews)</span>
-                                        <!-- <span class="listing-rate-type">{{ $product->is_featured ? 'Noi bat' : 'Pho bien' }}</span> -->
-                                    </div>
+                                        <span class="listing-rate-type">{{ $product->is_featured ? 'Noi bat' : 'Pho bien' }}</span>
+                                    </div> -->
                                 </div>
 
                                 <div class="listing-item">

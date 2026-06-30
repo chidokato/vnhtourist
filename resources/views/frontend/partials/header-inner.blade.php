@@ -66,7 +66,7 @@
                 <div class="mobile-menu-right">
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Mo menu dieu huong">
-                        <span class="navbar-toggler-btn-icon"><i class="far fa-bars"></i></span>
+                        <span class="navbar-toggler-btn-icon"><i class="fas fa-bars"></i></span>
                     </button>
                 </div>
                 <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="main_nav" aria-labelledby="main_nav_label">

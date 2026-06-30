@@ -25,7 +25,7 @@
     $hasGrandChildren = $children->contains(function ($child) {
         return ($child->children_tree ?? collect())->isNotEmpty();
     });
-    $useMegaMenu = false;
+    $useMegaMenu = $isRoot && $hasChildren && $hasGrandChildren;
 
     $megaColumns = collect();
 
@@ -61,21 +61,22 @@
     $megaColumnCount = max(1, $megaColumns->count());
 @endphp
 
-<li class="{{ $isRoot ? 'nav-item' : '' }} {{ $hasChildren ? ($isRoot ? 'dropdown' : 'dropdown-submenu') : '' }} {{ $useMegaMenu ? 'dropdown-mega' : '' }}">
-    <a
-        class="{{ $isRoot ? 'nav-link' : 'dropdown-item' }} {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $isActive ? 'active' : '' }}"
-        href="{{ $menuUrl }}"
-        @if ($hasChildren && $isRoot)
-            data-bs-toggle="dropdown"
-        @endif
-        @if ($menu->target === '_blank')
-            target="_blank" rel="noopener noreferrer"
-        @endif
-    >
-        {{ $menu->name }}
-    </a>
+@if ($useMegaMenu)
+    <!-- Desktop Mega Menu Item -->
+    <li class="{{ $isRoot ? 'nav-item' : '' }} {{ $hasChildren ? ($isRoot ? 'dropdown' : 'dropdown-submenu') : '' }} dropdown-mega d-none d-lg-block">
+        <a
+            class="{{ $isRoot ? 'nav-link' : 'dropdown-item' }} {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $isActive ? 'active' : '' }}"
+            href="{{ $menuUrl }}"
+            @if ($hasChildren && $isRoot)
+                data-bs-toggle="dropdown"
+            @endif
+            @if ($menu->target === '_blank')
+                target="_blank" rel="noopener noreferrer"
+            @endif
+        >
+            {{ $menu->name }}
+        </a>
 
-    @if ($useMegaMenu)
         <div class="dropdown-menu mega-menu mega-menu-cols-{{ $megaColumnCount }} fade-down">
             <div class="row g-0">
                 @foreach ($megaColumns as $column)
@@ -130,11 +131,51 @@
                 @endforeach
             </div>
         </div>
-    @elseif ($hasChildren)
+    </li>
+
+    <!-- Mobile Recursive Menu Item -->
+    <li class="{{ $isRoot ? 'nav-item' : '' }} {{ $hasChildren ? ($isRoot ? 'dropdown' : 'dropdown-submenu') : '' }} d-block d-lg-none">
+        <a
+            class="{{ $isRoot ? 'nav-link' : 'dropdown-item' }} {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $isActive ? 'active' : '' }}"
+            href="{{ $menuUrl }}"
+            @if ($hasChildren && $isRoot)
+                data-bs-toggle="dropdown"
+            @endif
+            @if ($menu->target === '_blank')
+                target="_blank" rel="noopener noreferrer"
+            @endif
+        >
+            {{ $menu->name }}
+        </a>
+
         <ul class="dropdown-menu fade-down">
             @foreach ($children as $child)
                 @include('frontend.partials.tourit-menu-item', ['menu' => $child, 'level' => ($level ?? 0) + 1])
             @endforeach
         </ul>
-    @endif
-</li>
+    </li>
+@else
+    <!-- Standard Menu Item -->
+    <li class="{{ $isRoot ? 'nav-item' : '' }} {{ $hasChildren ? ($isRoot ? 'dropdown' : 'dropdown-submenu') : '' }}">
+        <a
+            class="{{ $isRoot ? 'nav-link' : 'dropdown-item' }} {{ $hasChildren ? 'dropdown-toggle' : '' }} {{ $isActive ? 'active' : '' }}"
+            href="{{ $menuUrl }}"
+            @if ($hasChildren && $isRoot)
+                data-bs-toggle="dropdown"
+            @endif
+            @if ($menu->target === '_blank')
+                target="_blank" rel="noopener noreferrer"
+            @endif
+        >
+            {{ $menu->name }}
+        </a>
+
+        @if ($hasChildren)
+            <ul class="dropdown-menu fade-down">
+                @foreach ($children as $child)
+                    @include('frontend.partials.tourit-menu-item', ['menu' => $child, 'level' => ($level ?? 0) + 1])
+                @endforeach
+            </ul>
+        @endif
+    </li>
+@endif
