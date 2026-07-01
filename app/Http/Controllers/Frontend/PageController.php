@@ -447,7 +447,7 @@ class PageController extends BaseFrontendController
                 'label' => $loc->name,
                 'count' => $destinationCounts[$loc->name] ?? 0,
             ];
-        })->filter(fn ($option) => $option['count'] > 0)->values();
+        })->filter(fn ($option) => $option['count'] > 0)->sortByDesc('count')->values();
 
         $transportOptions = Post::query()
             ->where('type', Post::TYPE_PRODUCT)

@@ -49,11 +49,11 @@
         </h4>
         <div class="tour-card-meta">
             <div class="tour-card-meta-item">
-                <i class="far fa-location-dot" aria-hidden="true"></i>
+                <i class="far fa-map-marker-alt" aria-hidden="true"></i>
                 <span>Khởi hành từ {{ $displayValue($departureText) }}</span>
             </div>
             <div class="tour-card-meta-item">
-                <i class="far fa-plane-departure" aria-hidden="true"></i>
+                <i class="fas fa-car" aria-hidden="true"></i>
                 <span>{{ $displayValue($transportText) }}</span>
             </div>
         </div>
