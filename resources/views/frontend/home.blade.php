@@ -1,4 +1,4 @@
-﻿
+
 @extends('frontend.layouts.app')
 
 @section('title', $pageTitle ?? 'Vietnam homes Tourist')
@@ -26,7 +26,7 @@
                                                     <p>{{ $slider->subtitle }}</p>
                                                 @endif
                                                 @if($slider->link)
-                                                    <a href="{{ $slider->link }}" class="theme-btn mt-4">{{ $slider->button_text ?: 'KhÃ¡m phÃ¡ ngay' }}</a>
+                                                    <a href="{{ $slider->link }}" class="theme-btn mt-4">{{ $slider->button_text ?: 'Khám phá ngay' }}</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -87,20 +87,20 @@
                                             <div class="row">
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
-                                                        <label>KhÃ¡ch sáº¡n hoáº·c Ä‘iá»ƒm Ä‘áº¿n</label>
+                                                        <label>Khách sạn hoặc điểm đến</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="destination" class="form-control"
-                                                                value="Capital Elite, HÃ  Ná»™i">
+                                                                value="Capital Elite, Hà Nội">
                                                             <i class="fal fa-earth-americas"></i>
                                                         </div>
-                                                        <p>Nháº­p khÃ¡ch sáº¡n hoáº·c khu vá»±c báº¡n muá»‘n lÆ°u trÃº</p>
+                                                        <p>Nhập khách sạn hoặc khu vực bạn muốn lưu trú</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <div class="search-form-date">
                                                             <div class="search-form-journey">
-                                                                <label>NgÃ y nháº­n phÃ²ng</label>
+                                                                <label>Ngày nhận phòng</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="journey-date"
                                                                         class="form-control date-picker journey-date">
@@ -109,7 +109,7 @@
                                                                 <p class="journey-day-name"></p>
                                                             </div>
                                                             <div class="search-form-return">
-                                                                <label>NgÃ y tráº£ phÃ²ng</label>
+                                                                <label>Ngày trả phòng</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="return-date"
                                                                         class="form-control date-picker return-date">
@@ -123,22 +123,22 @@
                                                     <div class="form-group dropdown passenger-box">
                                                         <div class="passenger-class" role="menu"
                                                             data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <label>PhÃ²ng, khÃ¡ch</label>
+                                                            <label>Phòng, khách</label>
                                                             <div class="form-group-icon">
                                                                 <div class="passenger-total">
-                                                                    <span class="passenger-total-room">2</span> phÃ²ng,
-                                                                    <span class="passenger-total-amount">2</span> khÃ¡ch
+                                                                    <span class="passenger-total-room">2</span> phòng,
+                                                                    <span class="passenger-total-amount">2</span> khách
                                                                 </div>
                                                                 <i class="fal fa-user-tie-hair"></i>
                                                             </div>
-                                                            <p class="passenger-class-name">PhÃ²ng Ä‘Ã´i</p>
+                                                            <p class="passenger-class-name">Phòng đôi</p>
                                                         </div>
                                                         <div class="dropdown-menu dropdown-menu-end">
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>NgÆ°á»i lá»›n</h6>
-                                                                        <p>Tá»« 12 tuá»•i</p>
+                                                                        <h6>Người lớn</h6>
+                                                                        <p>Từ 12 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -154,8 +154,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Tráº» em</h6>
-                                                                        <p>Tá»« 2-12 tuá»•i</p>
+                                                                        <h6>Trẻ em</h6>
+                                                                        <p>Từ 2-12 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -171,8 +171,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Em bÃ©</h6>
-                                                                        <p>DÆ°á»›i 2 tuá»•i</p>
+                                                                        <h6>Em bé</h6>
+                                                                        <p>Dưới 2 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -188,7 +188,7 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Sá»‘ phÃ²ng</h6>
+                                                                        <h6>Số phòng</h6>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -202,33 +202,33 @@
                                                                 </div>
                                                             </div>
                                                             <div class="dropdown-item">
-                                                                <h6 class="mb-3 mt-2">Loáº¡i phÃ²ng</h6>
+                                                                <h6 class="mb-3 mt-2">Loại phòng</h6>
                                                                 <div class="passenger-class-info">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="radio"
-                                                                            value="ÄÆ¡n" name="room-type"
+                                                                            value="Đơn" name="room-type"
                                                                             id="room-type1">
                                                                         <label class="form-check-label"
                                                                             for="room-type1">
-                                                                            ÄÆ¡n
+                                                                            Đơn
                                                                         </label>
                                                                     </div>
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" checked
-                                                                            type="radio" value="ÄÃ´i"
+                                                                            type="radio" value="Đôi"
                                                                             name="room-type" id="room-type2">
                                                                         <label class="form-check-label"
                                                                             for="room-type2">
-                                                                            ÄÃ´i
+                                                                            Đôi
                                                                         </label>
                                                                     </div>
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="radio"
-                                                                            value="Cao cáº¥p" name="room-type"
+                                                                            value="Cao cấp" name="room-type"
                                                                             id="room-type3">
                                                                         <label class="form-check-label"
                                                                             for="room-type3">
-                                                                            Cao cáº¥p
+                                                                            Cao cấp
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -239,7 +239,7 @@
                                             </div>
                                             <div class="search-btn">
                                                 <button type="submit" class="theme-btn"><span
-                                                        class="far fa-search"></span>ÄÄƒng kÃ½ Ä‘áº·t khÃ¡ch sáº¡n</button>
+                                                        class="far fa-search"></span>Đăng ký đặt khách sạn</button>
                                             </div>
                                         </div>
                                     </form>
@@ -257,20 +257,20 @@
                                             <div class="row">
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
-                                                        <label>Äá»‹a Ä‘iá»ƒm</label>
+                                                        <label>Địa điểm</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="location" class="form-control"
                                                                 value="New York, United States">
                                                             <i class="fal fa-earth-americas"></i>
                                                         </div>
-                                                        <p>Báº¡n muá»‘n Ä‘i Ä‘Ã¢u?</p>
+                                                        <p>Bạn muốn đi đâu?</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <div class="search-form-date">
                                                             <div class="search-form-journey">
-                                                                <label>NgÃ y nháº­n phÃ²ng</label>
+                                                                <label>Ngày nhận phòng</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="journey-date"
                                                                         class="form-control date-picker journey-date">
@@ -279,7 +279,7 @@
                                                                 <p class="journey-day-name"></p>
                                                             </div>
                                                             <div class="search-form-return">
-                                                                <label>NgÃ y tráº£ phÃ²ng</label>
+                                                                <label>Ngày trả phòng</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="return-date"
                                                                         class="form-control date-picker return-date">
@@ -293,22 +293,22 @@
                                                     <div class="form-group dropdown passenger-box">
                                                         <div class="passenger-class" role="menu"
                                                             data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <label>PhÃ²ng, khÃ¡ch</label>
+                                                            <label>Phòng, khách</label>
                                                             <div class="form-group-icon">
                                                                 <div class="passenger-total">
-                                                                    <span class="passenger-total-room">2</span> phÃ²ng,
-                                                                    <span class="passenger-total-amount">2</span> khÃ¡ch
+                                                                    <span class="passenger-total-room">2</span> phòng,
+                                                                    <span class="passenger-total-amount">2</span> khách
                                                                 </div>
                                                                 <i class="fal fa-user-tie-hair"></i>
                                                             </div>
-                                                            <p class="passenger-class-name">PhÃ²ng Ä‘Ã´i</p>
+                                                            <p class="passenger-class-name">Phòng đôi</p>
                                                         </div>
                                                         <div class="dropdown-menu dropdown-menu-end">
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>NgÆ°á»i lá»›n</h6>
-                                                                        <p>Tá»« 12 tuá»•i</p>
+                                                                        <h6>Người lớn</h6>
+                                                                        <p>Từ 12 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -324,8 +324,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Tráº» em</h6>
-                                                                        <p>Tá»« 2-12 tuá»•i</p>
+                                                                        <h6>Trẻ em</h6>
+                                                                        <p>Từ 2-12 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -341,8 +341,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Em bÃ©</h6>
-                                                                        <p>DÆ°á»›i 2 tuá»•i</p>
+                                                                        <h6>Em bé</h6>
+                                                                        <p>Dưới 2 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -358,7 +358,7 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Sá»‘ phÃ²ng</h6>
+                                                                        <h6>Số phòng</h6>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -372,11 +372,11 @@
                                                                 </div>
                                                             </div>
                                                             <div class="dropdown-item">
-                                                                <h6 class="mb-3 mt-2">Loáº¡i phÃ²ng</h6>
+                                                                <h6 class="mb-3 mt-2">Loại phòng</h6>
                                                                 <div class="passenger-class-info">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="radio"
-                                                                            value="PhÃ²ng Ä‘Æ¡n" name="room-type"
+                                                                            value="Phòng đơn" name="room-type"
                                                                             id="room-type4">
                                                                         <label class="form-check-label"
                                                                             for="room-type4">
@@ -385,7 +385,7 @@
                                                                     </div>
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" checked
-                                                                            type="radio" value="PhÃ²ng Ä‘Ã´i"
+                                                                            type="radio" value="Phòng đôi"
                                                                             name="room-type" id="room-type5">
                                                                         <label class="form-check-label"
                                                                             for="room-type5">
@@ -394,7 +394,7 @@
                                                                     </div>
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="radio"
-                                                                            value="PhÃ²ng cao cáº¥p" name="room-type"
+                                                                            value="Phòng cao cấp" name="room-type"
                                                                             id="room-type6">
                                                                         <label class="form-check-label"
                                                                             for="room-type6">
@@ -409,7 +409,7 @@
                                             </div>
                                             <div class="search-btn">
                                                 <button type="submit" class="theme-btn"><span
-                                                        class="far fa-search"></span>TÃ¬m ngay</button>
+                                                        class="far fa-search"></span>Tìm ngay</button>
                                             </div>
                                         </div>
                                     </form>
@@ -429,14 +429,14 @@
                                                 <input class="form-check-input" type="radio" checked value="holiday1"
                                                     name="holiday-type" id="holiday-type1">
                                                 <label class="form-check-label" for="holiday-type1">
-                                                    Tour + KhÃ¡ch sáº¡n + Xe
+                                                    Tour + Khách sạn + Xe
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" value="holiday2"
                                                     name="holiday-type" id="holiday-type2">
                                                 <label class="form-check-label" for="holiday-type2">
-                                                    Tour + KhÃ¡ch sáº¡n
+                                                    Tour + Khách sạn
                                                 </label>
                                             </div>
                                             <div class="form-check form-check-inline">
@@ -453,7 +453,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <div class="form-group">
-                                                            <label>NÆ¡i khá»Ÿi hÃ nh</label>
+                                                            <label>Nơi khởi hành</label>
                                                             <div class="form-group-icon">
                                                                 <input type="text" name="from-destination"
                                                                     class="form-control swap-from" value="New York">
@@ -467,7 +467,7 @@
                                                         <div class="form-group">
                                                             <div class="search-form-swap"><i class="far fa-repeat"></i>
                                                             </div>
-                                                            <label>Äiá»ƒm Ä‘áº¿n</label>
+                                                            <label>Điểm đến</label>
                                                             <div class="form-group-icon">
                                                                 <input type="text" name="to-destination"
                                                                     class="form-control swap-to" value="Los Angeles">
@@ -480,7 +480,7 @@
                                                         <div class="form-group">
                                                             <div class="search-form-date">
                                                                 <div class="search-form-journey">
-                                                                    <label>NgÃ y nháº­n phÃ²ng</label>
+                                                                    <label>Ngày nhận phòng</label>
                                                                     <div class="form-group-icon">
                                                                         <input type="text" name="journey-date"
                                                                             class="form-control date-picker journey-date">
@@ -489,7 +489,7 @@
                                                                     <p class="journey-day-name"></p>
                                                                 </div>
                                                                 <div class="search-form-return">
-                                                                    <label>NgÃ y tráº£ phÃ²ng</label>
+                                                                    <label>Ngày trả phòng</label>
                                                                     <div class="form-group-icon">
                                                                         <input type="text" name="return-date"
                                                                             class="form-control date-picker return-date">
@@ -503,24 +503,24 @@
                                                         <div class="form-group dropdown passenger-box">
                                                             <div class="passenger-class" role="menu"
                                                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <label>PhÃ²ng, khÃ¡ch</label>
+                                                                <label>Phòng, khách</label>
                                                                 <div class="form-group-icon">
                                                                     <div class="passenger-total">
                                                                         <span class="passenger-total-room">2</span>
-                                                                        phÃ²ng,
+                                                                        phòng,
                                                                         <span class="passenger-total-amount">2</span>
-                                                                        khÃ¡ch
+                                                                        khách
                                                                     </div>
                                                                     <i class="fal fa-user-tie-hair"></i>
                                                                 </div>
-                                                                <p class="passenger-class-name">PhÃ²ng Ä‘Ã´i</p>
+                                                                <p class="passenger-class-name">Phòng đôi</p>
                                                             </div>
                                                             <div class="dropdown-menu dropdown-menu-end">
                                                                 <div class="dropdown-item">
                                                                     <div class="passenger-item">
                                                                         <div class="passenger-info">
-                                                                            <h6>NgÆ°á»i lá»›n</h6>
-                                                                            <p>Tá»« 12 tuá»•i</p>
+                                                                            <h6>Người lớn</h6>
+                                                                            <p>Từ 12 tuổi</p>
                                                                         </div>
                                                                         <div class="passenger-qty">
                                                                             <button type="button" class="minus-btn"><i
@@ -536,8 +536,8 @@
                                                                 <div class="dropdown-item">
                                                                     <div class="passenger-item">
                                                                         <div class="passenger-info">
-                                                                            <h6>Tráº» em</h6>
-                                                                            <p>Tá»« 2-12 tuá»•i</p>
+                                                                            <h6>Trẻ em</h6>
+                                                                            <p>Từ 2-12 tuổi</p>
                                                                         </div>
                                                                         <div class="passenger-qty">
                                                                             <button type="button" class="minus-btn"><i
@@ -553,8 +553,8 @@
                                                                 <div class="dropdown-item">
                                                                     <div class="passenger-item">
                                                                         <div class="passenger-info">
-                                                                            <h6>Em bÃ©</h6>
-                                                                            <p>DÆ°á»›i 2 tuá»•i</p>
+                                                                            <h6>Em bé</h6>
+                                                                            <p>Dưới 2 tuổi</p>
                                                                         </div>
                                                                         <div class="passenger-qty">
                                                                             <button type="button" class="minus-btn"><i
@@ -570,7 +570,7 @@
                                                                 <div class="dropdown-item">
                                                                     <div class="passenger-item">
                                                                         <div class="passenger-info">
-                                                                            <h6>Sá»‘ phÃ²ng</h6>
+                                                                            <h6>Số phòng</h6>
                                                                         </div>
                                                                         <div class="passenger-qty">
                                                                             <button type="button" class="minus-btn"><i
@@ -584,11 +584,11 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="dropdown-item">
-                                                                    <h6 class="mb-3 mt-2">Loáº¡i phÃ²ng</h6>
+                                                                    <h6 class="mb-3 mt-2">Loại phòng</h6>
                                                                     <div class="passenger-class-info">
                                                                         <div class="form-check">
                                                                             <input class="form-check-input" type="radio"
-                                                                                value="PhÃ²ng Ä‘Æ¡n" name="room-type"
+                                                                                value="Phòng đơn" name="room-type"
                                                                                 id="room-type7">
                                                                             <label class="form-check-label"
                                                                                 for="room-type7">
@@ -597,7 +597,7 @@
                                                                         </div>
                                                                         <div class="form-check">
                                                                             <input class="form-check-input" checked
-                                                                                type="radio" value="PhÃ²ng Ä‘Ã´i"
+                                                                                type="radio" value="Phòng đôi"
                                                                                 name="room-type" id="room-type8">
                                                                             <label class="form-check-label"
                                                                                 for="room-type8">
@@ -606,7 +606,7 @@
                                                                         </div>
                                                                         <div class="form-check">
                                                                             <input class="form-check-input" type="radio"
-                                                                                value="PhÃ²ng cao cáº¥p" name="room-type"
+                                                                                value="Phòng cao cấp" name="room-type"
                                                                                 id="room-type9">
                                                                             <label class="form-check-label"
                                                                                 for="room-type9">
@@ -622,7 +622,7 @@
                                             </div>
                                             <div class="search-btn">
                                                 <button type="submit" class="theme-btn"><span
-                                                        class="far fa-search"></span>ÄÄƒng kÃ½ gÃ³i nghá»‰ dÆ°á»¡ng</button>
+                                                        class="far fa-search"></span>Đăng ký gói nghỉ dưỡng</button>
                                             </div>
                                         </div>
                                     </form>
@@ -640,20 +640,20 @@
                                             <div class="row">
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
-                                                        <label>Äá»‹a Ä‘iá»ƒm nháº­n xe</label>
+                                                        <label>Địa điểm nhận xe</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="picking-up" class="form-control"
                                                                 value="New York, United States">
                                                             <i class="fal fa-map-marker-alt"></i>
                                                         </div>
-                                                        <p>Nháº­p nÆ¡i báº¡n muá»‘n nháº­n xe</p>
+                                                        <p>Nhập nơi bạn muốn nhận xe</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <div class="search-form-date">
                                                             <div class="search-form-journey">
-                                                                <label>NgÃ y nháº­n xe</label>
+                                                                <label>Ngày nhận xe</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="pickup-date"
                                                                         class="form-control date-picker journey-date">
@@ -666,31 +666,31 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
-                                                        <label>Giá» nháº­n xe</label>
+                                                        <label>Giờ nhận xe</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="pick-up-time"
                                                                 class="form-control time-picker" value="11:00 PM">
                                                             <i class="fal fa-clock"></i>
                                                         </div>
-                                                        <p>Chá»n thá»i gian nháº­n xe</p>
+                                                        <p>Chọn thời gian nhận xe</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group mt-lg-4">
-                                                        <label>Äá»‹a Ä‘iá»ƒm tráº£ xe</label>
+                                                        <label>Địa điểm trả xe</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="picking-up" class="form-control"
                                                                 value="New York, United States">
                                                             <i class="fal fa-map-marker-alt"></i>
                                                         </div>
-                                                        <p>Nháº­p nÆ¡i báº¡n muá»‘n tráº£ xe</p>
+                                                        <p>Nhập nơi bạn muốn trả xe</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group mt-lg-4">
                                                         <div class="search-form-date">
                                                             <div class="search-form-journey">
-                                                                <label>NgÃ y tráº£ xe</label>
+                                                                <label>Ngày trả xe</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="pickup-date"
                                                                         class="form-control date-picker journey-date">
@@ -703,19 +703,19 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group mt-lg-4">
-                                                        <label>Giá» tráº£ xe</label>
+                                                        <label>Giờ trả xe</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="pick-up-time"
                                                                 class="form-control time-picker" value="11:00 PM">
                                                             <i class="fal fa-clock"></i>
                                                         </div>
-                                                        <p>Chá»n thá»i gian tráº£ xe</p>
+                                                        <p>Chọn thời gian trả xe</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="search-btn">
                                                 <button type="submit" class="theme-btn"><span
-                                                        class="far fa-search"></span>ÄÄƒng kÃ½ Ä‘áº·t xe</button>
+                                                        class="far fa-search"></span>Đăng ký đặt xe</button>
                                             </div>
                                         </div>
                                     </form>
@@ -733,20 +733,20 @@
                                             <div class="row">
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
-                                                        <label>HÃ nh trÃ¬nh du thuyá»n</label>
+                                                        <label>Hành trình du thuyền</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="destination" class="form-control"
                                                                 value="New York, United States">
                                                             <i class="fal fa-earth-americas"></i>
                                                         </div>
-                                                        <p>Nháº­p hÃ nh trÃ¬nh du thuyá»n báº¡n muá»‘n Ä‘áº·t</p>
+                                                        <p>Nhập hành trình du thuyền bạn muốn đặt</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <div class="search-form-date">
                                                             <div class="search-form-journey">
-                                                                <label>NgÃ y Ä‘i</label>
+                                                                <label>Ngày đi</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="journey-date"
                                                                         class="form-control date-picker journey-date">
@@ -755,7 +755,7 @@
                                                                 <p class="journey-day-name"></p>
                                                             </div>
                                                             <div class="search-form-return">
-                                                                <label>NgÃ y vá»</label>
+                                                                <label>Ngày về</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="return-date"
                                                                         class="form-control date-picker return-date">
@@ -769,11 +769,11 @@
                                                     <div class="form-group dropdown passenger-box">
                                                         <div class="passenger-class" role="menu"
                                                             data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <label>Du khÃ¡ch</label>
+                                                            <label>Du khách</label>
                                                             <div class="form-group-icon">
                                                                 <div class="passenger-total">
                                                                     <span class="passenger-total-amount">2</span>
-                                                                    Du khÃ¡ch
+                                                                    Du khách
                                                                 </div>
                                                                 <i class="fal fa-user-tie-hair"></i>
                                                             </div>
@@ -783,8 +783,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>NgÆ°á»i lá»›n</h6>
-                                                                        <p>Tá»« 12 tuá»•i</p>
+                                                                        <h6>Người lớn</h6>
+                                                                        <p>Từ 12 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -800,8 +800,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Tráº» em</h6>
-                                                                        <p>Tá»« 2-12 tuá»•i</p>
+                                                                        <h6>Trẻ em</h6>
+                                                                        <p>Từ 2-12 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -817,8 +817,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Em bÃ©</h6>
-                                                                        <p>DÆ°á»›i 2 tuá»•i</p>
+                                                                        <h6>Em bé</h6>
+                                                                        <p>Dưới 2 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -832,7 +832,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="dropdown-item">
-                                                                <h6 class="mb-3 mt-2">Háº¡ng du thuyá»n</h6>
+                                                                <h6 class="mb-3 mt-2">Hạng du thuyền</h6>
                                                                 <div class="passenger-class-info">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="radio"
@@ -854,11 +854,11 @@
                                                                     </div>
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="radio"
-                                                                            value="Háº¡ng nháº¥t" name="cruise-class"
+                                                                            value="Hạng nhất" name="cruise-class"
                                                                             id="cruise-class3">
                                                                         <label class="form-check-label"
                                                                             for="cruise-class3">
-                                                                            Háº¡ng nháº¥t
+                                                                            Hạng nhất
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -869,7 +869,7 @@
                                             </div>
                                             <div class="search-btn">
                                                 <button type="submit" class="theme-btn"><span
-                                                        class="far fa-search"></span>ÄÄƒng kÃ½ du thuyá»n</button>
+                                                        class="far fa-search"></span>Đăng ký du thuyền</button>
                                             </div>
                                         </div>
                                     </form>
@@ -887,10 +887,10 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="form-group">
-                                                        <label>Äiá»ƒm Ä‘áº¿n tour</label>
+                                                        <label>Điểm đến tour</label>
                                                         <div class="form-group-icon">
                                                             <input type="text" name="destination" class="form-control"
-                                                                value="" placeholder="ÄÃ  Náºµng">
+                                                                value="" placeholder="Đà Nẵng">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -898,14 +898,14 @@
                                                     <div class="form-group">
                                                         <div class="search-form-date">
                                                             <div class="search-form-journey">
-                                                                <label>Tá»« ngÃ y</label>
+                                                                <label>Từ ngày</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="journey-date"
                                                                         class="form-control date-picker journey-date">
                                                                 </div>
                                                             </div>
                                                             <div class="search-form-return">
-                                                                <label>Äáº¿n ngÃ y</label>
+                                                                <label>Đến ngày</label>
                                                                 <div class="form-group-icon">
                                                                     <input type="text" name="return-date"
                                                                         class="form-control date-picker return-date">
@@ -918,10 +918,10 @@
                                                     <div class="form-group dropdown passenger-box">
                                                         <div class="passenger-class form-group " role="menu"
                                                             data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <label>KhÃ¡ch tham gia</label>
+                                                            <label>Khách tham gia</label>
                                                             <div class="form-group-icon">
                                                                 <div class="passenger-total form-control">
-                                                                    <span class="passenger-total-amount">2</span> khÃ¡ch Ä‘Äƒng kÃ½
+                                                                    <span class="passenger-total-amount">2</span> khách đăng ký
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -929,8 +929,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>NgÆ°á»i lá»›n</h6>
-                                                                        <p>Tá»« 12 tuá»•i</p>
+                                                                        <h6>Người lớn</h6>
+                                                                        <p>Từ 12 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -946,8 +946,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Tráº» em</h6>
-                                                                        <p>Tá»« 2-12 tuá»•i</p>
+                                                                        <h6>Trẻ em</h6>
+                                                                        <p>Từ 2-12 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -963,8 +963,8 @@
                                                             <div class="dropdown-item">
                                                                 <div class="passenger-item">
                                                                     <div class="passenger-info">
-                                                                        <h6>Em bÃ©</h6>
-                                                                        <p>DÆ°á»›i 2 tuá»•i</p>
+                                                                        <h6>Em bé</h6>
+                                                                        <p>Dưới 2 tuổi</p>
                                                                     </div>
                                                                     <div class="passenger-qty">
                                                                         <button type="button" class="minus-btn"><i
@@ -983,7 +983,7 @@
                                                 </div>
                                                 <div class="col-lg-2">
                                                     <button type="submit" class="theme-btn btn-submit"><span
-                                                        class="far fa-search"></span>TÃ¬m kiáº¿m</button>
+                                                        class="far fa-search"></span>Tìm kiếm</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1017,21 +1017,21 @@
                             </div>
                             <div class="about-experience">
                                 <h5>30<span>+</span></h5>
-                                <p>NÄƒm kinh nghiá»‡m</p>
+                                <p>Năm kinh nghiệm</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="about-right wow fadeInUp" data-wow-delay=".25s">
                             <div class="site-heading mb-3">
-                                <span class="site-title-tagline"><i class="far fa-plane"></i> Vá» chÃºng tÃ´i</span>
-                                <h2 class="site-title">ChÃºng tÃ´i lÃ  thÆ°Æ¡ng hiá»‡u <span>du lá»‹ch vÃ  lÆ°u trÃº</span> hÃ ng Ä‘áº§u
+                                <span class="site-title-tagline"><i class="far fa-plane"></i> Về chúng tôi</span>
+                                <h2 class="site-title">Chúng tôi là thương hiệu <span>du lịch và lưu trú</span> hàng đầu
                                 </h2>
                             </div>
-                            <p class="about-text">ChÃºng tÃ´i mang Ä‘áº¿n nhiá»u lá»±a chá»n du lá»‹ch linh hoáº¡t,
-                                Ä‘Æ°á»£c tá»‘i Æ°u Ä‘á»ƒ phÃ¹ há»£p vá»›i tá»«ng nhu cáº§u cá»§a khÃ¡ch hÃ ng,
-                                tá»« chuyáº¿n Ä‘i ngáº¯n ngÃ y Ä‘áº¿n ká»³ nghá»‰ dÃ i ngÃ y.
-                                Táº¥t cáº£ Ä‘á»u Ä‘Æ°á»£c xÃ¢y dá»±ng Ä‘á»ƒ báº¡n dá»… dÃ ng Ä‘áº·t vÃ  an tÃ¢m tráº£i nghiá»‡m.</p>
+                            <p class="about-text">Chúng tôi mang đến nhiều lựa chọn du lịch linh hoạt,
+                                được tối ưu để phù hợp với từng nhu cầu của khách hàng,
+                                từ chuyến đi ngắn ngày đến kỳ nghỉ dài ngày.
+                                Tất cả đều được xây dựng để bạn dễ dàng đặt và an tâm trải nghiệm.</p>
                             <div class="about-content">
                                 <div class="row g-3">
                                     <div class="col-md-6">
@@ -1040,8 +1040,8 @@
                                                 <img src="assets/img/icon1.png" alt="">
                                             </div>
                                             <div class="content">
-                                                <h6>Nháº­n Æ°u Ä‘Ã£i tá»‘t nháº¥t</h6>
-                                                <p>Lá»±a chá»n gÃ³i dá»‹ch vá»¥ vÃ  má»©c giÃ¡ phÃ¹ há»£p nháº¥t cho báº¡n.</p>
+                                                <h6>Nhận ưu đãi tốt nhất</h6>
+                                                <p>Lựa chọn gói dịch vụ và mức giá phù hợp nhất cho bạn.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1051,14 +1051,14 @@
                                                 <img src="assets/img/icon2.svg" alt="">
                                             </div>
                                             <div class="content">
-                                                <h6>Äáº·t chá»— dá»… dÃ ng</h6>
-                                                <p>Lá»±a chá»n gÃ³i dá»‹ch vá»¥ vÃ  má»©c giÃ¡ phÃ¹ há»£p nháº¥t cho báº¡n.</p>
+                                                <h6>Đặt chỗ dễ dàng</h6>
+                                                <p>Lựa chọn gói dịch vụ và mức giá phù hợp nhất cho bạn.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#" class="theme-btn">KhÃ¡m phÃ¡ thÃªm <i
+                            <a href="#" class="theme-btn">Khám phá thêm <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -1076,17 +1076,17 @@
                         <div class="col-lg-6 col-xl-4">
                             <div class="wow fadeInLeft" data-wow-delay=".25s">
                                 <div class="site-heading mb-3">
-                                    <span class="site-title-tagline"><i class="far fa-plane"></i> TÃ­nh nÄƒng</span>
-                                    <h2 class="site-title">CÃ¹ng khÃ¡m phÃ¡ nhá»¯ng <span>tÃ­nh nÄƒng ná»•i báº­t</span></h2>
+                                    <span class="site-title-tagline"><i class="far fa-plane"></i> Tính năng</span>
+                                    <h2 class="site-title">Cùng khám phá những <span>tính năng nổi bật</span></h2>
                                 </div>
                                 <p>
-                                    Ná»n táº£ng cá»§a chÃºng tÃ´i Ä‘Æ°á»£c thiáº¿t káº¿ Ä‘á»ƒ tá»‘i Æ°u quÃ¡ trÃ¬nh tÃ¬m kiáº¿m vÃ  Ä‘áº·t chá»—,
-                                    giÃºp báº¡n so sÃ¡nh vÃ  lá»±a chá»n nhanh hÆ¡n,
-                                    Ä‘á»“ng thá»i mang láº¡i thÃ´ng tin rÃµ rÃ ng vÃ  trÃ¬nh bÃ y dá»… hiá»ƒu,
-                                    Ä‘á»ƒ báº¡n luÃ´n náº¯m Ä‘Æ°á»£c chi phÃ­, lá»‹ch trÃ¬nh vÃ  tiá»‡n Ã­ch cáº§n thiáº¿t,
-                                    trong má»™t tráº£i nghiá»‡m liá»n máº¡ch.
+                                    Nền tảng của chúng tôi được thiết kế để tối ưu quá trình tìm kiếm và đặt chỗ,
+                                    giúp bạn so sánh và lựa chọn nhanh hơn,
+                                    đồng thời mang lại thông tin rõ ràng và trình bày dễ hiểu,
+                                    để bạn luôn nắm được chi phí, lịch trình và tiện ích cần thiết,
+                                    trong một trải nghiệm liền mạch.
                                 </p>
-                                <a href="#" class="theme-btn mt-30">TÃ¬m hiá»ƒu thÃªm <i
+                                <a href="#" class="theme-btn mt-30">Tìm hiểu thêm <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
@@ -1102,9 +1102,9 @@
                                         <img src="assets/img/world.svg" alt="">
                                     </div>
                                     <div class="feature-content">
-                                        <h4 class="feature-title">Phá»§ sÃ³ng toÃ n cáº§u</h4>
-                                        <p>ThÃ´ng tin Ä‘Æ°á»£c trÃ¬nh bÃ y rÃµ rÃ ng, giÃºp báº¡n theo dÃµi vÃ  lá»±a chá»n dá»… dÃ ng trong
-                                            quÃ¡ trÃ¬nh Ä‘áº·t chá»—.</p>
+                                        <h4 class="feature-title">Phủ sóng toàn cầu</h4>
+                                        <p>Thông tin được trình bày rõ ràng, giúp bạn theo dõi và lựa chọn dễ dàng trong
+                                            quá trình đặt chỗ.</p>
                                     </div>
                                 </div>
                                 <div class="feature-item mt-20">
@@ -1112,9 +1112,9 @@
                                         <img src="assets/img/quality.svg" alt="">
                                     </div>
                                     <div class="feature-content">
-                                        <h4 class="feature-title">Dá»‹ch vá»¥ cháº¥t lÆ°á»£ng cao</h4>
-                                        <p>ThÃ´ng tin Ä‘Æ°á»£c trÃ¬nh bÃ y rÃµ rÃ ng, giÃºp báº¡n theo dÃµi vÃ  lá»±a chá»n dá»… dÃ ng trong
-                                            quÃ¡ trÃ¬nh Ä‘áº·t chá»—.</p>
+                                        <h4 class="feature-title">Dịch vụ chất lượng cao</h4>
+                                        <p>Thông tin được trình bày rõ ràng, giúp bạn theo dõi và lựa chọn dễ dàng trong
+                                            quá trình đặt chỗ.</p>
                                     </div>
                                 </div>
                                 <div class="feature-item mt-20">
@@ -1122,9 +1122,9 @@
                                         <img src="assets/img/support.svg" alt="">
                                     </div>
                                     <div class="feature-content">
-                                        <h4 class="feature-title">Cham soc khÃ¡ch hang 24/7</h4>
-                                        <p>ThÃ´ng tin Ä‘Æ°á»£c trÃ¬nh bÃ y rÃµ rÃ ng, giÃºp báº¡n theo dÃµi vÃ  lá»±a chá»n dá»… dÃ ng trong
-                                            quÃ¡ trÃ¬nh Ä‘áº·t chá»—.</p>
+                                        <h4 class="feature-title">Cham soc khách hang 24/7</h4>
+                                        <p>Thông tin được trình bày rõ ràng, giúp bạn theo dõi và lựa chọn dễ dàng trong
+                                            quá trình đặt chỗ.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1140,8 +1140,8 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> Tour nÆ°á»›c ngoÃ i</span>
-                            <h2 class="site-title">Tour du lá»‹ch dÃ nh cho báº¡n</h2>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Tour nước ngoài</span>
+                            <h2 class="site-title">Tour du lịch dành cho bạn</h2>
                         </div>
                     </div>
                 </div>
@@ -1155,13 +1155,13 @@
                         </div>
                     @empty
                         <div class="col-12 text-center">
-                            <p>Äang cáº­p nháº­t tour nÆ°á»›c ngoÃ i...</p>
+                            <p>Đang cập nhật tour nước ngoài...</p>
                         </div>
                     @endforelse
                 </div>
                 
                 <div class="text-center mt-3 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                    <a href="/tour-nuoc-ngoai" class="theme-btn">KhÃ¡m phÃ¡ thÃªm<i
+                    <a href="/tour-nuoc-ngoai" class="theme-btn">Khám phá thêm<i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -1174,13 +1174,13 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> Tour trong nÆ°á»›c</span>
-                            <h2 class="site-title">CÃ¡c tour Ä‘Æ°á»£c yÃªu thÃ­ch nháº¥t</h2>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Tour trong nước</span>
+                            <h2 class="site-title">Các tour được yêu thích nhất</h2>
                             <div class="filter-controls mt-20">
                                 <ul class="filter-btns nav nav-pills justify-content-center" role="tablist">
-                                    <li class="active" data-bs-toggle="pill" data-bs-target="#tab-mien-bac" role="tab">Miá»n Báº¯c</li>
-                                    <li data-bs-toggle="pill" data-bs-target="#tab-mien-trung" role="tab">Miá»n Trung</li>
-                                    <li data-bs-toggle="pill" data-bs-target="#tab-mien-nam" role="tab">Miá»n Nam</li>
+                                    <li class="active" data-bs-toggle="pill" data-bs-target="#tab-mien-bac" role="tab">Miền Bắc</li>
+                                    <li data-bs-toggle="pill" data-bs-target="#tab-mien-trung" role="tab">Miền Trung</li>
+                                    <li data-bs-toggle="pill" data-bs-target="#tab-mien-nam" role="tab">Miền Nam</li>
                                 </ul>
                             </div>
                         </div>
@@ -1230,21 +1230,21 @@
                                 return \App\Support\MediaManager::publicUrl($value);
                             };
                             $formatPrice = function ($product) {
-                                if (! filled($product->price)) return 'LiÃªn há»‡';
-                                return number_format((float) $product->price, 0, ',', '.') . ' Ä‘';
+                                if (! filled($product->price)) return 'Liên hệ';
+                                return number_format((float) $product->price, 0, ',', '.') . ' đ';
                             };
                             $plainText = function ($value) {
                                 return trim(preg_replace('/\s+/u', ' ', strip_tags((string) $value)));
                             };
-                            $durationText = $plainText($product->duration) ?: 'Äang cáº­p nháº­t';
-                            $addressText = $plainText($product->address) ?: ($plainText($product->destination) ?: 'Äang cáº­p nháº­t Ä‘á»‹a Ä‘iá»ƒm');
-                            $transportText = $plainText($product->transport) ?: 'LiÃªn há»‡ Ä‘á»ƒ biáº¿t thÃªm';
-                            $departureText = $plainText($product->departure_location) ?: 'Äang cáº­p nháº­t';
+                            $durationText = $plainText($product->duration) ?: 'Đang cập nhật';
+                            $addressText = $plainText($product->address) ?: ($plainText($product->destination) ?: 'Đang cập nhật địa điểm');
+                            $transportText = $plainText($product->transport) ?: 'Liên hệ để biết thêm';
+                            $departureText = $plainText($product->departure_location) ?: 'Đang cập nhật';
                             $regionLabel = match ($product->home_region ?? '') {
-                                'mien-bac' => 'Miá»n Báº¯c',
-                                'mien-trung' => 'Miá»n Trung',
-                                'mien-nam' => 'Miá»n Nam',
-                                default => 'Trong nÆ°á»›c',
+                                'mien-bac' => 'Miền Bắc',
+                                'mien-trung' => 'Miền Trung',
+                                'mien-nam' => 'Miền Nam',
+                                default => 'Trong nước',
                             };
                             $inWishlist = session()->has('wishlist.' . $product->id);
                         @endphp
@@ -1252,7 +1252,7 @@
                             <div class="tour-item">
                                 <div class="tour-img">
                                     @if($product->is_featured)
-                                        <span class="badge">Ná»•i báº­t</span>
+                                        <span class="badge">Nổi bật</span>
                                     @endif
                                     @if ($resolveImage($product->image))
                                         <img src="{{ $resolveImage($product->image) }}" alt="{{ $product->title }}" style="height: 250px; object-fit: cover;">
@@ -1270,15 +1270,15 @@
                                     <p><i class="far fa-map-marker-alt"></i> {{ $addressText }}</p>
                                     <div class="hotel-rate">
                                         <span class="badge"><i class="far fa-location-arrow"></i> {{ $departureText }}</span>
-                                        <span class="hotel-rate-type">Khá»Ÿi hÃ nh linh hoáº¡t</span>
+                                        <span class="hotel-rate-type">Khởi hành linh hoạt</span>
                                     </div>
                                     <div class="tour-duration"><i class="far fa-clock"></i> {{ $durationText }}</div>
                                     <div class="tour-bottom">
                                         <div class="tour-price">
-                                            Tá»« <span>{{ $formatPrice($product) }}</span>
+                                            Từ <span>{{ $formatPrice($product) }}</span>
                                         </div>
                                         <div class="tour-text-btn">
-                                            <a href="{{ $product->frontend_url }}">Xem thÃªm <i class="fas fa-arrow-right"></i></a>
+                                            <a href="{{ $product->frontend_url }}">Xem thêm <i class="fas fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -1297,20 +1297,20 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> KhÃ¡ch sáº¡n</span>
-                            <h2 class="site-title">Nhá»¯ng khÃ¡ch sáº¡n Ä‘Æ°á»£c yÃªu thÃ­ch nháº¥t</h2>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Khách sạn</span>
+                            <h2 class="site-title">Những khách sạn được yêu thích nhất</h2>
                         </div>
                     </div>
                 </div>
                 <div class="hotel-slider owl-carousel owl-theme">
                     <div class="hotel-item">
                         <div class="hotel-img">
-                            <span class="badge">Ná»•i báº­t</span>
+                            <span class="badge">Nổi bật</span>
                             <img src="assets/img/hotel/01.jpg" alt="">
                             <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
                         </div>
                         <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">KhÃ¡ch sáº¡n Western Grant Park</a></h4>
+                            <h4 class="hotel-title"><a href="#">Khách sạn Western Grant Park</a></h4>
                             <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                             <div class="hotel-rate">
                                 <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1323,7 +1323,7 @@
                                             Night</span></span>
                                 </div>
                                 <div class="hotel-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -1334,7 +1334,7 @@
                             <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
                         </div>
                         <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">KhÃ¡ch sáº¡n Western Grant Park</a></h4>
+                            <h4 class="hotel-title"><a href="#">Khách sạn Western Grant Park</a></h4>
                             <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                             <div class="hotel-rate">
                                 <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1347,7 +1347,7 @@
                                             Night</span></span>
                                 </div>
                                 <div class="hotel-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -1359,7 +1359,7 @@
                             <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
                         </div>
                         <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">KhÃ¡ch sáº¡n Western Grant Park</a></h4>
+                            <h4 class="hotel-title"><a href="#">Khách sạn Western Grant Park</a></h4>
                             <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                             <div class="hotel-rate">
                                 <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1372,7 +1372,7 @@
                                             Night</span></span>
                                 </div>
                                 <div class="hotel-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -1384,7 +1384,7 @@
                             <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
                         </div>
                         <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">KhÃ¡ch sáº¡n Western Grant Park</a></h4>
+                            <h4 class="hotel-title"><a href="#">Khách sạn Western Grant Park</a></h4>
                             <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                             <div class="hotel-rate">
                                 <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1397,7 +1397,7 @@
                                             Night</span></span>
                                 </div>
                                 <div class="hotel-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -1408,7 +1408,7 @@
                             <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
                         </div>
                         <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">KhÃ¡ch sáº¡n Western Grant Park</a></h4>
+                            <h4 class="hotel-title"><a href="#">Khách sạn Western Grant Park</a></h4>
                             <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                             <div class="hotel-rate">
                                 <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1421,7 +1421,7 @@
                                             Night</span></span>
                                 </div>
                                 <div class="hotel-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -1432,7 +1432,7 @@
                             <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
                         </div>
                         <div class="hotel-content">
-                            <h4 class="hotel-title"><a href="#">KhÃ¡ch sáº¡n Western Grant Park</a></h4>
+                            <h4 class="hotel-title"><a href="#">Khách sạn Western Grant Park</a></h4>
                             <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                             <div class="hotel-rate">
                                 <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1445,7 +1445,7 @@
                                             Night</span></span>
                                 </div>
                                 <div class="hotel-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -1463,15 +1463,15 @@
                     <div class="row g-4 align-items-center">
                         <div class="col-md-8 col-lg-5 wow fadeInLeft" data-wow-delay=".25s">
                             <div class="site-heading mb-3">
-                                <span class="site-title-tagline"><i class="far fa-plane"></i> KHÃ”NG GIAN Sá»° KIá»†N CHUYÃŠN NGHIá»†P</span>
+                                <span class="site-title-tagline"><i class="far fa-plane"></i> KHÔNG GIAN SỰ KIỆN CHUYÊN NGHIỆP</span>
                                 <h2 class="site-title">
-                                    Dá»‹ch Vá»¥ PhÃ²ng Tiá»‡c & Há»™i TrÆ°á»ng <br> Äáº³ng Cáº¥p Cho Má»i Sá»± Kiá»‡n
+                                    Dịch Vụ Phòng Tiệc & Hội Trường <br> Đẳng Cấp Cho Mọi Sự Kiện
                                 </h2>
                             </div>
                             <p class="about-text">
-                                ChÃºng tÃ´i cung cáº¥p há»‡ thá»‘ng phÃ²ng tiá»‡c vÃ  há»™i trÆ°á»ng hiá»‡n Ä‘áº¡i, phÃ¹ há»£p cho há»™i nghá»‹, há»™i tháº£o, tiá»‡c cÆ°á»›i, tiá»‡c sinh nháº­t, sá»± kiá»‡n doanh nghiá»‡p vÃ  cÃ¡c chÆ°Æ¡ng trÃ¬nh Ä‘áº·c biá»‡t. KhÃ´ng gian sang trá»ng, trang thiáº¿t bá»‹ Ã¢m thanh Ã¡nh sÃ¡ng chuyÃªn nghiá»‡p cÃ¹ng Ä‘á»™i ngÅ© phá»¥c vá»¥ táº­n tÃ¢m sáº½ mang Ä‘áº¿n cho quÃ½ khÃ¡ch nhá»¯ng tráº£i nghiá»‡m hoÃ n háº£o vÃ  Ä‘Ã¡ng nhá»›.
+                                Chúng tôi cung cấp hệ thống phòng tiệc và hội trường hiện đại, phù hợp cho hội nghị, hội thảo, tiệc cưới, tiệc sinh nhật, sự kiện doanh nghiệp và các chương trình đặc biệt. Không gian sang trọng, trang thiết bị âm thanh ánh sáng chuyên nghiệp cùng đội ngũ phục vụ tận tâm sẽ mang đến cho quý khách những trải nghiệm hoàn hảo và đáng nhớ.
                             </p>
-                            <a href="#" class="theme-btn mt-30">Xem Chi Tiáº¿t<i
+                            <a href="#" class="theme-btn mt-30">Xem Chi Tiết<i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                         <div class="col-lg-7 wow fadeInRight" data-wow-delay=".25s">
@@ -1501,8 +1501,8 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> Æ¯u Ä‘Ã£i</span>
-                            <h2 class="site-title">KhÃ¡m phÃ¡ Æ°u Ä‘Ã£i Ä‘áº·c quyá»n</h2>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Ưu đãi</span>
+                            <h2 class="site-title">Khám phá ưu đãi đặc quyền</h2>
                         </div>
                     </div>
                 </div>
@@ -1512,9 +1512,9 @@
                             <img src="assets/img/banner/01.jpg" alt="">
                         </div>
                         <div class="banner-content">
-                            <h6>Nháº­n Æ°u Ä‘Ã£i Ä‘áº¿n <span>70%</span>!</h6>
+                            <h6>Nhận ưu đãi đến <span>70%</span>!</h6>
                             <p>It is a long established fact that reader distracted.</p>
-                            <a href="#" class="theme-btn">TÃ¬m hiá»ƒu thÃªm<i
+                            <a href="#" class="theme-btn">Tìm hiểu thêm<i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -1523,9 +1523,9 @@
                             <img src="assets/img/banner/02.jpg" alt="">
                         </div>
                         <div class="banner-content">
-                            <h6>Nháº­n Æ°u Ä‘Ã£i Ä‘áº¿n <span>70%</span>!</h6>
+                            <h6>Nhận ưu đãi đến <span>70%</span>!</h6>
                             <p>It is a long established fact that reader distracted.</p>
-                            <a href="#" class="theme-btn">TÃ¬m hiá»ƒu thÃªm<i
+                            <a href="#" class="theme-btn">Tìm hiểu thêm<i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -1534,9 +1534,9 @@
                             <img src="assets/img/banner/03.jpg" alt="">
                         </div>
                         <div class="banner-content">
-                            <h6>Nháº­n Æ°u Ä‘Ã£i Ä‘áº¿n <span>70%</span>!</h6>
+                            <h6>Nhận ưu đãi đến <span>70%</span>!</h6>
                             <p>It is a long established fact that reader distracted.</p>
-                            <a href="#" class="theme-btn">TÃ¬m hiá»ƒu thÃªm<i
+                            <a href="#" class="theme-btn">Tìm hiểu thêm<i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -1545,9 +1545,9 @@
                             <img src="assets/img/banner/04.jpg" alt="">
                         </div>
                         <div class="banner-content">
-                            <h6>Nháº­n Æ°u Ä‘Ã£i Ä‘áº¿n <span>70%</span>!</h6>
+                            <h6>Nhận ưu đãi đến <span>70%</span>!</h6>
                             <p>It is a long established fact that reader distracted.</p>
-                            <a href="#" class="theme-btn">TÃ¬m hiá»ƒu thÃªm<i
+                            <a href="#" class="theme-btn">Tìm hiểu thêm<i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -1566,15 +1566,15 @@
                         <div class="site-heading-inline mb-50">
                             <div>
                                 <span class="site-title-tagline"><i class="far fa-plane"></i> Tour</span>
-                                <h2 class="site-title">Nhá»¯ng tour Ä‘Æ°á»£c yÃªu thÃ­ch nháº¥t</h2>
+                                <h2 class="site-title">Những tour được yêu thích nhất</h2>
                             </div>
                             <div class="filter-controls">
                                 <ul class="filter-btns">
-                                    <li class="active" data-filter="*">Táº¥t cáº£ tour</li>
+                                    <li class="active" data-filter="*">Tất cả tour</li>
                                     <li data-filter=".cat1">Historical</li>
                                     <li data-filter=".cat2">Weekend Trip</li>
-                                    <li data-filter=".cat3">Tour Ä‘áº·c biá»‡t</li>
-                                    <li data-filter=".cat4">Tour nghá»‰ dÆ°á»¡ng</li>
+                                    <li data-filter=".cat3">Tour đặc biệt</li>
+                                    <li data-filter=".cat4">Tour nghỉ dưỡng</li>
                                 </ul>
                             </div>
                         </div>
@@ -1593,7 +1593,7 @@
                                     <a href="#" class="tour-category"><i class="far fa-tag"></i> Historical</a>
                                     <span class="tour-place"><i class="far fa-earth-americas"></i> 10 Places</span>
                                 </div>
-                                <h4 class="tour-title"><a href="#">Tour lá»‹ch sá»­ Canada</a></h4>
+                                <h4 class="tour-title"><a href="#">Tour lịch sử Canada</a></h4>
                                 <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                                 <div class="hotel-rate">
                                     <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1623,7 +1623,7 @@
                                     <a href="#" class="tour-category"><i class="far fa-tag"></i> Weekend</a>
                                     <span class="tour-place"><i class="far fa-earth-americas"></i> 10 Places</span>
                                 </div>
-                                <h4 class="tour-title"><a href="#">Tour cuá»‘i tuáº§n Canada</a></h4>
+                                <h4 class="tour-title"><a href="#">Tour cuối tuần Canada</a></h4>
                                 <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                                 <div class="hotel-rate">
                                     <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1653,7 +1653,7 @@
                                     <a href="#" class="tour-category"><i class="far fa-tag"></i> Special</a>
                                     <span class="tour-place"><i class="far fa-earth-americas"></i> 10 Places</span>
                                 </div>
-                                <h4 class="tour-title"><a href="#">Tour Ä‘áº·c biá»‡t Canada</a></h4>
+                                <h4 class="tour-title"><a href="#">Tour đặc biệt Canada</a></h4>
                                 <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                                 <div class="hotel-rate">
                                     <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1683,7 +1683,7 @@
                                     <a href="#" class="tour-category"><i class="far fa-tag"></i> Nghi duong</a>
                                     <span class="tour-place"><i class="far fa-earth-americas"></i> 10 Places</span>
                                 </div>
-                                <h4 class="tour-title"><a href="#">Tour nghá»‰ dÆ°á»¡ng Canada</a></h4>
+                                <h4 class="tour-title"><a href="#">Tour nghỉ dưỡng Canada</a></h4>
                                 <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                                 <div class="hotel-rate">
                                     <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1705,7 +1705,7 @@
                     <div class="col-md-6 col-lg-4 col-xl-3 filter-item cat2">
                         <div class="tour-item">
                             <div class="tour-img">
-                                <span class="badge">Ná»•i báº­t</span>
+                                <span class="badge">Nổi bật</span>
                                 <img src="assets/img/tour/05.jpg" alt="">
                                 <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
                             </div>
@@ -1714,7 +1714,7 @@
                                     <a href="#" class="tour-category"><i class="far fa-tag"></i> Weekend</a>
                                     <span class="tour-place"><i class="far fa-earth-americas"></i> 10 Places</span>
                                 </div>
-                                <h4 class="tour-title"><a href="#">Tour cuá»‘i tuáº§n Canada</a></h4>
+                                <h4 class="tour-title"><a href="#">Tour cuối tuần Canada</a></h4>
                                 <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                                 <div class="hotel-rate">
                                     <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1744,7 +1744,7 @@
                                     <a href="#" class="tour-category"><i class="far fa-tag"></i> Nghi duong</a>
                                     <span class="tour-place"><i class="far fa-earth-americas"></i> 10 Places</span>
                                 </div>
-                                <h4 class="tour-title"><a href="#">Tour nghá»‰ dÆ°á»¡ng Canada</a></h4>
+                                <h4 class="tour-title"><a href="#">Tour nghỉ dưỡng Canada</a></h4>
                                 <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                                 <div class="hotel-rate">
                                     <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1774,7 +1774,7 @@
                                     <a href="#" class="tour-category"><i class="far fa-tag"></i> Special</a>
                                     <span class="tour-place"><i class="far fa-earth-americas"></i> 10 Places</span>
                                 </div>
-                                <h4 class="tour-title"><a href="#">Tour Ä‘áº·c biá»‡t Canada</a></h4>
+                                <h4 class="tour-title"><a href="#">Tour đặc biệt Canada</a></h4>
                                 <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                                 <div class="hotel-rate">
                                     <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1805,7 +1805,7 @@
                                     <a href="#" class="tour-category"><i class="far fa-tag"></i> Historical</a>
                                     <span class="tour-place"><i class="far fa-earth-americas"></i> 10 Places</span>
                                 </div>
-                                <h4 class="tour-title"><a href="#">Tour lá»‹ch sá»­ Canada</a></h4>
+                                <h4 class="tour-title"><a href="#">Tour lịch sử Canada</a></h4>
                                 <p><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</p>
                                 <div class="hotel-rate">
                                     <span class="badge"><i class="far fa-star"></i> 5.0</span>
@@ -1838,11 +1838,11 @@
                     <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
                         <div class="cta-content">
                             <div class="cta-text">
-                                <h1>Äáº·t láº§n Ä‘áº§u <span>giáº£m Ä‘áº¿n 70%</span>!</h1>
+                                <h1>Đặt lần đầu <span>giảm đến 70%</span>!</h1>
                                 <p>It is a long established fact that a reader will be distracted by the readable
-                                    content web page editors now use of a page when looking at its quÃ¡ trÃ¬nh Ä‘áº·t chá»—.</p>
+                                    content web page editors now use of a page when looking at its quá trình đặt chỗ.</p>
                             </div>
-                            <a href="#" class="theme-btn mt-20">Äáº·t ngay <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="#" class="theme-btn mt-20">Đặt ngay <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="cta-img">
@@ -1860,8 +1860,8 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> LÃ½ do chá»n chÃºng tÃ´i</span>
-                            <h2 class="site-title">KhÃ¡m phÃ¡ nhá»¯ng Ä‘iá»ƒm Ä‘áº¿n Ä‘áº¹p cÃ¹ng chÃºng tÃ´i</h2>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Lý do chọn chúng tôi</span>
+                            <h2 class="site-title">Khám phá những điểm đến đẹp cùng chúng tôi</h2>
                         </div>
                     </div>
                 </div>
@@ -1873,8 +1873,8 @@
                                 <img src="assets/img/safety.svg" alt="">
                             </div>
                             <div class="content">
-                                <h4>An ToÃ n VÃ  Tin Cáº­y</h4>
-                                <p>ChÃºng tÃ´i luÃ´n Ä‘áº·t sá»± an toÃ n cá»§a khÃ¡ch hÃ ng lÃªn hÃ ng Ä‘áº§u. Má»i quÃ¡ trÃ¬nh Ä‘áº·t chá»— Ä‘á»u Ä‘Æ°á»£c báº£o máº­t tuyá»‡t Ä‘á»‘i, giÃºp báº¡n hoÃ n toÃ n an tÃ¢m.</p>
+                                <h4>An Toàn Và Tin Cậy</h4>
+                                <p>Chúng tôi luôn đặt sự an toàn của khách hàng lên hàng đầu. Mọi quá trình đặt chỗ đều được bảo mật tuyệt đối, giúp bạn hoàn toàn an tâm.</p>
                             </div>
                         </div>
                         <div class="choose-item">
@@ -1883,8 +1883,8 @@
                                 <img src="assets/img/price.svg" alt="">
                             </div>
                             <div class="content">
-                                <h4>Minh Báº¡ch GiÃ¡ Cáº£ 100%</h4>
-                                <p>KhÃ´ng cÃ³ phÃ­ áº©n, khÃ´ng phá»¥ thu báº¥t ngá». Má»i thÃ´ng tin vá» chi phÃ­ luÃ´n Ä‘Æ°á»£c cÃ´ng khai vÃ  minh báº¡ch trÆ°á»›c khi báº¡n hoÃ n táº¥t Ä‘áº·t chá»—.</p>
+                                <h4>Minh Bạch Giá Cả 100%</h4>
+                                <p>Không có phí ẩn, không phụ thu bất ngờ. Mọi thông tin về chi phí luôn được công khai và minh bạch trước khi bạn hoàn tất đặt chỗ.</p>
                             </div>
                         </div>
                         <div class="choose-item">
@@ -1893,8 +1893,8 @@
                                 <img src="assets/img/booking-confirm.svg" alt="">
                             </div>
                             <div class="content">
-                                <h4>Äáº·t Chá»— Nhanh ChÃ³ng</h4>
-                                <p>Tráº£i nghiá»‡m há»‡ thá»‘ng Ä‘áº·t vÃ© thÃ´ng minh vÃ  tiá»‡n lá»£i. Báº¡n cÃ³ thá»ƒ dá»… dÃ ng quáº£n lÃ½ lá»‹ch trÃ¬nh vÃ  chuyáº¿n Ä‘i cá»§a mÃ¬nh má»i lÃºc má»i nÆ¡i.</p>
+                                <h4>Đặt Chỗ Nhanh Chóng</h4>
+                                <p>Trải nghiệm hệ thống đặt vé thông minh và tiện lợi. Bạn có thể dễ dàng quản lý lịch trình và chuyến đi của mình mọi lúc mọi nơi.</p>
                             </div>
                         </div>
                     </div>
@@ -1917,7 +1917,7 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> ThuÃª xe</span>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Thuê xe</span>
                             <h2 class="site-title">Nhung mau xe thue duoc quan tam nhieu nhat</h2>
                         </div>
                     </div>
@@ -1925,7 +1925,7 @@
                 <div class="car-slider owl-carousel owl-theme">
                     <div class="car-item">
                         <div class="car-img">
-                            <span class="badge">Ná»•i báº­t</span>
+                            <span class="badge">Nổi bật</span>
                             <img src="assets/img/car/01.jpg" alt="">
                             <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
                         </div>
@@ -1949,7 +1949,7 @@
                                             Day</span></span>
                                 </div>
                                 <div class="car-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -1979,7 +1979,7 @@
                                             Day</span></span>
                                 </div>
                                 <div class="car-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -2010,7 +2010,7 @@
                                             Day</span></span>
                                 </div>
                                 <div class="car-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -2041,7 +2041,7 @@
                                             Day</span></span>
                                 </div>
                                 <div class="car-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -2071,7 +2071,7 @@
                                             Day</span></span>
                                 </div>
                                 <div class="car-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -2101,7 +2101,7 @@
                                             Day</span></span>
                                 </div>
                                 <div class="car-text-btn">
-                                    <a href="#">Xem chi tiáº¿t <i class="fas fa-arrow-right"></i></a>
+                                    <a href="#">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -2118,8 +2118,8 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> Äá»™i ngÅ©</span>
-                            <h2 class="site-title">Gáº·p gá»¡ Ä‘á»™i ngÅ© chuyÃªn gia</h2>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Đội ngũ</span>
+                            <h2 class="site-title">Gặp gỡ đội ngũ chuyên gia</h2>
                         </div>
                     </div>
                 </div>
@@ -2153,7 +2153,7 @@
                     </div>
                     @empty
                     <div class="col-12 text-center">
-                        <p>Äang cáº­p nháº­t Ä‘á»™i ngÅ© chuyÃªn gia...</p>
+                        <p>Đang cập nhật đội ngũ chuyên gia...</p>
                     </div>
                     @endforelse
                 </div>
@@ -2172,8 +2172,8 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center mb-4">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> Cáº£m nháº­n khÃ¡ch hÃ ng</span>
-                            <h2 class="site-title text-white">KhÃ¡ch hÃ ng nÃ³i gÃ¬ vá» chÃºng tÃ´i?</h2>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Cảm nhận khách hàng</span>
+                            <h2 class="site-title text-white">Khách hàng nói gì về chúng tôi?</h2>
                         </div>
                     </div>
                 </div>
@@ -2189,7 +2189,7 @@
                             <span class="count">01</span>
                             <div class="testimonial-author-info">
                                 <h4>Diana Carter</h4>
-                                <p>KhÃ¡ch hÃ ng cá»§a chÃºng tÃ´i</p>
+                                <p>Khách hàng của chúng tôi</p>
                             </div>
                             <p>
                                 There are many variations passages of available but to the majority have
@@ -2218,7 +2218,7 @@
                             <span class="count">02</span>
                             <div class="testimonial-author-info">
                                 <h4>Brandon Wigfall</h4>
-                                <p>KhÃ¡ch hÃ ng cá»§a chÃºng tÃ´i</p>
+                                <p>Khách hàng của chúng tôi</p>
                             </div>
                             <p>
                                 There are many variations passages of available but to the majority have
@@ -2247,7 +2247,7 @@
                             <span class="count">03</span>
                             <div class="testimonial-author-info">
                                 <h4>Sylvia Green</h4>
-                                <p>KhÃ¡ch hÃ ng cá»§a chÃºng tÃ´i</p>
+                                <p>Khách hàng của chúng tôi</p>
                             </div>
                             <p>
                                 There are many variations passages of available but to the majority have
@@ -2276,7 +2276,7 @@
                             <span class="count">04</span>
                             <div class="testimonial-author-info">
                                 <h4>Miguel Woodworth</h4>
-                                <p>KhÃ¡ch hÃ ng cá»§a chÃºng tÃ´i</p>
+                                <p>Khách hàng của chúng tôi</p>
                             </div>
                             <p>
                                 There are many variations passages of available but to the majority have
@@ -2307,73 +2307,73 @@
                 <div class="row">
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-plane"></i> Blog du lá»‹ch</span>
-                            <h2 class="site-title">BÃ i viáº¿t vÃ  tin tá»©c má»›i nháº¥t</h2>
+                            <span class="site-title-tagline"><i class="far fa-plane"></i> Blog du lịch</span>
+                            <h2 class="site-title">Bài viết và tin tức mới nhất</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-lg-4">
                         <div class="blog-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                            <span class="blog-date">25 thÃ¡ng 8, 2025</span>
+                            <span class="blog-date">25 tháng 8, 2025</span>
                             <div class="blog-item-img">
                                 <img src="assets/img/blog/01.jpg" alt="Thumb">
                             </div>
                             <div class="blog-item-info">
                                 <div class="blog-item-meta">
                                     <ul>
-                                        <li><a href="#"><i class="far fa-user-circle"></i> Bá»Ÿi Alicia Davis</a></li>
-                                        <li><a href="#"><i class="far fa-comments"></i> 25.5k bÃ¬nh luáº­n</a></li>
+                                        <li><a href="#"><i class="far fa-user-circle"></i> Bởi Alicia Davis</a></li>
+                                        <li><a href="#"><i class="far fa-comments"></i> 25.5k bình luận</a></li>
                                     </ul>
                                 </div>
                                 <h4 class="blog-title">
-                                    <a href="#">Nhiá»u bÃ­ quyáº¿t lÃªn lá»‹ch trÃ¬nh thÃ´ng minh giÃºp chuyáº¿n Ä‘i nháº¹ nhÃ ng hÆ¡n
+                                    <a href="#">Nhiều bí quyết lên lịch trình thông minh giúp chuyến đi nhẹ nhàng hơn
                                         </a>
                                 </h4>
-                                <a class="theme-btn mt-3" href="#">Xem thÃªm <i
+                                <a class="theme-btn mt-3" href="#">Xem thêm <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="blog-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".50s">
-                            <span class="blog-date">27 thÃ¡ng 8, 2025</span>
+                            <span class="blog-date">27 tháng 8, 2025</span>
                             <div class="blog-item-img">
                                 <img src="assets/img/blog/02.jpg" alt="Thumb">
                             </div>
                             <div class="blog-item-info">
                                 <div class="blog-item-meta">
                                     <ul>
-                                        <li><a href="#"><i class="far fa-user-circle"></i> Bá»Ÿi Alicia Davis</a></li>
-                                        <li><a href="#"><i class="far fa-comments"></i> 25.5k bÃ¬nh luáº­n</a></li>
+                                        <li><a href="#"><i class="far fa-user-circle"></i> Bởi Alicia Davis</a></li>
+                                        <li><a href="#"><i class="far fa-comments"></i> 25.5k bình luận</a></li>
                                     </ul>
                                 </div>
                                 <h4 class="blog-title">
-                                    <a href="#">CÃ¡ch chá»n nÆ¡i lÆ°u trÃº vÃ  di chuyá»ƒn tá»‘i Æ°u cho tá»«ng ngÃ¢n sÃ¡ch</a>
+                                    <a href="#">Cách chọn nơi lưu trú và di chuyển tối ưu cho từng ngân sách</a>
                                 </h4>
-                                <a class="theme-btn mt-3" href="#">Xem thÃªm <i
+                                <a class="theme-btn mt-3" href="#">Xem thêm <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="blog-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".75s">
-                            <span class="blog-date">30 thÃ¡ng 8, 2025</span>
+                            <span class="blog-date">30 tháng 8, 2025</span>
                             <div class="blog-item-img">
                                 <img src="assets/img/blog/03.jpg" alt="Thumb">
                             </div>
                             <div class="blog-item-info">
                                 <div class="blog-item-meta">
                                     <ul>
-                                        <li><a href="#"><i class="far fa-user-circle"></i> Bá»Ÿi Alicia Davis</a></li>
-                                        <li><a href="#"><i class="far fa-comments"></i> 25.5k bÃ¬nh luáº­n</a></li>
+                                        <li><a href="#"><i class="far fa-user-circle"></i> Bởi Alicia Davis</a></li>
+                                        <li><a href="#"><i class="far fa-comments"></i> 25.5k bình luận</a></li>
                                     </ul>
                                 </div>
                                 <h4 class="blog-title">
-                                    <a href="#">Nhung xu huong du lich moi dang duoc nhieu du khÃ¡ch quan tam
+                                    <a href="#">Nhung xu huong du lich moi dang duoc nhieu du khách quan tam
                                         </a>
                                 </h4>
-                                <a class="theme-btn mt-3" href="#">Xem thÃªm <i
+                                <a class="theme-btn mt-3" href="#">Xem thêm <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>

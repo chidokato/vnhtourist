@@ -1,4 +1,4 @@
-﻿@extends('frontend.layouts.app')
+@extends('frontend.layouts.app')
 
 @php
     $customerInquiryErrors = $errors->getBag('customerInquiry');
@@ -17,7 +17,7 @@
     };
 
     $formatPrice = function ($value) {
-        return $value !== null ? number_format((float) $value, 0, ',', '.') . ' â‚«' : 'LiÃªn há»‡';
+        return $value !== null ? number_format((float) $value, 0, ',', '.') . ' ₫' : 'Liên hệ';
     };
 
     $extractListItems = function ($value) use ($plainText) {
@@ -62,7 +62,7 @@
     $galleryItems = $galleryItems->unique('src')->values();
 
     if ($galleryItems->isEmpty()) {
-        $placeholderImage = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%23f0f0f0'/%3E%3Ctext x='300' y='200' fill='%23999999' font-family='sans-serif' font-size='24' text-anchor='middle' alignment-baseline='middle'%3EÄang cáº­p nháº­t áº£nh%3C/text%3E%3C/svg%3E";
+        $placeholderImage = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%23f0f0f0'/%3E%3Ctext x='300' y='200' fill='%23999999' font-family='sans-serif' font-size='24' text-anchor='middle' alignment-baseline='middle'%3EĐang cập nhật ảnh%3C/text%3E%3C/svg%3E";
         $galleryItems = collect([[
             'src' => $placeholderImage,
             'alt' => $displayValue($product->title),
@@ -75,10 +75,10 @@
         ? route('frontend.categories.show', $product->category->slug)
         : route('frontend.home');
 
-    $departureText = $plainText($product->departure_location) ?: ($plainText($product->address) ?: 'Äang cáº­p nháº­t');
-    $destinationText = $plainText($product->destination) ?: ($plainText($product->attractions) ?: 'Äang cáº­p nháº­t');
-    $durationText = $plainText($product->duration) ?: 'Äang cáº­p nháº­t';
-    $transportText = $plainText($product->transport) ?: 'Äang cáº­p nháº­t';
+    $departureText = $plainText($product->departure_location) ?: ($plainText($product->address) ?: 'Đang cập nhật');
+    $destinationText = $plainText($product->destination) ?: ($plainText($product->attractions) ?: 'Đang cập nhật');
+    $durationText = $plainText($product->duration) ?: 'Đang cập nhật';
+    $transportText = $plainText($product->transport) ?: 'Đang cập nhật';
     $transportIconClass = 'fas fa-bus';
 
     if (preg_match('/may bay|hang khong|air|flight|plane/i', $transportText)) {
@@ -89,8 +89,8 @@
         $transportIconClass = 'fas fa-ship';
     }
 
-    $itineraryText = $plainText($product->itinerary) ?: 'Äang cáº­p nháº­t';
-    $publishedText = optional($product->published_at)->format('d/m/Y') ?: 'Äang cáº­p nháº­t';
+    $itineraryText = $plainText($product->itinerary) ?: 'Đang cập nhật';
+    $publishedText = optional($product->published_at)->format('d/m/Y') ?: 'Đang cập nhật';
     $departureDateText = $product->departure_date ? optional($product->departure_date)->format('d/m/Y') : null;
 
     $addressParts = array_filter([
@@ -98,8 +98,8 @@
         $plainText(optional($product->ward)->name),
         $plainText(optional($product->province)->name),
     ]);
-    $locationText = count($addressParts) ? implode(', ', $addressParts) : 'Äang cáº­p nháº­t';
-    $headerMetaText = $plainText($product->itinerary) ?: ($locationText !== 'Äang cáº­p nháº­t' ? $locationText : 'Äang cáº­p nháº­t');
+    $locationText = count($addressParts) ? implode(', ', $addressParts) : 'Đang cập nhật';
+    $headerMetaText = $plainText($product->itinerary) ?: ($locationText !== 'Đang cập nhật' ? $locationText : 'Đang cập nhật');
 
     $attractionItems = collect(preg_split('/[\r\n,;|]+/', (string) $product->attractions))
         ->map(fn ($item) => trim(strip_tags((string) $item)))
@@ -252,7 +252,7 @@
             <div class="container">
                 <h2 class="breadcrumb-title">{{ $displayValue($product->title) }}</h2>
                 <ul class="breadcrumb-menu">
-                    <li><a href="{{ route('frontend.home') }}">Trang chá»§</a></li>
+                    <li><a href="{{ route('frontend.home') }}">Trang chủ</a></li>
                     <li><a href="{{ $categoryUrl }}">{{ $displayValue(optional($product->category)->name, 'Tour') }}</a></li>
                     <li class="active">{{ $displayValue($product->title) }}</li>
                 </ul>
@@ -305,8 +305,8 @@
                                 <h4 class="listing-title">{{ $displayValue($product->title) }}</h4>
                                 <div class="listing-header">
                                     <div class="listing-header-info">
-                                        <p class="listing-location"><i class="far fa-map-marker-alt"></i> <b>Lá»‹ch trÃ¬nh:</b> {{ $displayValue($headerMetaText) }}</p>
-                                        <p class="listing-location"><i class="{{ $transportIconClass }}"></i> <b>PhÆ°Æ¡ng tiá»‡n:</b> {{ $displayValue($transportText) }}</p>
+                                        <p class="listing-location"><i class="far fa-map-marker-alt"></i> <b>Lịch trình:</b> {{ $displayValue($headerMetaText) }}</p>
+                                        <p class="listing-location"><i class="{{ $transportIconClass }}"></i> <b>Phương tiện:</b> {{ $displayValue($transportText) }}</p>
                                     </div>
                                     <!-- <div class="listing-rate">
                                         <span class="badge"><i class="far fa-star"></i> {{ $product->is_featured ? '5.0' : '4.8' }}</span> <span class="listing-rate-review">(+1k Reviews)</span>
@@ -322,7 +322,7 @@
                                                     <i class="far fa-clock"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>Thá»i gian</h6>
+                                                    <h6>Thời gian</h6>
                                                     <span title="{{ $displayValue($durationText) }}">{{ $displayValue($durationText) }}</span>
                                                 </div>
                                             </div>
@@ -333,7 +333,7 @@
                                                     <i class="far fa-map-marker-alt"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>Khá»Ÿi hÃ nh</h6>
+                                                    <h6>Khởi hành</h6>
                                                     <span title="{{ $displayValue($departureText) }}">{{ $displayValue($departureText) }}</span>
                                                 </div>
                                             </div>
@@ -344,7 +344,7 @@
                                                     <i class="far fa-calendar-days"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>NgÃ y khá»Ÿi hÃ nh</h6>
+                                                    <h6>Ngày khởi hành</h6>
                                                     <span title="{{ $displayValue($departureDateText ?: $publishedText) }}">{{ $displayValue($departureDateText ?: $publishedText) }}</span>
                                                 </div>
                                             </div>
@@ -355,7 +355,7 @@
                                                     <i class="far fa-earth-americas"></i>
                                                 </div>
                                                 <div class="listing-feature-content">
-                                                    <h6>Äiá»ƒm Ä‘áº¿n</h6>
+                                                    <h6>Điểm đến</h6>
                                                     <span title="{{ $displayValue($destinationText) }}">{{ $displayValue($destinationText) }}</span>
                                                 </div>
                                             </div>
@@ -370,7 +370,7 @@
                                             <div class="tour-info-box tour-info-box--primary">
                                                 <div class="tour-info-box-head">
                                                     <span class="tour-info-box-icon"><i class="far fa-star"></i></span>
-                                                    <h5>Lá»‹ch trÃ¬nh cÃ³ gÃ¬ hay?</h5>
+                                                    <h5>Lịch trình có gì hay?</h5>
                                                 </div>
                                                 @if ($summaryHighlights->isNotEmpty())
                                                     <ul class="tour-info-box-list">
@@ -388,7 +388,7 @@
                                             <div class="tour-info-box tour-info-box--accent">
                                                 <div class="tour-info-box-head">
                                                     <span class="tour-info-box-icon"><i class="far fa-tag"></i></span>
-                                                    <h5>ThÃ´ng tin khuyáº¿n mÃ£i</h5>
+                                                    <h5>Thông tin khuyến mãi</h5>
                                                 </div>
                                                 @if ($promotionHighlights->isNotEmpty())
                                                     <ul class="tour-info-box-list tour-info-box-list--accent">
@@ -443,10 +443,10 @@
                                                                 @php
                                                                     $titleText = $displayValue($section['title']);
                                                                     $titleText = trim(str_replace(['&nbsp;', '&#160;'], ' ', $titleText));
-                                                                    if (!preg_match('/^ng[aÃ ]y/i', $titleText)) {
-                                                                        $titleText = '<span class="itinerary-day-label">NgÃ y ' . $section['index'] . ': </span>' . $titleText;
+                                                                    if (!preg_match('/^ng[aà]y/i', $titleText)) {
+                                                                        $titleText = '<span class="itinerary-day-label">Ngày ' . $section['index'] . ': </span>' . $titleText;
                                                                     } else {
-                                                                        $titleText = preg_replace('/^(Ng[aÃ ]y\s+\d+[:\-]*\s*)/i', '<span class="itinerary-day-label">$1</span>', $titleText);
+                                                                        $titleText = preg_replace('/^(Ng[aà]y\s+\d+[:\-]*\s*)/i', '<span class="itinerary-day-label">$1</span>', $titleText);
                                                                     }
                                                                 @endphp
                                                                 <h3>{!! $titleText !!}</h3>
@@ -485,12 +485,12 @@
                             <div class="mobile-booking-overlay js-mobile-booking-overlay"></div>
                             <div class="mobile-bottom-booking-bar d-lg-none">
                                 <div class="mbb-price-col">
-                                    <span class="mbb-price-label">GiÃ¡ tá»«</span>
-                                    <div class="mbb-price-value">{!! $product->price ? number_format((float) $product->price, 0, ',', '.') . ' â‚«<small>/ngÆ°á»i</small>' : 'LiÃªn há»‡' !!}</div>
+                                    <span class="mbb-price-label">Giá từ</span>
+                                    <div class="mbb-price-value">{!! $product->price ? number_format((float) $product->price, 0, ',', '.') . ' ₫<small>/người</small>' : 'Liên hệ' !!}</div>
                                 </div>
                                 <div class="mbb-actions-col">
-                                    <button type="button" class="btn btn-primary mbb-btn mbb-book-btn js-mobile-booking-open">Äáº·t tour</button>
-                                    <button type="button" class="btn btn-light mbb-btn mbb-consult-btn text-primary" data-bs-toggle="modal" data-bs-target="#tourBookingModal">TÆ° váº¥n</button>
+                                    <button type="button" class="btn btn-primary mbb-btn mbb-book-btn js-mobile-booking-open">Đặt tour</button>
+                                    <button type="button" class="btn btn-light mbb-btn mbb-consult-btn text-primary" data-bs-toggle="modal" data-bs-target="#tourBookingModal">Tư vấn</button>
                                 </div>
                             </div>
                             
@@ -500,15 +500,15 @@
                                     <!-- Header -->
                                     <div class="booking-sidebar-header">
                                         <button type="button" class="mobile-booking-close js-mobile-booking-close"><i class="fas fa-times"></i></button>
-                                        <div class="booking-price-label">GiÃ¡ tá»«</div>
+                                        <div class="booking-price-label">Giá từ</div>
                                         <div class="d-flex align-items-baseline mb-3">
                                             <h3 class="booking-price-value js-main-price-display">{{ $formatPrice($product->price) }}</h3>
-                                            <span class="booking-price-unit">/ngÆ°á»i</span>
+                                            <span class="booking-price-unit">/người</span>
                                         </div>
                                         <hr class="booking-header-divider">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <span class="booking-tour-code-label">MÃ£ tour:</span>
-                                            <strong class="booking-tour-code-value">{{ $product->tour_code ?: 'Äang cáº­p nháº­t' }}</strong>
+                                            <span class="booking-tour-code-label">Mã tour:</span>
+                                            <strong class="booking-tour-code-value">{{ $product->tour_code ?: 'Đang cập nhật' }}</strong>
                                         </div>
                                     </div>
 
@@ -519,7 +519,7 @@
 
                                         @if ($product->departurePrices && $product->departurePrices->isNotEmpty())
                                         <div class="mb-4">
-                                            <div class="booking-section-title">NgÃ y khá»Ÿi hÃ nh</div>
+                                            <div class="booking-section-title">Ngày khởi hành</div>
                                             <div class="d-flex gap-2 flex-wrap">
                                                 @foreach ($product->departurePrices as $index => $dp)
                                                 @php
@@ -532,68 +532,68 @@
                                                 <label class="btn btn-outline-primary p-2 text-center booking-date-btn {{ $index === 0 ? 'active' : '' }}" data-price="{{ $realPrice }}" style="cursor: pointer;">
                                                     <input type="radio" name="departure_date" value="{{ $dp->departure_date }}" class="d-none" {{ $index === 0 ? 'checked' : '' }}>
                                                     <div class="booking-date-value">{{ $shortDate }}</div>
-                                                    <div class="booking-date-price">{{ $displayPrice > 0 ? rtrim(rtrim(number_format($displayPrice, 1, ',', '.'), '0'), ',') . 'tr' : 'LiÃªn há»‡' }}</div>
+                                                    <div class="booking-date-price">{{ $displayPrice > 0 ? rtrim(rtrim(number_format($displayPrice, 1, ',', '.'), '0'), ',') . 'tr' : 'Liên hệ' }}</div>
                                                 </label>
                                                 @endforeach
                                             </div>
                                         </div>
                                         @elseif($departureDateText)
                                         <div class="mb-4">
-                                            <div class="booking-section-title">NgÃ y khá»Ÿi hÃ nh</div>
+                                            <div class="booking-section-title">Ngày khởi hành</div>
                                             <label class="btn btn-primary p-2 text-center booking-date-btn active">
                                                 <input type="radio" name="departure_date" value="{{ $displayValue($departureDateText) }}" class="d-none" checked>
                                                 <div class="booking-date-value">{{ $displayValue($departureDateText) }}</div>
                                                 @php
                                                     $fallbackPrice = $product->price > 0 ? $product->price / 1000000 : 0;
                                                 @endphp
-                                                <div class="booking-date-price">{{ $fallbackPrice > 0 ? rtrim(rtrim(number_format($fallbackPrice, 1, ',', '.'), '0'), ',') . 'tr' : 'LiÃªn há»‡' }}</div>
+                                                <div class="booking-date-price">{{ $fallbackPrice > 0 ? rtrim(rtrim(number_format($fallbackPrice, 1, ',', '.'), '0'), ',') . 'tr' : 'Liên hệ' }}</div>
                                             </label>
                                         </div>
                                         @endif
 
                                         <div class="mb-3">
-                                            <div class="booking-section-title">Sá»‘ ngÆ°á»i</div>
+                                            <div class="booking-section-title">Số người</div>
                                             
-                                            <!-- NgÆ°á»i lá»›n -->
+                                            <!-- Người lớn -->
                                             <div class="d-flex justify-content-between align-items-center mb-2">
                                                 <div>
-                                                    <div class="booking-qty-label">NgÆ°á»i lá»›n</div>
+                                                    <div class="booking-qty-label">Người lớn</div>
                                                     <div class="booking-qty-price js-adult-price-display">{{ $formatPrice($product->price) }}</div>
                                                 </div>
                                                 <div class="input-group" style="width: 100px;">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-minus booking-qty-btn" type="button">-</button>
-                                                    <input type="text" name="adult_quantity" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-adult-input booking-qty-input" value="1" readonly data-price="{{ $product->price }}" data-label="NgÆ°á»i lá»›n">
+                                                    <input type="text" name="adult_quantity" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-adult-input booking-qty-input" value="1" readonly data-price="{{ $product->price }}" data-label="Người lớn">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-plus booking-qty-btn" type="button">+</button>
                                                 </div>
                                             </div>
 
-                                            <!-- Tráº» em -->
+                                            <!-- Trẻ em -->
                                             @if ($product->child_price_percent)
                                             @php $childPrice = $product->price * $product->child_price_percent / 100; @endphp
                                             <div class="d-flex justify-content-between align-items-center mb-2">
                                                 <div>
-                                                    <div class="booking-qty-label">Tráº» em</div>
+                                                    <div class="booking-qty-label">Trẻ em</div>
                                                     <div class="booking-qty-price js-child-price-display">{{ $formatPrice($childPrice) }}</div>
                                                 </div>
                                                 <div class="input-group" style="width: 100px;">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-minus booking-qty-btn" type="button">-</button>
-                                                    <input type="text" name="child_quantity" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-child-input booking-qty-input" value="0" readonly data-price="{{ $childPrice }}" data-label="Tráº» em">
+                                                    <input type="text" name="child_quantity" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-child-input booking-qty-input" value="0" readonly data-price="{{ $childPrice }}" data-label="Trẻ em">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-plus booking-qty-btn" type="button">+</button>
                                                 </div>
                                             </div>
                                             @endif
 
-                                            <!-- Em bÃ© -->
+                                            <!-- Em bé -->
                                             @if ($product->infant_price_percent)
                                             @php $infantPrice = $product->price * $product->infant_price_percent / 100; @endphp
                                             <div class="d-flex justify-content-between align-items-center mb-2">
                                                 <div>
-                                                    <div class="booking-qty-label">Em bÃ©</div>
+                                                    <div class="booking-qty-label">Em bé</div>
                                                     <div class="booking-qty-price js-infant-price-display">{{ $formatPrice($infantPrice) }}</div>
                                                 </div>
                                                 <div class="input-group" style="width: 100px;">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-minus booking-qty-btn" type="button">-</button>
-                                                    <input type="text" name="infant_quantity" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-infant-input booking-qty-input" value="0" readonly data-price="{{ $infantPrice }}" data-label="Em bÃ©">
+                                                    <input type="text" name="infant_quantity" class="form-control form-control-sm text-center border-0 bg-transparent js-qty-input js-infant-input booking-qty-input" value="0" readonly data-price="{{ $infantPrice }}" data-label="Em bé">
                                                     <button class="btn btn-outline-secondary btn-sm rounded-circle js-qty-plus booking-qty-btn" type="button">+</button>
                                                 </div>
                                             </div>
@@ -603,23 +603,23 @@
                                         <div class="p-3 mb-4 rounded booking-summary-box">
                                             <div class="js-booking-summary-list mb-1 booking-summary-list">
                                                 <div class="d-flex justify-content-between mb-1">
-                                                    <span>NgÆ°á»i lá»›n x 1</span>
+                                                    <span>Người lớn x 1</span>
                                                     <strong class="booking-summary-item-price">{{ $formatPrice($product->price) }}</strong>
                                                 </div>
                                             </div>
                                             <hr class="my-2 booking-summary-divider">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <span class="booking-total-label">Tá»•ng cá»™ng</span>
+                                                <span class="booking-total-label">Tổng cộng</span>
                                                 <strong class="js-booking-total booking-total-value">{{ $formatPrice($product->price) }}</strong>
                                             </div>
                                         </div>
 
                                         <div class="d-flex gap-2 mb-4">
                                             <button type="submit" class="btn btn-primary w-50 booking-action-btn m-0">
-                                                Äáº·t tour ngay
+                                                Đặt tour ngay
                                             </button>
                                             <button type="button" class="btn btn-outline-primary w-50 booking-action-btn m-0" data-bs-toggle="modal" data-bs-target="#tourBookingModal">
-                                                TÆ° váº¥n miá»…n phÃ­
+                                                Tư vấn miễn phí
                                             </button>
                                         </div>
 
@@ -642,7 +642,7 @@
                     @if ($relatedProducts->isNotEmpty())
                         <div class="related-tours-wrapper mt-5 pt-3 border-top">
                             <div class="listing-item">
-                                <h4 class="mb-4">Tour liÃªn quan</h4>
+                                <h4 class="mb-4">Tour liên quan</h4>
                                 <div class="row g-4">
                                     @foreach ($relatedProducts as $relatedProduct)
                                         <div class="col-md-6 col-lg-3">
@@ -666,10 +666,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <div>
-                        <h4 class="modal-title" id="tourBookingModalLabel">ÄÄƒng kÃ½ tÆ° váº¥n tour</h4>
+                        <h4 class="modal-title" id="tourBookingModalLabel">Đăng ký tư vấn tour</h4>
                         <p class="mb-0 text-muted" style="font-size: 14px;">{{ $displayValue($product->title) }}</p>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ÄÃ³ng"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
                 <div class="modal-body">
                     @if (session('customer_inquiry_success'))
@@ -695,32 +695,32 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
-                                    <label class="form-label">Há» tÃªn *</label>
-                                    <input type="text" name="name" class="form-control @if($customerInquiryErrors->has('name')) is-invalid @endif" value="{{ old('name') }}" placeholder="Nháº­p há» tÃªn" required>
+                                    <label class="form-label">Họ tên *</label>
+                                    <input type="text" name="name" class="form-control @if($customerInquiryErrors->has('name')) is-invalid @endif" value="{{ old('name') }}" placeholder="Nhập họ tên" required>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
-                                    <label class="form-label">Sá»‘ Ä‘iá»‡n thoáº¡i *</label>
-                                    <input type="text" name="phone" class="form-control @if($customerInquiryErrors->has('phone')) is-invalid @endif" value="{{ old('phone') }}" placeholder="Nháº­p sá»‘ Ä‘iá»‡n thoáº¡i" required>
+                                    <label class="form-label">Số điện thoại *</label>
+                                    <input type="text" name="phone" class="form-control @if($customerInquiryErrors->has('phone')) is-invalid @endif" value="{{ old('phone') }}" placeholder="Nhập số điện thoại" required>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
                                     <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control @if($customerInquiryErrors->has('email')) is-invalid @endif" value="{{ old('email') }}" placeholder="Nháº­p email">
+                                    <input type="email" name="email" class="form-control @if($customerInquiryErrors->has('email')) is-invalid @endif" value="{{ old('email') }}" placeholder="Nhập email">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group mb-4">
-                                    <label class="form-label">Lá»i nháº¯n</label>
-                                    <textarea name="message" rows="4" class="form-control @if($customerInquiryErrors->has('message')) is-invalid @endif" placeholder="Báº¡n cáº§n tÆ° váº¥n thÃªm vá» lá»‹ch trÃ¬nh, giÃ¡ cáº£, dá»‹ch vá»¥...">{{ old('message') }}</textarea>
+                                    <label class="form-label">Lời nhắn</label>
+                                    <textarea name="message" rows="4" class="form-control @if($customerInquiryErrors->has('message')) is-invalid @endif" placeholder="Bạn cần tư vấn thêm về lịch trình, giá cả, dịch vụ...">{{ old('message') }}</textarea>
                                 </div>
                             </div>
                         </div>
 
                         <div class="listing-side-btn booking-modal-actions d-flex gap-2">
-                            <button type="submit" class="theme-btn flex-grow-1 m-0"><span class="far fa-paper-plane me-1"></span> Gá»­i yÃªu cáº§u</button>
+                            <button type="submit" class="theme-btn flex-grow-1 m-0"><span class="far fa-paper-plane me-1"></span> Gửi yêu cầu</button>
                         </div>
                     </form>
                 </div>
