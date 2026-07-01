@@ -416,15 +416,38 @@ class PageController extends BaseFrontendController
             ->values()
             ->values();
 
-        $destinationOptions = $this->flattenCategoryTreeWithCounts(
-            $this->attachPostCountsToCategoryTree(
-                $this->buildCategoryTree($allCategories, $branchRootCategory->id),
-                $branchPosts,
-                'products_count'
-            ),
-            'products_count'
-        )->filter(fn ($option) => $option['count'] > 0)
-            ->values();
+        $branchPostsForDest = Post::query()
+            ->where('type', Post::TYPE_PRODUCT)
+            ->where('is_active', true)
+            ->whereIn('category_id', $branchCategoryIds)
+            ->whereNotNull('destination')
+            ->where('destination', '!=', '')
+            ->get(['id', 'destination']);
+
+        $destinationCounts = [];
+        foreach ($branchPostsForDest as $p) {
+            $dests = array_map('trim', explode(',', $p->destination));
+            foreach ($dests as $d) {
+                if ($d !== '') {
+                    $destinationCounts[$d] = ($destinationCounts[$d] ?? 0) + 1;
+                }
+            }
+        }
+
+        $tourLocations = \App\Models\TourOption::query()
+            ->where('group_key', \App\Models\TourOption::GROUP_LOCATION)
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
+        $destinationOptions = $tourLocations->map(function ($loc) use ($destinationCounts) {
+            return [
+                'name' => $loc->name,
+                'label' => $loc->name,
+                'count' => $destinationCounts[$loc->name] ?? 0,
+            ];
+        })->filter(fn ($option) => $option['count'] > 0)->values();
 
         $transportOptions = Post::query()
             ->where('type', Post::TYPE_PRODUCT)
@@ -455,7 +478,11 @@ class PageController extends BaseFrontendController
                 $query->where('departure_location', $selectedDepartureLocation);
             })
             ->when($selectedDestinations->isNotEmpty(), function ($query) use ($selectedDestinations) {
-                $query->whereIn('destination', $selectedDestinations->all());
+                $query->where(function ($q) use ($selectedDestinations) {
+                    foreach ($selectedDestinations as $dest) {
+                        $q->orWhere('destination', 'like', '%' . $dest . '%');
+                    }
+                });
             })
             ->when($selectedTransports->isNotEmpty(), function ($query) use ($selectedTransports) {
                 $query->whereIn('transport', $selectedTransports->all());
