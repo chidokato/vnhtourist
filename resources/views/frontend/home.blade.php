@@ -1145,74 +1145,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="row g-4">
+                <div class="tour-tab-slider owl-carousel owl-theme mt-4">
                     @forelse ($foreignTours ?? [] as $product)
-                        <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
+                        <div class="tour-slider-item">
                             @include('frontend.products._tour_card', [
                                 'product' => $product,
                                 'imageFallback' => 'assets/img/flight/01.jpg',
                             ])
                         </div>
-                        @if (false)
-                        @php
-                            $resolveImage = function ($value) {
-                                return \App\Support\MediaManager::publicUrl($value);
-                            };
-                            $formatPrice = function ($product) {
-                                if (! filled($product->price)) return 'Liên hệ';
-                                return number_format((float) $product->price, 0, ',', '.') . ' đ';
-                            };
-                            $plainText = function ($value) {
-                                return trim(preg_replace('/\s+/u', ' ', strip_tags((string) $value)));
-                            };
-                            $durationText = $plainText($product->duration) ?: 'Đang cập nhật';
-                            $departureText = $plainText($product->departure_location) ?: ($plainText($product->address) ?: 'Đang cập nhật địa điểm');
-                            $transportText = $plainText($product->transport) ?: 'Liên hệ để biết thêm';
-                            $promoText = $plainText($product->promotion_content);
-                            $primaryTag = $product->category?->name ?? 'Tour';
-                            $secondaryTag = $promoText !== '' ? \Illuminate\Support\Str::limit($promoText, 28) : ($product->is_featured ? 'Tour nổi bật' : 'Mới cập nhật');
-                        @endphp
-                        <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                            <div class="flight-item">
-                                <a href="#" class="add-wishlist"><i class="far fa-heart"></i></a>
-                                @if($product->is_featured)
-                                    <span class="badge" style="position: absolute; top: 15px; right: 15px; z-index: 1; background: var(--theme-color); color: #fff; padding: 5px 10px; border-radius: 5px;">Nổi bật</span>
-                                @endif
-                                <div class="flight-img">
-                                    @if ($resolveImage($product->image))
-                                        <img src="{{ $resolveImage($product->image) }}" alt="{{ $product->title }}" style="height: 250px; object-fit: cover;">
-                                    @else
-                                        <img src="assets/img/flight/01.jpg" alt="" style="height: 250px; object-fit: cover;">
-                                    @endif
-                                </div>
-                                <div class="flight-content">
-                                    <div class="flight-title">
-                                        <h4 style="font-size: 18px; margin-bottom: 10px; min-height: 44px;"><a href="{{ $product->frontend_url }}">{{ \Illuminate\Support\Str::limit($product->title, 50) }}</a></h4>
-                                        <p class="flight-date" style="margin-bottom: 5px;"><i class="far fa-clock"></i> {{ $durationText }}</p>
-                                        <p class="flight-date"><i class="far fa-map-marker-alt"></i> Khởi hành: {{ $departureText }}</p>
-                                    </div>
-                                    <div class="flight-bottom">
-                                        <div class="flight-price">
-                                            Giá từ <span>{{ $formatPrice($product) }}</span>
-                                        </div>
-                                        <div class="flight-text-btn">
-                                            <a href="{{ $product->frontend_url }}">Xem chi tiết <i class="fas fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
                     @empty
                         <div class="col-12 text-center">
                             <p>Đang cập nhật tour nước ngoài...</p>
                         </div>
                     @endforelse
-                    
-                    <div class="text-center mt-3 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                        <a href="/tour-nuoc-ngoai" class="theme-btn">Khám phá thêm<i
-                                class="fas fa-arrow-circle-right"></i></a>
-                    </div>
+                </div>
+                
+                <div class="text-center mt-3 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
+                    <a href="/tour-nuoc-ngoai" class="theme-btn">Khám phá thêm<i
+                            class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

@@ -169,9 +169,10 @@ class ContentController extends Controller
             'tourOptionGroups' => $this->tourOptionGroups([
                 TourOption::GROUP_TRANSPORT => old('transport', []),
                 TourOption::GROUP_DEPARTURE_DATE => old('departure_date', []),
-                TourOption::GROUP_LOCATION => array_filter([
-                    old('departure_location'),
-                ]),
+                TourOption::GROUP_LOCATION => array_merge(
+                    array_filter([old('departure_location')]),
+                    old('destination', [])
+                ),
                 TourOption::GROUP_TAG => old('tags', []),
             ]),
             'provinceOptions' => $this->provinceOptions(),
@@ -212,9 +213,10 @@ class ContentController extends Controller
             'tourOptionGroups' => $this->tourOptionGroups([
                 TourOption::GROUP_TRANSPORT => old('transport', isset($post) && $post->transport ? (is_array($post->transport) ? $post->transport : explode(', ', $post->transport)) : []),
                 TourOption::GROUP_DEPARTURE_DATE => old('departure_date', isset($post) && $post->departure_date ? (is_array($post->departure_date) ? $post->departure_date : explode(', ', $post->departure_date)) : []),
-                TourOption::GROUP_LOCATION => array_filter([
-                    old('departure_location', $post->departure_location),
-                ]),
+                TourOption::GROUP_LOCATION => array_merge(
+                    array_filter([old('departure_location', $post->departure_location)]),
+                    old('destination', isset($post) && $post->destination ? (is_array($post->destination) ? $post->destination : explode(', ', $post->destination)) : [])
+                ),
                 TourOption::GROUP_TAG => old('tags', isset($post) && $post->tags ? (is_array($post->tags) ? $post->tags : explode(', ', $post->tags)) : []),
             ]),
             'provinceOptions' => $this->provinceOptions(),
@@ -311,7 +313,8 @@ class ContentController extends Controller
             'address' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
             'itinerary' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
             'departure_location' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
-            'destination' => $type === Post::TYPE_PRODUCT ? ['nullable', 'string', 'max:255'] : ['nullable'],
+            'destination' => $type === Post::TYPE_PRODUCT ? ['nullable', 'array'] : ['nullable'],
+            'destination.*' => ['string', 'max:255'],
             'departure_date' => $type === Post::TYPE_PRODUCT ? ['nullable', 'array'] : ['nullable'],
             'departure_date.*' => ['string', 'max:255'],
             'departure_prices' => $type === Post::TYPE_PRODUCT ? ['nullable', 'array'] : ['nullable'],
@@ -438,21 +441,23 @@ class ContentController extends Controller
             $price = (float) $validated['price'] * $multiplier;
         }
 
-        $destination = null;
-
-        if ($type === Post::TYPE_PRODUCT) {
-            $destination = $this->destinationFromCategoryId($validated['category_id'] ?? null)
-                ?? ($post->destination ?? null);
-        }
-
         $slug = $validated['slug'] ?? null;
         if (empty($slug)) {
             $slug = Str::slug($validated['title']);
         }
-        if (empty($slug)) {
+
+        if (!empty($slug)) {
+            $originalSlug = $slug;
+            $count = 1;
+            $ignoreId = $post->id ?? 0;
+            while (\App\Models\Post::where('slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
+                $slug = $originalSlug . '-' . $count;
+                $count++;
+            }
+        } else {
             do {
                 $slug = strtolower(Str::random(10));
-            } while (\App\Models\Post::where('slug', $slug)->exists());
+            } while (\App\Models\Post::where('slug', $slug)->where('id', '!=', $post->id ?? 0)->exists());
         }
 
         $payload = [
@@ -470,7 +475,7 @@ class ContentController extends Controller
             'address' => $type === Post::TYPE_PRODUCT ? ($validated['address'] ?? null) : null,
             'itinerary' => $type === Post::TYPE_PRODUCT ? ($validated['itinerary'] ?? null) : null,
             'departure_location' => $type === Post::TYPE_PRODUCT ? ($validated['departure_location'] ?? null) : null,
-            'destination' => $destination,
+            'destination' => $type === Post::TYPE_PRODUCT ? (isset($validated['destination']) && is_array($validated['destination']) ? implode(', ', $validated['destination']) : null) : null,
             'departure_date' => $type === Post::TYPE_PRODUCT ? (isset($validated['departure_date']) && is_array($validated['departure_date']) ? implode(', ', $validated['departure_date']) : null) : null,
             'attractions' => $type === Post::TYPE_PRODUCT ? ($validated['attractions'] ?? null) : null,
             'transport' => $type === Post::TYPE_PRODUCT ? (isset($validated['transport']) && is_array($validated['transport']) ? implode(', ', $validated['transport']) : null) : null,

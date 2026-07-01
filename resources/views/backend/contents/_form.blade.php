@@ -252,10 +252,23 @@
 
                         <div class="col-lg-7">
                             <div class="mb-3">
-                                <label for="attractions" class="form-label">Diem tham quan</label>
-                                <input type="text" id="attractions" name="attractions" class="form-control @error('attractions') is-invalid @enderror" value="{{ old('attractions', $post->attractions ?? '') }}" placeholder="Vi du: Phap, Duc, Thuy Si">
-                                @error('attractions')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <label for="destination" class="form-label">Điểm đến</label>
+                                <div class="d-flex gap-1">
+                                    <div class="flex-grow-1" style="min-width: 0;">
+                                        @php
+                                            $selectedDestinations = old('destination', isset($post) && $post->destination ? explode(', ', $post->destination) : []);
+                                        @endphp
+                                        <select id="destination" name="destination[]" multiple class="form-select @error('destination') is-invalid @enderror">
+                                            @foreach (($tourOptionGroups['location'] ?? []) as $value => $label)
+                                                <option value="{{ $value }}" {{ in_array($value, (array)$selectedDestinations) ? 'selected' : '' }}>{{ $label }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary js-quick-add-tour-option flex-shrink-0" data-group="location" data-target="#destination" title="Thêm nhanh"><i class="ri-add-line"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary js-reload-tour-option flex-shrink-0" data-group="location" data-target="#destination" title="Tải lại"><i class="ri-refresh-line"></i></button>
+                                </div>
+                                @error('destination')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -282,6 +295,16 @@
                                 @enderror
                             </div>
 
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label for="attractions" class="form-label">Điểm tham quan</label>
+                                <input type="text" id="attractions" name="attractions" class="form-control @error('attractions') is-invalid @enderror" value="{{ old('attractions', $post->attractions ?? '') }}" placeholder="Vi du: Phap, Duc, Thuy Si">
+                                @error('attractions')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="col-lg-4">
@@ -448,7 +471,7 @@
         <div class="card border">
             <div class="card-body">
                 <div class="mb-3">
-                    <label for="category_id" class="form-label">Danh muc (diem den)</label>
+                    <label for="category_id" class="form-label">Danh mục</label>
                     <div class="d-flex gap-1">
                         <div class="flex-grow-1" style="min-width: 0;">
                             <select
@@ -710,6 +733,11 @@
             placeholder: "Chọn hoặc nhập thẻ...",
             allowClear: true,
             tags: true
+        });
+
+        $('#destination').select2({
+            placeholder: "Chọn điểm đến",
+            allowClear: true
         });
 
         $('#departure_location').select2({

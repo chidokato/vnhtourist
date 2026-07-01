@@ -146,7 +146,7 @@
         }
 
         var cards = results.querySelectorAll('.tour-listing-card').length;
-        status.textContent = cards > 0 ? cards + ' tour hien thi' : 'Khong co tour phu hop';
+        status.textContent = cards > 0 ? cards + ' tour hiển thị' : 'Không có tour phù hợp';
     }
 
     function replaceCheckboxOptions(container, inputName, options, selectedValues) {

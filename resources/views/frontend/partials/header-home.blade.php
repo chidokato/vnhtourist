@@ -88,7 +88,7 @@
                             @include('frontend.partials.tourit-menu-item', ['menu' => $menu, 'level' => 0])
                         @empty
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('frontend.home') ? 'active' : '' }}" href="{{ route('frontend.home') }}">Trang chu</a>
+                                <a class="nav-link {{ request()->routeIs('frontend.home') ? 'active' : '' }}" href="{{ route('frontend.home') }}">Trang chủ</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('frontend.about') ? 'active' : '' }}" href="{{ route('frontend.about') }}">Gioi thieu</a>

@@ -27,7 +27,7 @@
             <div class="container pt-10">
                 <h2 class="breadcrumb-title">{{ $displayValue($category->name) }}</h2>
                 <ul class="breadcrumb-menu">
-                    <li><a href="{{ route('frontend.home') }}">Trang chu</a></li>
+                    <li><a href="{{ route('frontend.home') }}">Trang chủ</a></li>
                     <li class="active">{{ $displayValue($category->name) }}</li>
                 </ul>
             </div>
@@ -118,7 +118,7 @@
                                 </div>
                                 <div>
                                     <div class="input-group" style="max-width: 320px;">
-                                        <input type="text" form="product-filter-form" name="keyword" class="form-control" placeholder="Tim kiem" value="{{ request('keyword') }}">
+                                        <input type="text" form="product-filter-form" name="keyword" class="form-control" placeholder="Tìm kiếm" value="{{ request('keyword') }}">
                                         <button type="submit" form="product-filter-form" class="theme-btn" style="padding: 0 20px;"><i class="far fa-search"></i></button>
                                     </div>
                                 </div>

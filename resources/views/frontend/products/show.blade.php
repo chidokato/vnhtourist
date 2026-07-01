@@ -252,7 +252,7 @@
             <div class="container">
                 <h2 class="breadcrumb-title">{{ $displayValue($product->title) }}</h2>
                 <ul class="breadcrumb-menu">
-                    <li><a href="{{ route('frontend.home') }}">Trang chu</a></li>
+                    <li><a href="{{ route('frontend.home') }}">Trang chủ</a></li>
                     <li><a href="{{ $categoryUrl }}">{{ $displayValue(optional($product->category)->name, 'Tour') }}</a></li>
                     <li class="active">{{ $displayValue($product->title) }}</li>
                 </ul>
