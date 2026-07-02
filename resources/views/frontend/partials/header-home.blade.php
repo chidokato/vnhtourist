@@ -1,3 +1,5 @@
+<div class="header-absolute-wrapper" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 1030; background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%); pointer-events: none;">
+<div style="pointer-events: auto;">
 <div class="header-top">
     <div class="container">
         <div class="row align-items-center">
@@ -104,3 +106,5 @@
         </nav>
     </div>
 </header>
+</div>
+</div>
