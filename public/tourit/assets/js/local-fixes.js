@@ -272,6 +272,8 @@
     });
   }
 
+  window.renderSvgIconsIn = renderSvgIconsIn;
+
   function disableMissingPageLinks() {
     document.querySelectorAll('a[href$=".html"]').forEach(function (link) {
       var href = link.getAttribute("href");

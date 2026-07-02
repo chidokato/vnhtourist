@@ -225,6 +225,12 @@
             })
             .then(function (payload) {
                 results.innerHTML = payload.html || '';
+                
+                // Re-render SVG icons inside the new HTML
+                if (window.renderSvgIconsIn) {
+                    window.renderSvgIconsIn(results);
+                }
+                
                 replaceCheckboxOptions(destinationOptions, 'destinations[]', payload.destinationOptions || [], payload.selectedDestinations || []);
                 replaceCheckboxOptions(transportOptions, 'transports[]', payload.transportOptions || [], payload.selectedTransports || []);
                 updateStatusFromResults(payload.total);
