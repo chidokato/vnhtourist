@@ -142,11 +142,28 @@ class ContentController extends Controller
                 });
             })
             ->when($categoryId, function ($query, $categoryId) {
-                $query->where('category_id', $categoryId);
+                $category = \App\Models\Category::find($categoryId);
+                if ($category) {
+                    $categoryIds = array_merge([$categoryId], $category->getDescendantIds());
+                    $query->whereIn('category_id', $categoryIds);
+                } else {
+                    $query->where('category_id', $categoryId);
+                }
+            })
+            ->when(request()->filled('is_featured'), function ($query) {
+                $query->where('is_featured', request('is_featured'));
+            })
+            ->when(request()->filled('is_active'), function ($query) {
+                $query->where('is_active', request('is_active'));
+            })
+            ->when(request()->filled('user_id'), function ($query) {
+                $query->where('user_id', request('user_id'));
             })
             ->latest()
             ->paginate(10)
             ->withQueryString();
+
+        $users = \App\Models\User::all();
 
         return view('backend.contents.index', [
             'posts' => $posts,
@@ -154,6 +171,7 @@ class ContentController extends Controller
             'typeLabel' => Post::types()[$type],
             'postsHasUserIdColumn' => $this->postsHasUserIdColumn(),
             'categories' => $this->categoryOptions($type),
+            'users' => $users,
         ]);
     }
 

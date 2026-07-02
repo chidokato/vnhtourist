@@ -9,18 +9,44 @@
         <div class="card-body">
             <form action="{{ url()->current() }}" method="GET">
                 <div class="row g-2">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <select name="category_id" class="form-select">
-                            <option value="">Tat ca danh muc</option>
+                            <option value="">Danh mục</option>
                             @foreach($categories as $id => $name)
                                 <option value="{{ $id }}" {{ request('category_id') == $id ? 'selected' : '' }}>{{ $name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    @if ($type === 'product')
+                    <div class="col-md-2">
+                        <select name="is_featured" class="form-select">
+                            <option value="">Tour nổi bật</option>
+                            <option value="1" {{ request('is_featured') === '1' ? 'selected' : '' }}>Có</option>
+                            <option value="0" {{ request('is_featured') === '0' ? 'selected' : '' }}>Không</option>
+                        </select>
+                    </div>
+                    @endif
+                    <div class="col-md-2">
+                        <select name="is_active" class="form-select">
+                            <option value="">Trạng thái</option>
+                            <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Hiển thị</option>
+                            <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Đã ẩn</option>
+                        </select>
+                    </div>
+                    @if ($postsHasUserIdColumn)
+                    <div class="col-md-2">
+                        <select name="user_id" class="form-select">
+                            <option value="">Người đăng</option>
+                            @foreach($users ?? [] as $user)
+                                <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @endif
+                    <div class="col-md">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Tim kiem theo ma tour hoac tieu de..." value="{{ request('search') }}">
-                            <button class="btn btn-primary" type="submit">Tim kiem</button>
+                            <input type="text" name="search" class="form-control" placeholder="Tên {{ $type === 'product' ? 'hoặc mã tour' : 'bài viết' }}..." value="{{ request('search') }}">
+                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                         </div>
                     </div>
                 </div>
@@ -43,16 +69,16 @@
                             @if ($type === 'product')
                                 <th>Mã tour</th>
                             @endif
-                            <th>Tieu de</th>
+                            <th>Tiêu đề</th>
                             <th>Category</th>
                             @if ($type === 'product')
                                 <th>Gia</th>
-                                <th>Du an noi bat</th>
-                                <th>Nguoi dang</th>
+                                <th>Tour nổi bật</th>
+                                <th>Người đăng</th>
                             @endif
-                            <th>Trang thai</th>
-                            <th>Ngay dang</th>
-                            <th class="text-end">Thao tac</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày đăng</th>
+                            <th class="text-end"></th>
                         </tr>
                     </thead>
                     <tbody>

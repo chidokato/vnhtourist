@@ -990,7 +990,7 @@ theme button
 ====================== */
 
 .main {
-  margin-top: -10rem;
+  /*margin-top: -10rem;*/
 }
 
 @media all and (min-width: 992px) {
@@ -3999,7 +3999,8 @@ hero css
 }
 
 .listing-location i{
-  color: var(--theme-color);
+  color: var(--theme-color);    width: 20px;
+    text-align: center;
 }
 
 .listing-rate .badge{

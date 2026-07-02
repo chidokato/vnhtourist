@@ -199,17 +199,17 @@
     $tourContentTabs = collect([
         [
             'id' => 'content',
-            'label' => 'Lich trinh',
+            'label' => 'Lịch trình',
             'content' => $product->content,
         ],
         [
             'id' => 'sales_policy',
-            'label' => 'Chinh sach gia',
+            'label' => 'Chính sách giá',
             'content' => $product->sales_policy,
         ],
         [
             'id' => 'guide_content',
-            'label' => 'Huong dan',
+            'label' => 'Hướng dẫn',
             'content' => $product->guide_content,
         ],
         [
@@ -219,17 +219,17 @@
         ],
         [
             'id' => 'insurance_content',
-            'label' => 'Bao hiem',
+            'label' => 'Bảo hiểm',
             'content' => $product->insurance_content,
         ],
     ])->filter(fn ($tab) => $plainText($tab['content']))->values();
 
     $infoSections = collect([
-        ['id' => 'guide', 'label' => 'Huong dan', 'content' => $product->guide_content],
+        ['id' => 'guide', 'label' => 'Hướng dẫn', 'content' => $product->guide_content],
         ['id' => 'visa', 'label' => 'Visa', 'content' => $product->visa_content],
-        ['id' => 'insurance', 'label' => 'Bao hiem', 'content' => $product->insurance_content],
-        ['id' => 'promotion', 'label' => 'Khuyen mai', 'content' => $product->promotion_content],
-        ['id' => 'policy', 'label' => 'Chinh sach', 'content' => $product->sales_policy],
+        ['id' => 'insurance', 'label' => 'Bảo hiểm', 'content' => $product->insurance_content],
+        ['id' => 'promotion', 'label' => 'Khuyến mãi', 'content' => $product->promotion_content],
+        ['id' => 'policy', 'label' => 'Chính sách', 'content' => $product->sales_policy],
     ])->filter(fn ($section) => $plainText($section['content']))->values();
 
     $contactName = $displayValue($contactSeller->name ?? ($settings->company_name ?? 'Tourist'));
@@ -248,17 +248,6 @@
 
 @section('content')
     <main class="main product-show-page">
-        <div class="site-breadcrumb d-none d-lg-block" style="background: url({{ $heroImage }}) center center / cover no-repeat;">
-            <div class="container">
-                <h2 class="breadcrumb-title">{{ $displayValue($product->title) }}</h2>
-                <ul class="breadcrumb-menu">
-                    <li><a href="{{ route('frontend.home') }}">Trang chủ</a></li>
-                    <li><a href="{{ $categoryUrl }}">{{ $displayValue(optional($product->category)->name, 'Tour') }}</a></li>
-                    <li class="active">{{ $displayValue($product->title) }}</li>
-                </ul>
-            </div>
-        </div>
-
         <div class="tour-single pt-40">
             <div class="container">
                 <div class="listing-wrapper">
