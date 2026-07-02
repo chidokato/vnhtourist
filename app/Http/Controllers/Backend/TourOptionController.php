@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 
 class TourOptionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $groups = TourOption::groups();
 
@@ -21,12 +21,25 @@ class TourOptionController extends Controller
             ])->with('error', 'Bảng tùy chọn tour chưa sẵn sàng.');
         }
 
-        $options = TourOption::query()
-            ->orderBy('group_key')
+        $query = TourOption::query();
+
+        if ($request->filled('keyword')) {
+            $keyword = $request->keyword;
+            $query->where(function($q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%")
+                  ->orWhere('group_key', 'like', "%{$keyword}%");
+            });
+        }
+
+        if ($request->filled('group_key')) {
+            $query->where('group_key', $request->group_key);
+        }
+
+        $options = $query->orderBy('group_key')
             ->orderBy('sort_order')
             ->orderBy('name')
-            ->get()
-            ->groupBy('group_key');
+            ->paginate(10)
+            ->withQueryString();
 
         return view('backend.tour-options.index', compact('options', 'groups'));
     }

@@ -59,6 +59,25 @@
     flex-direction: column;
     gap: 4px;
     padding-right: 8px;
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.product-category-page .product-filter-option-box::-webkit-scrollbar {
+    width: 5px;
+}
+
+.product-category-page .product-filter-option-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.product-category-page .product-filter-option-box::-webkit-scrollbar-thumb {
+    background: rgba(19, 60, 139, 0.2);
+    border-radius: 10px;
+}
+
+.product-category-page .product-filter-option-box::-webkit-scrollbar-thumb:hover {
+    background: rgba(19, 60, 139, 0.4);
 }
 
 .product-category-page .product-filter-option {

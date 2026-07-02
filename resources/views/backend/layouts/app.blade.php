@@ -131,23 +131,23 @@
                         <li class="menu-title"><span>Menu</span></li>
                         @php
                             $menuItems = [
-                                ['label' => 'Menu', 'icon' => 'ri-menu-line', 'route' => 'backend.menus.index'],
-                                ['label' => 'Category', 'icon' => 'ri-list-check-2', 'route' => 'backend.categories.index'],
-                                ['label' => 'Quan ly Tour', 'icon' => 'ri-shopping-bag-3-line', 'route' => 'backend.products.index'],
-                                ['label' => 'Tuy chon tour', 'icon' => 'ri-list-settings-line', 'route' => 'backend.tour-options.index'],
-                                ['label' => 'Customer inquiry', 'icon' => 'ri-customer-service-2-line', 'route' => 'backend.customer-inquiries.index'],
-                                ['label' => 'Quản lý đơn hàng', 'icon' => 'ri-file-list-3-line', 'route' => 'backend.orders.index'],
-                                ['label' => 'News', 'icon' => 'ri-newspaper-line', 'route' => 'backend.news.index'],
-                                ['label' => 'Quản lý Slider', 'icon' => 'ri-image-line', 'route' => 'backend.sliders.index'],
-                                ['label' => 'Đội ngũ chuyên gia', 'icon' => 'ri-team-line', 'route' => 'backend.experts.index'],
-                                ['label' => 'SEO', 'icon' => 'ri-search-eye-line', 'route' => 'backend.seo.edit'],
-                                ['label' => 'Setting', 'icon' => 'ri-settings-3-line', 'route' => 'backend.settings.edit'],
-                                ['label' => 'User', 'icon' => 'ri-user-3-line', 'route' => 'backend.users.index'],
+                                ['label' => 'Menu', 'icon' => 'ri-menu-line', 'route' => 'backend.menus.index', 'active' => 'backend.menus.*'],
+                                ['label' => 'Category', 'icon' => 'ri-list-check-2', 'route' => 'backend.categories.index', 'active' => 'backend.categories.*'],
+                                ['label' => 'Quan ly Tour', 'icon' => 'ri-shopping-bag-3-line', 'route' => 'backend.products.index', 'active' => 'backend.products.*'],
+                                ['label' => 'Tuy chon tour', 'icon' => 'ri-list-settings-line', 'route' => 'backend.tour-options.index', 'active' => 'backend.tour-options.*'],
+                                ['label' => 'Customer inquiry', 'icon' => 'ri-customer-service-2-line', 'route' => 'backend.customer-inquiries.index', 'active' => 'backend.customer-inquiries.*'],
+                                ['label' => 'Quản lý đơn hàng', 'icon' => 'ri-file-list-3-line', 'route' => 'backend.orders.index', 'active' => 'backend.orders.*'],
+                                ['label' => 'News', 'icon' => 'ri-newspaper-line', 'route' => 'backend.news.index', 'active' => 'backend.news.*'],
+                                ['label' => 'Quản lý Slider', 'icon' => 'ri-image-line', 'route' => 'backend.sliders.index', 'active' => 'backend.sliders.*'],
+                                ['label' => 'Đội ngũ chuyên gia', 'icon' => 'ri-team-line', 'route' => 'backend.experts.index', 'active' => 'backend.experts.*'],
+                                ['label' => 'SEO', 'icon' => 'ri-search-eye-line', 'route' => 'backend.seo.edit', 'active' => 'backend.seo.*'],
+                                ['label' => 'Setting', 'icon' => 'ri-settings-3-line', 'route' => 'backend.settings.edit', 'active' => 'backend.settings.*'],
+                                ['label' => 'User', 'icon' => 'ri-user-3-line', 'route' => 'backend.users.index', 'active' => 'backend.users.*'],
                             ];
                         @endphp
                         @foreach ($menuItems as $item)
                             <li class="nav-item">
-                                <a class="nav-link menu-link {{ $item['label'] === 'Menu' && request()->routeIs('backend.menus.*') ? 'active' : '' }} {{ $item['label'] === 'User' && request()->routeIs('backend.users.*') ? 'active' : '' }} {{ $item['label'] === 'Category' && request()->routeIs('backend.categories.*') ? 'active' : '' }} {{ $item['label'] === 'Quan ly Tour' && request()->routeIs('backend.products.*') ? 'active' : '' }} {{ $item['label'] === 'Tuy chon tour' && request()->routeIs('backend.tour-options.*') ? 'active' : '' }} {{ $item['label'] === 'Customer inquiry' && request()->routeIs('backend.customer-inquiries.*') ? 'active' : '' }} {{ $item['label'] === 'Quản lý đơn hàng' && request()->routeIs('backend.orders.*') ? 'active' : '' }} {{ $item['label'] === 'News' && request()->routeIs('backend.news.*') ? 'active' : '' }} {{ $item['label'] === 'Quản lý Slider' && request()->routeIs('backend.sliders.*') ? 'active' : '' }} {{ $item['label'] === 'Đội ngũ chuyên gia' && request()->routeIs('backend.experts.*') ? 'active' : '' }} {{ $item['label'] === 'SEO' && request()->routeIs('backend.seo.*') ? 'active' : '' }} {{ $item['label'] === 'Setting' && request()->routeIs('backend.settings.*') ? 'active' : '' }}" href="{{ $item['route'] ? route($item['route']) : '#' }}">
+                                <a class="nav-link menu-link {{ request()->routeIs($item['active']) ? 'active' : '' }}" href="{{ $item['route'] ? route($item['route']) : '#' }}">
                                     <i class="{{ $item['icon'] }}"></i>
                                     <span>{{ $item['label'] }}</span>
                                 </a>
@@ -221,8 +221,25 @@
     <script src="{{ asset('admin-assets/libs/node-waves/waves.min.js') }}"></script>
     <script src="{{ asset('admin-assets/libs/feather-icons/feather.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js"></script>
-    <script src="{{ asset('admin-assets/js/customc-keditor.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.querySelector('.editor')) {
+                var ckeditorScript = document.createElement('script');
+                ckeditorScript.src = 'https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js';
+                ckeditorScript.onload = function() {
+                    var customScript = document.createElement('script');
+                    customScript.src = '{{ asset("admin-assets/js/customc-keditor.js") }}';
+                    customScript.onload = function() {
+                        if (typeof initEditor === 'function') {
+                            initEditor();
+                        }
+                    };
+                    document.body.appendChild(customScript);
+                };
+                document.body.appendChild(ckeditorScript);
+            }
+        });
+    </script>
     <script src="{{ asset('admin-assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
     <script src="{{ asset('admin-assets/js/app.js') }}"></script>
     <script src="{{ asset('admin-assets/js/backend-admin.js') }}"></script>
