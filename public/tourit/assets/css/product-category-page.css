@@ -101,7 +101,6 @@
 }
 
 .product-category-page .product-filter-option::before {
-    display: none !important;
     content: '';
     position: absolute;
     left: calc(var(--filter-depth, 0) * 18px);
@@ -142,7 +141,6 @@
 }
 
 .product-category-page .product-filter-option-label::before {
-    display: none !important;
     content: '\2713';
     position: absolute;
     left: -24px;
@@ -691,4 +689,12 @@
     .product-category-page .tour-card-link {
         width: 100%;
     }
+}
+
+.custom-filter-check { 
+    display: flex; 
+    align-items: center; 
+}
+.custom-filter-check .form-check-input { 
+    margin-top: 0;     margin-right: 9px;
 }

@@ -140,13 +140,18 @@
             return;
         }
 
-        if (typeof total === 'number') {
-            status.textContent = total > 0 ? total + ' tour phu hop' : 'Khong co tour phu hop';
-            return;
+        if (typeof total === 'undefined') {
+            // Check if we already have a data-total set from blade
+            if (status.hasAttribute('data-total')) {
+                total = parseInt(status.getAttribute('data-total'), 10);
+            } else {
+                total = results.querySelectorAll('.tour-listing-card').length;
+            }
+        } else {
+            status.setAttribute('data-total', total);
         }
 
-        var cards = results.querySelectorAll('.tour-listing-card').length;
-        status.textContent = cards > 0 ? cards + ' tour hiển thị' : 'Không có tour phù hợp';
+        status.textContent = total > 0 ? total + ' tour hiển thị' : 'Không có tour phù hợp';
     }
 
     function replaceCheckboxOptions(container, inputName, options, selectedValues) {
@@ -157,24 +162,31 @@
         var fragment = document.createDocumentFragment();
         var selectedMap = new Set(Array.isArray(selectedValues) ? selectedValues : []);
 
-        (options || []).forEach(function (option) {
+        (options || []).forEach(function (option, index) {
             var optionName = typeof option === 'string' ? option : option.name;
             var optionLabel = typeof option === 'string' ? option : (option.label || option.name);
             var optionCount = typeof option === 'string' ? null : option.count;
-            var item = document.createElement('label');
-            item.className = 'product-filter-option product-filter-option-checkbox';
+            var item = document.createElement('div');
+            item.className = 'form-check custom-filter-check';
+            var id = 'dynamic_chk_' + Math.random().toString(36).substr(2, 9);
             item.innerHTML = ''
-                + '<input type="checkbox">'
-                + '<span class="product-filter-option-label"></span>'
-                + '<span class="product-filter-option-count"></span>';
+                + '<input class="form-check-input" type="checkbox" id="' + id + '">'
+                + '<label class="form-check-label" for="' + id + '">'
+                +   '<span class="product-filter-option-label-text"></span> <span><span class="product-filter-option-count-text"></span></span>'
+                + '</label>';
 
             item.querySelector('input').name = inputName;
             item.querySelector('input').value = optionName;
             item.querySelector('input').checked = selectedMap.has(optionName);
-            item.querySelector('.product-filter-option-label').textContent = optionLabel;
-            item.querySelector('.product-filter-option-count').textContent = optionCount === null || typeof optionCount === 'undefined'
-                ? ''
-                : String(optionCount);
+            item.querySelector('.product-filter-option-label-text').textContent = optionLabel;
+            
+            var countElement = item.querySelector('.product-filter-option-count-text');
+            if (optionCount === null || typeof optionCount === 'undefined') {
+                countElement.parentElement.style.display = 'none';
+            } else {
+                countElement.textContent = '(' + optionCount + ')';
+            }
+
             fragment.appendChild(item);
         });
 

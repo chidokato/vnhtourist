@@ -72,16 +72,12 @@
                                         <div class="product-filter-section-title">Điểm đến</div>
                                         <div class="product-filter-option-box" data-destination-options>
                                             @foreach ($destinationOptions as $destination)
-                                                <label class="product-filter-option product-filter-option-checkbox">
-                                                    <input
-                                                        type="checkbox"
-                                                        name="destinations[]"
-                                                        value="{{ $destination['name'] }}"
-                                                        @checked(in_array($destination['name'], $selectedDestinations ?? [], true))
-                                                    >
-                                                    <span class="product-filter-option-label">{{ $displayValue($destination['label'] ?? $destination['name']) }}</span>
-                                                    <span class="product-filter-option-count">{{ $destination['count'] }}</span>
-                                                </label>
+                                                <div class="form-check custom-filter-check">
+                                                    <input class="form-check-input" name="destinations[]" type="checkbox" value="{{ $destination['name'] }}" id="destination_{{ $loop->index }}" @checked(in_array($destination['name'], $selectedDestinations ?? [], true))>
+                                                    <label class="form-check-label" for="destination_{{ $loop->index }}">
+                                                        {{ $displayValue($destination['label'] ?? $destination['name']) }} <span>({{ $destination['count'] }})</span>
+                                                    </label>
+                                                </div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -112,8 +108,8 @@
                                     <button class="btn btn-primary d-lg-none py-2 px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" aria-controls="filterSidebar">
                                         <i class="fas fa-filter me-1"></i> Bộ lọc
                                     </button>
-                                    <div class="product-results-status" data-product-results-status style="display: flex; align-items: center;">
-                                        {{ $products->total() }} tour
+                                    <div class="product-results-status" data-product-results-status data-total="{{ $products->total() }}" style="display: flex; align-items: center;">
+                                        {{ $products->total() }} tour hiển thị
                                     </div>
                                 </div>
                                 <div>
