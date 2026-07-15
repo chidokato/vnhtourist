@@ -1832,7 +1832,7 @@
 
 
         <!-- cta-area -->
-        <div class="cta-area">
+        {{-- <div class="cta-area">
             <div class="container">
                 <div class="cta-wrapper">
                     <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
@@ -1850,7 +1850,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- cta-area end -->
 
 
@@ -2308,76 +2308,33 @@
                     <div class="col-lg-6 mx-auto wow fadeInDown" data-wow-duration="1s" data-wow-delay=".25s">
                         <div class="site-heading text-center">
                             <span class="site-title-tagline"><i class="far fa-plane"></i> Blog du lịch</span>
-                            <h2 class="site-title">Bài viết và tin tức mới nhất</h2>
+                            <h2 class="site-title">Cẩm nang du lịch</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
+                    @foreach($latestNews as $news)
                     <div class="col-md-6 col-lg-4">
                         <div class="blog-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s">
-                            <span class="blog-date">25 tháng 8, 2025</span>
+                            <span class="blog-date">{{ $news->published_at ? $news->published_at->format('d \t\h\á\n\g m, Y') : $news->created_at->format('d \t\h\á\n\g m, Y') }}</span>
                             <div class="blog-item-img">
-                                <img src="assets/img/blog/01.jpg" alt="Thumb">
+                                <img src="{{ \App\Support\MediaManager::publicUrl($news->image) }}" alt="Thumb">
                             </div>
                             <div class="blog-item-info">
                                 <div class="blog-item-meta">
                                     <ul>
-                                        <li><a href="#"><i class="far fa-user-circle"></i> Bởi Alicia Davis</a></li>
-                                        <li><a href="#"><i class="far fa-comments"></i> 25.5k bình luận</a></li>
+                                        <li><a href="{{ $news->frontend_url }}"><i class="far fa-user-circle"></i> Bởi {{ $news->user->name ?? 'Quản trị viên' }}</a></li>
+                                        <li><a href="{{ $news->frontend_url }}"><i class="far fa-comments"></i> 0 bình luận</a></li>
                                     </ul>
                                 </div>
                                 <h4 class="blog-title">
-                                    <a href="#">Nhiều bí quyết lên lịch trình thông minh giúp chuyến đi nhẹ nhàng hơn
-                                        </a>
+                                    <a href="{{ $news->frontend_url }}">{{ $news->title }}</a>
                                 </h4>
-                                <a class="theme-btn mt-3" href="#">Xem thêm <i
-                                        class="fas fa-arrow-circle-right"></i></a>
+                                <a class="theme-btn mt-3" href="{{ $news->frontend_url }}">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="blog-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".50s">
-                            <span class="blog-date">27 tháng 8, 2025</span>
-                            <div class="blog-item-img">
-                                <img src="assets/img/blog/02.jpg" alt="Thumb">
-                            </div>
-                            <div class="blog-item-info">
-                                <div class="blog-item-meta">
-                                    <ul>
-                                        <li><a href="#"><i class="far fa-user-circle"></i> Bởi Alicia Davis</a></li>
-                                        <li><a href="#"><i class="far fa-comments"></i> 25.5k bình luận</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="blog-title">
-                                    <a href="#">Cách chọn nơi lưu trú và di chuyển tối ưu cho từng ngân sách</a>
-                                </h4>
-                                <a class="theme-btn mt-3" href="#">Xem thêm <i
-                                        class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="blog-item wow fadeInUp" data-wow-duration="1s" data-wow-delay=".75s">
-                            <span class="blog-date">30 tháng 8, 2025</span>
-                            <div class="blog-item-img">
-                                <img src="assets/img/blog/03.jpg" alt="Thumb">
-                            </div>
-                            <div class="blog-item-info">
-                                <div class="blog-item-meta">
-                                    <ul>
-                                        <li><a href="#"><i class="far fa-user-circle"></i> Bởi Alicia Davis</a></li>
-                                        <li><a href="#"><i class="far fa-comments"></i> 25.5k bình luận</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="blog-title">
-                                    <a href="#">Nhung xu huong du lich moi dang duoc nhieu du khách quan tam
-                                        </a>
-                                </h4>
-                                <a class="theme-btn mt-3" href="#">Xem thêm <i
-                                        class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

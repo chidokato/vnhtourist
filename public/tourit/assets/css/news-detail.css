@@ -1,0 +1,16 @@
+/* 
+ * CSS riêng cho trang chi tiết tin tức 
+ */
+
+.news-category-page .blog-single-wrapper {
+    /* Thêm các style cho phần chi tiết tin tức tại đây */
+}
+
+.content-text{}
+.content-text p{ color:#43597c; margin-bottom:1rem }
+.content-text ul{ margin-bottom:1rem }
+.content-text ul li{list-style: circle; margin-left:1rem }
+.content-text h2{ font-size:1.2rem; margin-bottom:1rem }
+.content-text h3{ font-size:1.2rem; margin-bottom:1rem }
+
+.blog-details h1{ font-size:1.4rem }

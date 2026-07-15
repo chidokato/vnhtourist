@@ -23,6 +23,20 @@
     <meta name="description" content="@yield('meta_description', $pageDescription ?? '')">
     <meta name="keywords" content="@yield('meta_keywords', $pageKeywords ?? '')">
     <title>@yield('title', $pageTitle ?? 'Vietnam homes Tourist')</title>
+
+    <!-- Open Graph / Facebook / Zalo -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', $pageTitle ?? 'Vietnam homes Tourist')">
+    <meta property="og:description" content="@yield('meta_description', $pageDescription ?? '')">
+    <meta property="og:image" content="@yield('meta_image', $logo)">
+    <meta property="og:site_name" content="Vietnam homes Tourist">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', $pageTitle ?? 'Vietnam homes Tourist')">
+    <meta name="twitter:description" content="@yield('meta_description', $pageDescription ?? '')">
+    <meta name="twitter:image" content="@yield('meta_image', $logo)">
     @if ($favicon)
         <link rel="icon" href="{{ $favicon }}">
         <link rel="shortcut icon" href="{{ $favicon }}">

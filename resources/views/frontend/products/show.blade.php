@@ -240,6 +240,7 @@
 @section('title', $pageTitle ?? $product->title)
 @section('meta_description', $pageDescription ?? '')
 @section('meta_keywords', $pageKeywords ?? '')
+@section('meta_image', $heroImage)
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('tourit/assets/css/product-show-page.css') }}">

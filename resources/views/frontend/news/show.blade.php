@@ -1,5 +1,10 @@
 @extends('frontend.layouts.app')
 
+@push('styles')
+    <link rel="stylesheet" href="assets/css/news-detail.css?v={{ time() }}">
+@endpush
+
+
 @php
     $pageHeading = $post->title ?? 'Tin tức';
     $resolveImage = function ($value) {
@@ -14,6 +19,7 @@
 @section('title', $pageTitle ?? $pageHeading)
 @section('meta_description', $pageDescription ?? '')
 @section('meta_keywords', $pageKeywords ?? '')
+@section('meta_image', $resolveImage($post->image))
 
 @section('content')
     <main class="main news-category-page">
@@ -37,7 +43,7 @@
                                 <div class="blog-info">
                                     
                                     <div class="blog-details">
-                                        <h3 class="blog-details-title mb-20">{{ $displayValue($post->title) }}</h3>
+                                        <h1 class="blog-details-title mb-20">{{ $displayValue($post->title) }}</h1>
                                         
                                         @if (filled($post->summary))
                                             <div class="mb-3">
